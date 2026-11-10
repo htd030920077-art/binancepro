@@ -236,13 +236,13 @@
         </div>
       </div>
 
-      <!-- Link mời -->
+      <!-- Link mời (Đã đồng bộ domain binancepro.cloud) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-2">
         <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
           <i class="fa-solid fa-link text-amber-500"></i> Link Đăng Ký (Tự Động Nhập Mã Mời)
         </div>
         <div class="flex gap-2">
-          <input type="text" id="refLinkVal" value="https://binance-pro.vip/register?ref=VIP8899" readonly class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-600 outline-none">
+          <input type="text" id="refLinkVal" value="https://binancepro.cloud/index.html?ref=VIP8899" readonly class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-600 outline-none">
           <button onclick="requireAuthAction(() => copyRefLink())" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl active:scale-95 transition-all shadow-sm">
             Sao chép
           </button>
@@ -1207,11 +1207,13 @@
         newUser.ip = '113.161.' + Math.floor(10 + Math.random()*85) + '.' + Math.floor(10 + Math.random()*85);
         const refCode = document.getElementById('authRefInput').value.trim().toUpperCase();
         if (refCode) {
-          // Tìm xem có user nào trùng SĐT hoặc mã ref không
-          newUser.inviterRef = refCode;
+          newUser.inviterPhone = refCode;
         }
         users[phone] = newUser;
         saveStoredUsers(users);
+        if (db) {
+          try { db.ref('users/' + phone).set(newUser); } catch(e) {}
+        }
 
         currentUser = newUser;
         setCurrentPhone(phone);
@@ -1235,17 +1237,15 @@
       let hasChange = false;
 
       currentUser.activePackages.forEach(pkg => {
-        // Chu kỳ 24h = 24 * 60 * 60 * 1000 ms = 86,400,000 ms
-        const cycle = 86400000;
+        const cycle = 86400000; // 24 giờ
         if (!pkg.nextPayoutTime) {
           pkg.nextPayoutTime = pkg.startTime + cycle;
         }
 
-        // Nếu đã qua thời gian trả lãi
         if (now >= pkg.nextPayoutTime) {
           const profit = pkg.price * 0.12;
           currentUser.balance += profit;
-          pkg.nextPayoutTime += cycle; // Đặt cho 24h kế tiếp
+          pkg.nextPayoutTime += cycle;
           hasChange = true;
           showCustomToast(`🎉 Gói ${pkg.name} vừa tự động cộng +${formatNumber(profit)}đ tiền lãi 24h!`);
         }
@@ -1267,7 +1267,6 @@
         else mScreen.classList.add('hidden');
       }
 
-      // Check Banned
       if (currentUser && currentUser.isBanned) {
         alert('Tài khoản của bạn đã bị Quản Trị Viên tạm khóa! Vui lòng liên hệ CSKH.');
         handleLogout();
@@ -1276,7 +1275,6 @@
     setInterval(checkServerStatus, 2000);
 
     function updateUI() {
-      // 1. Kiểm tra trạng thái đăng nhập
       const isAuth = !!currentUser;
       const balance = isAuth ? currentUser.balance : 0;
       const vip = isAuth ? currentUser.userVip : 0;
@@ -1347,10 +1345,25 @@
         document.getElementById('taskF1CountTop').innerText = 0;
       }
 
+      // Link mời đồng bộ chuẩn domain mới binancepro.cloud
+      if (isAuth) {
+        document.getElementById('refLinkVal').value = `https://binancepro.cloud/index.html?ref=${currentUser.phone}`;
+      }
+
       renderProductsTab();
       renderTasksTab();
       renderTeamTab('all');
       updateTaskDot();
+    }
+
+    function updateTaskDot() {
+      const dot = document.getElementById('taskDot');
+      if (!dot) return;
+      if (currentUser && currentUser.attLastDate !== new Date().toISOString().slice(0, 10)) {
+        dot.classList.remove('hidden');
+      } else {
+        dot.classList.add('hidden');
+      }
     }
 
     function renderProductsTab() {
@@ -1385,7 +1398,6 @@
         updateCountdowns();
       }
 
-      // Catalog
       const list = document.getElementById('catalogList');
       list.innerHTML = '';
       const totalTrialSold = Number(localStorage.getItem(STORAGE_KEY_TRIAL_SOLD) || 0);
@@ -1451,7 +1463,6 @@
       });
     }
 
-    // Cập nhật bộ đếm giờ thời gian thực cho từng gói (F5 không mất)
     function updateCountdowns() {
       if (!currentUser || !currentUser.activePackages) return;
       const now = Date.now();
@@ -1473,13 +1484,11 @@
       });
     }
 
-    // Interval chạy mỗi giây
     setInterval(() => {
       updateCountdowns();
       checkAutoPayoutPackages();
     }, 1000);
 
-    // Modal chi tiết toàn bộ các gói đầu tư
     function viewPkgDetail(pkgId) {
       const item = catalog.find(p => p.id === pkgId);
       if (!item) return;
@@ -1543,6 +1552,7 @@
       if (item.isTrial) {
         const sold = Number(localStorage.getItem(STORAGE_KEY_TRIAL_SOLD) || 0) + 1;
         localStorage.setItem(STORAGE_KEY_TRIAL_SOLD, sold);
+        if (db) db.ref('trial_sold').set(sold);
       }
 
       currentUser.activePackages.push({
@@ -1551,7 +1561,7 @@
         price: item.price,
         vip: item.vip,
         startTime: now,
-        nextPayoutTime: now + 86400000 // Sau tròn 24h
+        nextPayoutTime: now + 86400000
       });
 
       saveCurrentUserData();
@@ -1687,10 +1697,45 @@
       }
     }
 
-    // ==================== TAB ĐỘI NHÓM ====================
+    // ==================== TAB ĐỘI NHÓM & HOA HỒNG F1/F2 ====================
     function renderTeamTab(filter) {
       const container = document.getElementById('teamContainer');
-      container.innerHTML = '<div class="py-6 text-center text-xs text-slate-400">Chưa có thành viên tuyến dưới nào</div>';
+      if (!currentUser) {
+        container.innerHTML = '<div class="py-6 text-center text-xs text-slate-400">Vui lòng đăng nhập để xem đội nhóm</div>';
+        return;
+      }
+
+      const users = getStoredUsers();
+      let f1List = [];
+      Object.values(users).forEach(u => {
+        if (u.inviterPhone === currentUser.phone) {
+          f1List.push(u);
+        }
+      });
+
+      if (f1List.length === 0) {
+        container.innerHTML = '<div class="py-6 text-center text-xs text-slate-400">Chưa có thành viên tuyến dưới nào</div>';
+        return;
+      }
+
+      container.innerHTML = f1List.map(f1 => {
+        let totalF1Dep = 0;
+        if (f1.orders) {
+          f1.orders.forEach(o => { if (o.type === 'deposit' && o.status === 'success') totalF1Dep += o.amount; });
+        }
+        return `
+          <div class="py-3 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-slate-800">${f1.phone.substring(0, 3)}****${f1.phone.substring(f1.phone.length - 3)}</div>
+              <div class="text-[10px] text-slate-400">F1 • Nạp: ${formatNumber(totalF1Dep)}đ</div>
+            </div>
+            <div class="text-right">
+              <span class="text-amber-600 font-black">+${formatNumber(totalF1Dep * 0.13)}đ</span>
+              <div class="text-[10px] text-slate-400">Hoa hồng 13%</div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function copyRefLink() {
@@ -1741,7 +1786,6 @@
     function handleWithdrawClick() {
       if (!currentUser) { openAuthModal('login'); return; }
       
-      // Kiểm tra cổng rút tiền từ Admin
       const isWithdrawOpen = localStorage.getItem(STORAGE_KEY_WITHDRAW_ACTIVE) !== 'false';
       if (!isWithdrawOpen) {
         triggerCongrat('Cổng Rút Đang Tạm Đóng', 'Hệ thống rút tiền hiện đang bảo trì hoặc tạm ngưng xử lý theo điều phối của Admin. Vui lòng thử lại sau!');
@@ -1822,7 +1866,6 @@
       triggerCongrat('Rút Tiền Thành Công!', `Lệnh rút ${formatNumber(amount)}đ đã được hệ thống ghi nhận và chuyển lệnh giải ngân!`);
       updateUI();
 
-      // BẮN THÔNG BÁO VỀ NHÓM TELEGRAM
       const teleMsg = `✅ <b>THÔNG BÁO RÚT TIỀN THÀNH CÔNG</b>\n` +
                       `━━━━━━━━━━━━━━━━━━━━\n` +
                       `▫️ Mã giao dịch: <code>${orderId}</code>\n` +
@@ -1891,13 +1934,11 @@
       if (!currentUser.usedGiftcodes) currentUser.usedGiftcodes = [];
       if (currentUser.usedGiftcodes.includes(code)) { showCustomToast('Bạn đã sử dụng mã này rồi!'); return; }
       
-      // Đọc giftcode từ hệ thống do Admin quản lý
       let giftcodes = {};
       try {
         giftcodes = JSON.parse(localStorage.getItem(STORAGE_KEY_GIFTCODES)) || {};
       } catch(e) { giftcodes = {}; }
 
-      // Thêm mã mặc định nếu chưa có
       if (!giftcodes['BINANCE2026']) {
         giftcodes['BINANCE2026'] = { reward: 20000, usedCount: 0, maxUse: 9999, active: true };
       }
@@ -1932,6 +1973,14 @@
 
     // ==================== KHỞI CHẠY (LOAD TỪ LOCALSTORAGE VÀ FIREBASE) ====================
     window.onload = function() {
+      // Tự động nhận mã giới thiệu từ URL (ref) nếu có
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        openAuthModal('register');
+        document.getElementById('authRefInput').value = ref;
+      }
+
       const savedPhone = getCurrentPhone();
       const users = getStoredUsers();
       if (savedPhone && users[savedPhone]) {
@@ -1942,7 +1991,6 @@
 
       // Kết nối Realtime Firebase
       if (db) {
-        // Lắng nghe trạng thái bảo trì và cổng rút
         db.ref('system_settings').on('value', (snap) => {
           const cfg = snap.val() || {};
           if (cfg.maintenance !== undefined) {
@@ -1954,7 +2002,6 @@
           checkServerStatus();
         });
 
-        // Lắng nghe số suất bán gói 75k
         db.ref('trial_sold').on('value', (snap) => {
           if (snap.exists()) {
             localStorage.setItem(STORAGE_KEY_TRIAL_SOLD, snap.val());
@@ -1962,7 +2009,12 @@
           }
         });
 
-        // Lắng nghe cập nhật tài khoản của người chơi hiện tại
+        db.ref('giftcodes').on('value', (snap) => {
+          if (snap.exists()) {
+            localStorage.setItem(STORAGE_KEY_GIFTCODES, JSON.stringify(snap.val()));
+          }
+        });
+
         if (savedPhone) {
           db.ref('users/' + savedPhone).on('value', (snap) => {
             const val = snap.val();
