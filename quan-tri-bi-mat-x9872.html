@@ -8,8 +8,6 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-functions-compat.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
@@ -30,7 +28,7 @@
 </head>
 <body class="min-h-screen pb-16 selection:bg-yellow-400 selection:text-black">
 
-  <!-- Đăng nhập quản trị bằng Firebase Authentication -->
+  <!-- MÀN HÌNH KHÓA BẢO MẬT ADMIN (Mật khẩu: td1234) -->
   <div id="gatekeeperScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
     <div class="max-w-sm w-full admin-card rounded-3xl p-6 border border-yellow-500/30 text-center space-y-4 shadow-2xl">
       <div class="w-14 h-14 rounded-2xl bg-[#F0B90B] flex items-center justify-center mx-auto p-2 shadow-lg">
@@ -40,8 +38,7 @@
         <h2 class="text-base font-black tracking-wider uppercase text-white">Quản Trị Viên Binance Pro</h2>
         <p class="text-xs text-slate-400 mt-1">Hệ thống điều hành trung tâm toàn diện thời gian thực.</p>
       </div>
-      <input type="email" id="gateEmail" autocomplete="username" placeholder="Email quản trị Firebase" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-center text-white">
-      <input type="password" autocomplete="current-password" id="gatePass" placeholder="Nhập mật khẩu quản trị..." onkeydown="if(event.key==='Enter') Admin.unlock()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-center text-white mono focus:border-yellow-400 focus:outline-none">
+      <input type="password" id="gatePass" placeholder="Nhập mật khẩu quản trị..." onkeydown="if(event.key==='Enter') Admin.unlock()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-center text-white mono focus:border-yellow-400 focus:outline-none">
       <button onclick="Admin.unlock()" class="w-full py-2.5 binance-btn-yellow font-black text-xs rounded-xl shadow-lg transition active:scale-95">Mở Khóa Bảng Điều Khiển</button>
     </div>
   </div>
@@ -58,11 +55,14 @@
             <span class="font-extrabold text-sm tracking-wider text-white">BINANCE <span class="binance-yellow">PRO CONTROL CENTER</span></span>
             <div class="text-[10px] text-emerald-400 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span id="firebaseConnectionState">Đang chờ tải dữ liệu Firebase</span>
+              Đồng bộ Realtime Database Online
             </div>
           </div>
         </div>
         <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="Admin.seedSampleData()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 transition">
+            <i class="fa-solid fa-user-plus text-[10px] mr-1"></i> Tạo Nick Mẫu
+          </button>
           <button id="btnToggleServer" onclick="Admin.toggleServer()" class="px-3 py-1.5 rounded-xl text-xs font-bold transition shadow">
             🟢 Server: Đang Mở
           </button>
@@ -102,7 +102,7 @@
         </div>
       </div>
 
-      <!-- TABS CHỨC NĂNG ĐẦY ĐỦ 100% -->
+      <!-- TABS CHỨC NĂNG -->
       <div class="admin-card rounded-3xl p-5 border border-white/5 space-y-4">
         <div class="flex flex-wrap gap-2 border-b border-white/5 pb-3">
           <button onclick="Admin.switchTab('deposits')" id="tabBtn-dep" class="px-3.5 py-1.5 rounded-xl text-xs font-bold binance-btn-yellow transition">
@@ -128,14 +128,12 @@
           </button>
         </div>
 
-        <p class="text-xs text-amber-300">Duyệt nạp chỉ sau khi đối soát ngân hàng. Cần triển khai callable approveDeposit và tài khoản có quyền admin. Thao tác từ chối nạp/rút chưa được triển khai.</p>
-      <!-- TAB 1: DUYỆT NẠP TIỀN -->
+        <!-- TAB 1: DUYỆT NẠP TIỀN -->
         <div id="tabView-deposits" class="space-y-3">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
               <i class="fa-solid fa-circle-down text-emerald-400"></i> Danh Sách Lệnh Nạp Tiền Chờ Duyệt Thời Gian Thực
             </h3>
-            <span class="text-xs text-slate-400">Telegram cần triển khai Cloud Functions (xem FIX_NOTES.md)</span>
           </div>
           <div class="overflow-x-auto rounded-2xl border border-white/5">
             <table class="w-full text-left text-xs text-slate-300">
@@ -145,7 +143,7 @@
                   <th class="px-4 py-3">SĐT Người Nạp</th>
                   <th class="px-4 py-3">Số Tiền Nạp</th>
                   <th class="px-4 py-3">Thời Gian</th>
-                  <th class="px-4 py-3 text-right">Trạng Thái</th>
+                  <th class="px-4 py-3 text-right">Thao Tác Duyệt</th>
                 </tr>
               </thead>
               <tbody id="tbodyDeposits" class="divide-y divide-white/5"></tbody>
@@ -159,7 +157,6 @@
             <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
               <i class="fa-solid fa-circle-up text-rose-400"></i> Danh Sách Lệnh Rút Tiền Cần Giải Ngân
             </h3>
-            <span class="text-xs text-slate-400">Từ chối sẽ tự động hoàn tiền vào ví khách</span>
           </div>
           <div class="overflow-x-auto rounded-2xl border border-white/5">
             <table class="w-full text-left text-xs text-slate-300">
@@ -184,14 +181,13 @@
             <div class="flex items-center gap-2 flex-1 max-w-md">
               <input type="text" id="inpSearchUser" oninput="Admin.searchUsers()" placeholder="Tìm kiếm theo Số điện thoại..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white mono focus:border-yellow-400 focus:outline-none">
             </div>
-            <span class="text-xs text-slate-400">Bấm "Sửa Hết" để cộng/trừ tiền, đổi pass, khóa nick</span>
+            <span class="text-xs text-slate-400">Bấm "Cấp Dưới" để xem cây F1/F2; "Sửa Hết" để đổi pass, khóa nick</span>
           </div>
-
           <div class="overflow-x-auto rounded-2xl border border-white/5">
             <table class="w-full text-left text-xs text-slate-300">
               <thead class="bg-slate-950/80 text-[10px] uppercase font-bold text-slate-400 border-b border-white/5 mono">
                 <tr>
-                  <th class="px-4 py-3">SĐT / Mã Mời</th>
+                  <th class="px-4 py-3">SĐT / Người Mời</th>
                   <th class="px-4 py-3">Số Dư Ví</th>
                   <th class="px-4 py-3">Tổng Nạp / Rút</th>
                   <th class="px-4 py-3">Cấp VIP & Gói</th>
@@ -206,49 +202,41 @@
 
         <!-- TAB 4: THỐNG KÊ GÓI ĐẦU TƯ (8 ĐỒNG COIN) -->
         <div id="tabView-packages" class="space-y-4 hidden">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-              <i class="fa-solid fa-chart-pie binance-yellow"></i> Thống Kê Số Lượng Người Ký Quỹ & Doanh Thu Từng Đồng Coin
-            </h3>
-          </div>
+          <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-pie binance-yellow"></i> Thống Kê Số Lượng Ký Quỹ & Doanh Thu Từng Đồng Coin
+          </h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" id="pkgStatsContainer"></div>
         </div>
 
         <!-- TAB 5: QUẢN LÝ GIFTCODE (MÃ LÌ XÌ) -->
         <div id="tabView-giftcodes" class="space-y-4 hidden">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <!-- Form Tạo Code -->
             <div class="p-4 bg-slate-950/80 rounded-2xl border border-yellow-500/30 space-y-3 text-xs">
               <h4 class="font-bold uppercase text-white flex items-center gap-1.5">
                 <i class="fa-solid fa-gift binance-yellow"></i> Tạo Mã Lì Xì Tiền Mặt Ngẫu Nhiên
               </h4>
-              <p class="text-slate-400 text-[11px]">Người chơi nhập trên Binance Pro sẽ được cộng thẳng vào số dư ví.</p>
-              
               <div>
-                <label class="block text-slate-400 mb-1">Mã Giftcode (Để trống sẽ tự tạo ngẫu nhiên)</label>
-                <input type="text" id="inpCustomCode" placeholder="Ví dụ: BINANCE2026, LIXI888..." class="w-full uppercase bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white mono font-bold">
+                <label class="block text-slate-400 mb-1">Mã Giftcode (Để trống sẽ tự tạo)</label>
+                <input type="text" id="inpCustomCode" placeholder="Ví dụ: BINANCE2026..." class="w-full uppercase bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white mono font-bold">
               </div>
-
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-slate-400 mb-1">Thưởng Tối Thiểu (VNĐ)</label>
+                  <label class="block text-slate-400 mb-1">Thưởng Min (VNĐ)</label>
                   <input type="number" id="inpCodeMin" value="5000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white mono font-bold">
                 </div>
                 <div>
-                  <label class="block text-slate-400 mb-1">Thưởng Tối Đa (VNĐ)</label>
+                  <label class="block text-slate-400 mb-1">Thưởng Max (VNĐ)</label>
                   <input type="number" id="inpCodeMax" value="50000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white mono font-bold">
                 </div>
               </div>
               <div>
-                <label class="block text-slate-400 mb-1">Giới Hạn Lượt Dùng (Số người tối đa)</label>
+                <label class="block text-slate-400 mb-1">Giới Hạn Số Lượt Dùng</label>
                 <input type="number" id="inpCodeMaxUses" value="50" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white mono font-bold">
               </div>
-              <button onclick="Admin.createGiftCode()" class="w-full py-2.5 binance-btn-yellow font-black text-xs rounded-xl shadow transition">
+              <button onclick="Admin.createGiftCode()" class="w-full py-2.5 binance-btn-yellow font-black text-xs rounded-xl shadow">
                 ✨ Tạo Mã Lên Hệ Thống Firebase
               </button>
             </div>
-
-            <!-- Danh Sách Code Hiện Có -->
             <div class="p-4 bg-slate-950/80 rounded-2xl border border-white/5 space-y-3 text-xs flex flex-col">
               <h4 class="font-bold uppercase text-white">Danh Sách Mã Giftcode Đang Hoạt Động</h4>
               <div id="giftcodesListContainer" class="flex-1 overflow-y-auto max-h-72 space-y-2 pr-1 no-scrollbar"></div>
@@ -262,29 +250,26 @@
             <h4 class="font-bold uppercase text-white flex items-center gap-1.5">
               <i class="fa-solid fa-sliders binance-yellow"></i> Điều Khiển Trạng Thái Hệ Thống
             </h4>
-            
             <div class="flex items-center justify-between p-3 bg-slate-900 rounded-xl border border-white/5">
               <div>
                 <div class="font-bold text-white">Cổng Rút Tiền:</div>
-                <div class="text-[11px] text-slate-400">Cho phép hoặc tạm đóng cổng rút tiền trên ứng dụng khách.</div>
+                <div class="text-[11px] text-slate-400">Cho phép hoặc tạm đóng cổng rút tiền của khách.</div>
               </div>
               <button id="btnToggleWithdraw" onclick="Admin.toggleWithdrawGate()" class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-emerald-600 text-white shadow">
                 Đang Mở
               </button>
             </div>
-
             <div class="flex items-center justify-between p-3 bg-slate-900 rounded-xl border border-white/5">
               <div>
                 <div class="font-bold text-white">Máy Chủ (Server Status):</div>
-                <div class="text-[11px] text-slate-400">Đóng máy chủ để đưa toàn bộ khách vào màn hình bảo trì.</div>
+                <div class="text-[11px] text-slate-400">Đóng máy chủ để đưa khách vào màn hình bảo trì.</div>
               </div>
               <button id="btnToggleServer2" onclick="Admin.toggleServer()" class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-emerald-600 text-white shadow">
                 Đang Mở
               </button>
             </div>
-
             <div class="border-t border-slate-800 pt-3 space-y-2.5">
-              <div class="font-bold text-white">Thông Tin Tài Khoản Ngân Hàng Nhận Tiền VietQR:</div>
+              <div class="font-bold text-white">Thông Tin Nhận Tiền VietQR:</div>
               <div class="grid grid-cols-3 gap-2">
                 <div>
                   <label class="block text-slate-400 text-[10px] mb-1">Ngân hàng</label>
@@ -304,7 +289,7 @@
           </div>
         </div>
 
-        <!-- TAB 7: NHẬT KÝ KHÁCH HỦY / TỪ CHỐI -->
+        <!-- TAB 7: NHẬT KÝ HỦY -->
         <div id="tabView-cancelledLogs" class="space-y-3 hidden">
           <div class="overflow-x-auto rounded-2xl border border-white/5">
             <table class="w-full text-left text-xs text-slate-300">
@@ -324,7 +309,6 @@
       </div>
     </main>
 
-    
     <!-- MODAL TRA CỨU CẤP DƯỚI (F1, F2) TOÀN DIỆN -->
     <div id="downlinesModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
       <div class="max-w-3xl w-full admin-card rounded-3xl p-5 border border-white/10 space-y-4 max-h-[90vh] overflow-y-auto no-scrollbar">
@@ -341,7 +325,6 @@
           <button onclick="document.getElementById('downlinesModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">✕</button>
         </div>
 
-        <!-- THẺ THỐNG KÊ ĐỘI NHÓM -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="p-3 bg-slate-900 rounded-2xl border border-yellow-500/20 space-y-1">
             <div class="text-[10px] uppercase font-bold text-slate-400">Tuyến Trực Tiếp (F1)</div>
@@ -349,26 +332,21 @@
             <div class="text-[11px] text-slate-400">Tổng nạp: <strong id="statF1Dep" class="text-emerald-400">0 ₫</strong></div>
             <div class="text-[11px] text-slate-400">Hoa hồng 13%: <strong id="statF1Com" class="binance-yellow">0 ₫</strong></div>
           </div>
-
           <div class="p-3 bg-slate-900 rounded-2xl border border-white/5 space-y-1">
             <div class="text-[10px] uppercase font-bold text-slate-400">Tuyến Gián Tiếp (F2)</div>
             <div id="statF2Count" class="text-base font-black text-white mono">0 người</div>
             <div class="text-[11px] text-slate-400">Tổng nạp: <strong id="statF2Dep" class="text-emerald-400">0 ₫</strong></div>
             <div class="text-[11px] text-slate-400">Hoa hồng 2%: <strong id="statF2Com" class="binance-yellow">0 ₫</strong></div>
           </div>
-
           <div class="p-3 bg-slate-900 rounded-2xl border border-emerald-500/20 space-y-1">
-            <div class="text-[10px] uppercase font-bold text-slate-400">Doanh Số Cả Đội Nhóm</div>
+            <div class="text-[10px] uppercase font-bold text-slate-400">Doanh Số Cả Nhóm</div>
             <div id="statTeamRevenue" class="text-base font-black text-emerald-400 mono">0 ₫</div>
-            <div class="text-[11px] text-slate-400">Bao gồm toàn bộ doanh số nạp F1 + F2</div>
+            <div class="text-[11px] text-slate-400">Tổng nạp F1 + F2</div>
           </div>
         </div>
 
-        <!-- BẢNG DANH SÁCH F1 -->
         <div class="space-y-2">
-          <div class="text-xs font-bold text-white uppercase flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-yellow-400"></span> Danh Sách Cấp Dưới Trực Tiếp (F1)
-          </div>
+          <div class="text-xs font-bold text-white uppercase"><span class="w-2 h-2 rounded-full bg-yellow-400 inline-block mr-1"></span> Cấp Dưới Trực Tiếp (F1)</div>
           <div class="overflow-x-auto rounded-xl border border-white/5">
             <table class="w-full text-left text-xs text-slate-300">
               <thead class="bg-slate-950/80 text-[10px] uppercase font-bold text-slate-400 border-b border-white/5 mono">
@@ -377,19 +355,16 @@
                   <th class="px-3 py-2">Cấp Bậc</th>
                   <th class="px-3 py-2">Số Dư Hiện Tại</th>
                   <th class="px-3 py-2">Tổng Nạp</th>
-                  <th class="px-3 py-2">Hoa Hồng Đã Mang Lại (13%)</th>
+                  <th class="px-3 py-2">Hoa Hồng Mang Lại (13%)</th>
                 </tr>
               </thead>
-              <tbody id="tbodyF1Downlines" class="divide-y divide-white/5"></tbody>
+              <tbody id="tbodyF1Downlines" class="divide-y border-white/5"></tbody>
             </table>
           </div>
         </div>
 
-        <!-- BẢNG DANH SÁCH F2 -->
         <div class="space-y-2">
-          <div class="text-xs font-bold text-white uppercase flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-cyan-400"></span> Danh Sách Cấp Dưới Gián Tiếp (F2)
-          </div>
+          <div class="text-xs font-bold text-white uppercase"><span class="w-2 h-2 rounded-full bg-cyan-400 inline-block mr-1"></span> Cấp Dưới Gián Tiếp (F2)</div>
           <div class="overflow-x-auto rounded-xl border border-white/5">
             <table class="w-full text-left text-xs text-slate-300">
               <thead class="bg-slate-950/80 text-[10px] uppercase font-bold text-slate-400 border-b border-white/5 mono">
@@ -398,10 +373,10 @@
                   <th class="px-3 py-2">Người Giới Thiệu (F1)</th>
                   <th class="px-3 py-2">Cấp Bậc</th>
                   <th class="px-3 py-2">Tổng Nạp</th>
-                  <th class="px-3 py-2">Hoa Hồng Đã Mang Lại (2%)</th>
+                  <th class="px-3 py-2">Hoa Hồng Mang Lại (2%)</th>
                 </tr>
               </thead>
-              <tbody id="tbodyF2Downlines" class="divide-y divide-white/5"></tbody>
+              <tbody id="tbodyF2Downlines" class="divide-y border-white/5"></tbody>
             </table>
           </div>
         </div>
@@ -415,7 +390,6 @@
           <h4 class="text-xs font-bold text-white uppercase">Chỉnh Sửa Dữ Liệu: <span id="lblEditPhone" class="binance-yellow mono"></span></h4>
           <button onclick="document.getElementById('editFullUserModal').classList.add('hidden')" class="text-slate-400 hover:text-white">✕</button>
         </div>
-
         <input type="hidden" id="editHiddenPhone">
         <div class="space-y-2.5 text-xs">
           <div>
@@ -463,16 +437,15 @@
         </div>
         <input type="hidden" id="quickBonusPhone">
         <div class="space-y-2 text-xs">
-          <label class="block text-slate-400">Số tiền (VNĐ) - Nhập số âm nếu muốn trừ tiền:</label>
-          <input type="number" id="quickBonusAmount" placeholder="Ví dụ: 50000, -20000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white mono font-bold">
+          <label class="block text-slate-400">Số tiền (VNĐ) - Nhập số âm để trừ tiền:</label>
+          <input type="number" id="quickBonusAmount" placeholder="Ví dụ: 50000 hoặc -20000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white mono font-bold">
         </div>
-        <button onclick="Admin.applyQuickBonus()" class="w-full py-2.5 binance-btn-yellow font-black text-xs rounded-xl shadow">Xác Nhận Cập Nhật</button>
+        <button onclick="Admin.applyQuickBonus()" class="w-full py-2.5 binance-btn-yellow font-black text-xs rounded-xl shadow">Xác Nhận</button>
       </div>
     </div>
   </div>
 
   <script>
-    // CẤU HÌNH ĐỒNG BỘ 100% CÙNG CƠ SỞ DỮ LIỆU VỚI INDEX.HTML
     const firebaseConfig = {
       apiKey: "AIzaSyC4pdge5WTYIdq4Rfl8zWyp4CAso3GRzUI",
       authDomain: "binance-pro-investment.firebaseapp.com",
@@ -485,7 +458,6 @@
 
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const auth = firebase.auth();
 
     const Admin = {
       users: {},
@@ -496,207 +468,8 @@
       isServerClosed: false,
       isWithdrawActive: true,
 
-      text(id, value) {
-        const element = document.getElementById(id);
-        if (element) element.textContent = String(value);
-      },
-
-      table(id, rows, emptyMessage) {
-        const body = document.getElementById(id);
-        if (!body) return;
-        body.replaceChildren();
-        const values = rows.length ? rows : [[emptyMessage]];
-        values.forEach(cells => {
-          const row = document.createElement('tr');
-          cells.forEach(value => {
-            const cell = document.createElement('td');
-            cell.className = 'px-4 py-3';
-            if (value && value.nodeType === 1) cell.appendChild(value);
-            else cell.textContent = String(value ?? '');
-            if (!rows.length) cell.colSpan = 6;
-            row.appendChild(cell);
-          });
-          body.appendChild(row);
-        });
-      },
-
-      pendingRows(records) {
-        return Object.entries(records || {}).filter(([, record]) => record &&
-          String(record.status || 'PENDING').toUpperCase() === 'PENDING')
-          .sort((a, b) => Number(b[1].createdAt || 0) - Number(a[1].createdAt || 0));
-      },
-
-      render() {
-        const users = Object.values(this.users || {}).filter(Boolean);
-        const deposits = this.pendingRows(this.deposits);
-        const withdraws = this.pendingRows(this.withdraws);
-        this.text('statUsers', users.length);
-        this.text('statPaidUsers', users.filter(user => Number(user.totalDeposited) > 0).length);
-        this.text('statDeposited', this.formatMoney(users.reduce((sum, user) => sum + (Number(user.totalDeposited) || 0), 0)));
-        this.text('statWithdrawn', this.formatMoney(users.reduce((sum, user) => sum + (Number(user.totalWithdrawn) || 0), 0)));
-        this.text('statPendingTotal', deposits.length + withdraws.length);
-        this.text('badgeDep', deposits.length);
-        this.text('badgeWit', withdraws.length);
-        this.table('tbodyDeposits', deposits.map(([id, record]) => [
-          id, record.phone, this.formatMoney(record.amount), record.time, this.depositActions(id, record)
-        ]), 'Chưa có lệnh nạp chờ duyệt.');
-        this.table('tbodyWithdraws', withdraws.map(([id, record]) => [
-          id, record.phone, `${record.bank || ''} - ${record.stk || ''}`, record.name,
-          this.formatMoney(record.amount), 'Chờ duyệt'
-        ]), 'Chưa có lệnh rút chờ duyệt.');
-        this.searchUsers();
-      },
-
-      searchUsers() {
-        const search = (document.getElementById('inpSearchUser')?.value || '').trim();
-        const users = Object.entries(this.users || {}).filter(([phone]) => phone.includes(search));
-        this.table('tbodyUsers', users.map(([phone, user]) => [
-          phone, this.formatMoney(user.balance),
-          `${this.formatMoney(user.totalDeposited)} / ${this.formatMoney(user.totalWithdrawn)}`,
-          `VIP ${user.userVip || 0} / ${Object.keys(user.activePackages || {}).length} gói`,
-          user.isLocked ? 'Đã khóa' : 'Hoạt động', '—'
-        ]), 'Không tìm thấy thành viên.');
-      },
-
-      renderGiftcodes() {
-        const box = document.getElementById('giftcodesListContainer');
-        if (!box) return;
-        box.replaceChildren();
-        const entries = Object.entries(this.giftcodes || {});
-        if (!entries.length) { box.textContent = 'Chưa có giftcode.'; return; }
-        entries.forEach(([code, record]) => {
-          const item = document.createElement('div');
-          item.className = 'p-3 bg-slate-900 rounded-xl';
-          item.textContent = `${code} — ${this.formatMoney(record.min || record.minAmount || 0)} đến ${this.formatMoney(record.max || record.maxAmount || 0)}`;
-          box.appendChild(item);
-        });
-      },
-
-      renderCancelledLogs() {
-        const entries = Object.entries(this.cancelledLogs || {});
-        this.text('badgeCancel', entries.length);
-        this.table('tbodyCancelledLogs', entries.map(([id, record]) => [
-          record.orderId || id, record.phone, record.action || record.type || record.status,
-          record.reason || '', record.time || ''
-        ]), 'Chưa có nhật ký hủy.');
-      },
-
-      depositActions(id, record) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'px-3 py-2 rounded-xl bg-emerald-600 text-white font-bold';
-        button.textContent = this._approving?.has(id) ? 'Đang xử lý...' : 'Duyệt nạp';
-        button.disabled = !!this._approving?.has(id);
-        button.onclick = () => this.approveDeposit(id, record);
-        return button;
-      },
-
-      async approveDeposit(id, record) {
-        if (this._approving?.has(id)) return;
-        if (!confirm(`Chỉ duyệt sau khi đối soát ngân hàng. Xác nhận đã nhận ${this.formatMoney(record.amount)} từ ${record.phone}, mã ${id}?`)) return;
-        this._approving ||= new Set();
-        this._approving.add(id);
-        this.render();
-        try {
-          const approve = firebase.app().functions('asia-southeast1').httpsCallable('approveDeposit');
-          await approve({orderId:id,expectedAmount:record.amount,expectedPhone:record.phone});
-          this.showToast('Đã duyệt lệnh nạp; hệ thống đã xử lý hoa hồng và thưởng mời bạn.');
-        } catch (error) {
-          this.showToast('Không duyệt được lệnh: ' + (error.message || error.code), true);
-        } finally {
-          this._approving.delete(id);
-          this.render();
-        }
-      },
-
       formatMoney(num) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num || 0);
-      },
-
-      async unlock() {
-        try {
-          await auth.signInWithEmailAndPassword(
-            document.getElementById('gateEmail').value.trim(),
-            document.getElementById('gatePass').value
-          );
-          document.getElementById('gatePass').value = '';
-        } catch (_) {
-          this.showToast('Đăng nhập không thành công. Kiểm tra tài khoản Firebase Authentication.', true);
-        }
-      },
-
-      async lockPanel() {
-        this.stopRealtimeData();
-        document.getElementById('adminPanel').classList.add('hidden');
-        document.getElementById('gatekeeperScreen').classList.remove('hidden');
-        document.getElementById('gatePass').value = '';
-        await auth.signOut();
-      },
-
-      stopRealtimeData() {
-        (this._subscriptions || []).forEach(({ ref, callback }) => ref.off('value', callback));
-        this._subscriptions = [];
-      },
-
-      subscribe(path, callback) {
-        const ref = db.ref(path);
-        this._subscriptions.push({ ref, callback });
-        ref.on('value', callback, err => {
-          this.text('firebaseConnectionState', 'Lỗi quyền đọc / kết nối Firebase');
-          this.showToast('Không đọc được ' + path + ': ' + (err.code || err.message), true);
-        });
-      },
-
-      listenRealtimeData() {
-        this.stopRealtimeData();
-        // Khởi tạo trạng thái ban đầu ngay lập tức
-        const savedServer = localStorage.getItem('admin_server_closed') === 'true';
-        this.updateServerUI(savedServer);
-        const savedWithdraw = localStorage.getItem('admin_withdraw_active') !== 'false';
-        this.updateWithdrawUI(savedWithdraw);
-
-        // 1. Lắng nghe trạng thái đóng/mở server từ Firebase
-        this.subscribe('system/server_closed', snap => {
-          const val = snap.val();
-          if (val !== null) this.updateServerUI(val);
-        });
-
-        // 2. Lắng nghe trạng thái cổng rút tiền từ Firebase
-        this.subscribe('system/withdraw_active', snap => {
-          const val = snap.val();
-          if (val !== null) this.updateWithdrawUI(val !== false);
-        });
-
-        // 3. Lắng nghe danh sách thành viên
-        this.subscribe('users', snap => {
-          this.users = snap.val() || {};
-          this.render();
-        });
-
-        // 4. Lắng nghe đơn nạp chờ duyệt
-        this.subscribe('pending_deposits', snap => {
-          this.text('firebaseConnectionState', 'Đã tải lệnh nạp từ Firebase');
-          this.deposits = snap.val() || {};
-          this.render();
-        });
-
-        // 5. Lắng nghe đơn rút chờ duyệt
-        this.subscribe('pending_withdraws', snap => {
-          this.withdraws = snap.val() || {};
-          this.render();
-        });
-
-        // 6. Lắng nghe Giftcodes
-        this.subscribe('giftcodes', snap => {
-          this.giftcodes = snap.val() || {};
-          this.renderGiftcodes();
-        });
-
-        // 7. Lắng nghe log khách hủy
-        this.subscribe('cancelled_logs', snap => {
-          this.cancelledLogs = snap.val() || {};
-          this.renderCancelledLogs();
-        });
       },
 
       showToast(msg, isError = false) {
@@ -704,71 +477,674 @@
         if (!t) {
           t = document.createElement('div');
           t.id = 'adminToast';
-          t.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl transition-all duration-300 pointer-events-none flex items-center gap-2 border';
           document.body.appendChild(t);
         }
-        t.className = `fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl transition-all duration-300 pointer-events-none flex items-center gap-2 border ${
+        t.className = `fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl transition-all duration-300 flex items-center gap-2 border ${
           isError ? 'bg-rose-950/95 text-rose-300 border-rose-500/50' : 'bg-slate-900/95 text-yellow-400 border-yellow-500/50'
         }`;
-        t.textContent = msg;
+        t.innerHTML = `<i class="${isError ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-check'}"></i> <span>${msg}</span>`;
         t.style.opacity = '1';
-        t.style.transform = 'translate(-50%, 0)';
         clearTimeout(this._toastTimer);
-        this._toastTimer = setTimeout(() => {
-          t.style.opacity = '0';
-          t.style.transform = 'translate(-50%, -10px)';
-        }, 2500);
+        this._toastTimer = setTimeout(() => { t.style.opacity = '0'; }, 2500);
+      },
+
+      unlock() {
+        const pass = document.getElementById('gatePass').value;
+        if (pass === 'td1234') {
+          sessionStorage.setItem('admin_auth', 'true');
+          document.getElementById('gatekeeperScreen').classList.add('hidden');
+          document.getElementById('adminPanel').classList.remove('hidden');
+          this.listenRealtimeData();
+        } else {
+          alert('Mật khẩu quản trị không đúng!');
+        }
+      },
+
+      lockPanel() {
+        sessionStorage.removeItem('admin_auth');
+        document.getElementById('adminPanel').classList.add('hidden');
+        document.getElementById('gatekeeperScreen').classList.remove('hidden');
+        document.getElementById('gatePass').value = '';
       },
 
       updateServerUI(isClosed) {
         this.isServerClosed = isClosed;
-        localStorage.setItem('admin_server_closed', isClosed ? 'true' : 'false');
         const btn = document.getElementById('btnToggleServer');
         const btn2 = document.getElementById('btnToggleServer2');
         const txt = isClosed ? '🔴 Server: Đang Đóng' : '🟢 Server: Đang Mở';
-        const cls = isClosed 
-          ? 'px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-600 text-white shadow animate-pulse' 
-          : 'px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow';
-        const cls2 = isClosed
-          ? 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-rose-600 text-white shadow'
-          : 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-emerald-600 text-white shadow';
-
+        const cls = isClosed ? 'px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-600 text-white shadow animate-pulse' : 'px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow';
         if (btn) { btn.className = cls; btn.innerText = txt; }
-        if (btn2) { btn2.className = cls2; btn2.innerText = isClosed ? 'Đang Đóng' : 'Đang Mở'; }
+        if (btn2) { btn2.className = isClosed ? 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-rose-600 text-white shadow' : 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-emerald-600 text-white shadow'; btn2.innerText = isClosed ? 'Đang Đóng' : 'Đang Mở'; }
       },
 
       toggleServer() {
-        const nextState = !this.isServerClosed;
-        this.updateServerUI(nextState);
-        this.showToast(nextState ? 'Đã ĐÓNG máy chủ (Khách sẽ thấy màn hình bảo trì)' : 'Đã MỞ LẠI máy chủ bình thường');
-        if (db) {
-          db.ref('system/server_closed').set(nextState).catch(err => {
-            this.showToast('Lỗi ghi Firebase: ' + err.message, true);
-          });
-        }
+        const next = !this.isServerClosed;
+        this.updateServerUI(next);
+        this.showToast(next ? 'Đã đóng máy chủ bảo trì' : 'Đã mở máy chủ');
+        db.ref('system/server_closed').set(next).catch(e => this.showToast('Lỗi ghi: ' + e.message, true));
       },
 
       updateWithdrawUI(isActive) {
         this.isWithdrawActive = isActive;
-        localStorage.setItem('admin_withdraw_active', isActive ? 'true' : 'false');
         const btn = document.getElementById('btnToggleWithdraw');
         if (btn) {
-          btn.className = isActive 
-            ? 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-emerald-600 text-white shadow' 
-            : 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-rose-600 text-white shadow';
+          btn.className = isActive ? 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-emerald-600 text-white shadow' : 'px-3.5 py-1.5 rounded-xl font-bold text-xs bg-rose-600 text-white shadow';
           btn.innerText = isActive ? 'Đang Mở' : 'Đang Khóa';
         }
       },
 
       toggleWithdrawGate() {
-        const nextState = !this.isWithdrawActive;
-        this.updateWithdrawUI(nextState);
-        this.showToast(nextState ? 'Đã MỞ cổng rút tiền cho khách' : 'Đã TẠM KHÓA cổng rút tiền');
-        if (db) {
-          db.ref('system/withdraw_active').set(nextState).catch(err => {
-            this.showToast('Lỗi ghi Firebase: ' + err.message, true);
-          });
+        const next = !this.isWithdrawActive;
+        this.updateWithdrawUI(next);
+        this.showToast(next ? 'Đã mở cổng rút tiền' : 'Đã tạm đóng cổng rút');
+        db.ref('system/withdraw_active').set(next).catch(e => this.showToast('Lỗi ghi: ' + e.message, true));
+      },
+
+      saveBankConfig() {
+        const bank = document.getElementById('cfgBank').value.trim();
+        const stk = document.getElementById('cfgStk').value.trim();
+        const name = document.getElementById('cfgName').value.trim().toUpperCase();
+        db.ref('system/bank_config').set({ bank, stk, name }).then(() => {
+          this.showToast('Đã lưu tài khoản ngân hàng nhận tiền!');
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      listenRealtimeData() {
+        db.ref('system/server_closed').on('value', snap => {
+          if (snap.exists()) this.updateServerUI(snap.val() === true);
+        });
+        db.ref('system/withdraw_active').on('value', snap => {
+          if (snap.exists()) this.updateWithdrawUI(snap.val() !== false);
+        });
+        db.ref('users').on('value', snap => {
+          this.users = snap.val() || {};
+          this.render();
+        });
+        db.ref('pending_deposits').on('value', snap => {
+          this.deposits = snap.val() || {};
+          this.render();
+        });
+        db.ref('pending_withdraws').on('value', snap => {
+          this.withdraws = snap.val() || {};
+          this.render();
+        });
+        db.ref('giftcodes').on('value', snap => {
+          this.giftcodes = snap.val() || {};
+          this.renderGiftcodes();
+        });
+        db.ref('cancelled_logs').on('value', snap => {
+          this.cancelledLogs = snap.val() || {};
+          this.renderCancelledLogs();
+        });
+      },
+
+      render() {
+        const userList = Object.values(this.users);
+        const depList = Object.values(this.deposits);
+        const witList = Object.values(this.withdraws);
+
+        document.getElementById('statUsers').innerText = userList.length;
+        document.getElementById('statPaidUsers').innerText = userList.filter(u => (u.totalDeposited || 0) > 0 || u.hasDeposited).length;
+        document.getElementById('badgeDep').innerText = depList.length;
+        document.getElementById('badgeWit').innerText = witList.length;
+        document.getElementById('statPendingTotal').innerText = depList.length + witList.length;
+
+        let totalDepositAmount = 0, totalWithdrawAmount = 0;
+        userList.forEach(u => {
+          totalDepositAmount += (u.totalDeposited || 0);
+          totalWithdrawAmount += (u.totalWithdrawn || 0);
+        });
+        document.getElementById('statDeposited').innerText = this.formatMoney(totalDepositAmount);
+        document.getElementById('statWithdrawn').innerText = this.formatMoney(totalWithdrawAmount);
+        document.getElementById('statProfit').innerText = this.formatMoney(totalDepositAmount - totalWithdrawAmount);
+
+        // Render Duyệt Nạp
+        const depTable = document.getElementById('tbodyDeposits');
+        if (depList.length === 0) {
+          depTable.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-500">Chưa có lệnh nạp nào chờ duyệt.</td></tr>`;
+        } else {
+          depTable.innerHTML = depList.map(d => `
+            <tr>
+              <td class="px-4 py-3 mono text-slate-400 font-bold">${d.id}</td>
+              <td class="px-4 py-3 font-bold text-amber-400 mono">${d.phone}</td>
+              <td class="px-4 py-3 font-black text-emerald-400 mono">${this.formatMoney(d.amount)}</td>
+              <td class="px-4 py-3 text-slate-400 text-xs">${d.time || 'Vừa xong'}</td>
+              <td class="px-4 py-3 text-right space-x-1.5">
+                <button onclick="Admin.approveDeposit('${d.id}')" class="px-3 py-1.5 bg-emerald-400 text-black font-black rounded-xl text-xs shadow hover:bg-emerald-300">Duyệt Nạp</button>
+                <button onclick="Admin.rejectDepositPrompt('${d.id}')" class="px-3 py-1.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow hover:bg-rose-500">Từ Chối</button>
+              </td>
+            </tr>
+          `).join('');
         }
+
+        // Render Duyệt Rút
+        const witTable = document.getElementById('tbodyWithdraws');
+        if (witList.length === 0) {
+          witTable.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-500">Chưa có yêu cầu rút tiền nào.</td></tr>`;
+        } else {
+          witTable.innerHTML = witList.map(w => `
+            <tr>
+              <td class="px-4 py-3 mono text-slate-400 font-bold">${w.id}</td>
+              <td class="px-4 py-3 font-bold text-white mono">${w.phone}</td>
+              <td class="px-4 py-3 text-slate-300">${w.bank} - <span class="mono text-yellow-400 font-bold">${w.stk}</span></td>
+              <td class="px-4 py-3 font-bold text-white uppercase">${w.name}</td>
+              <td class="px-4 py-3 font-black text-rose-400 mono">${this.formatMoney(w.amount)}</td>
+              <td class="px-4 py-3 text-right space-x-1.5">
+                <button onclick="Admin.approveWithdraw('${w.id}')" class="px-3 py-1.5 bg-emerald-400 text-black font-black rounded-xl text-xs shadow hover:bg-emerald-300">Duyệt Rút</button>
+                <button onclick="Admin.rejectWithdrawPrompt('${w.id}')" class="px-3 py-1.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow hover:bg-rose-500">Từ Chối & Hoàn Tiền</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+
+        this.searchUsers();
+        this.renderPackageStats();
+      },
+
+      searchUsers() {
+        const query = (document.getElementById('inpSearchUser')?.value || '').trim().toLowerCase();
+        const userList = Object.values(this.users).filter(u => u.phone && u.phone.toLowerCase().includes(query));
+        const usrTable = document.getElementById('tbodyUsers');
+        if (!usrTable) return;
+        if (userList.length === 0) {
+          usrTable.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-500">Không tìm thấy thành viên.</td></tr>`;
+          return;
+        }
+
+        usrTable.innerHTML = userList.map(u => {
+          const activePkgs = Array.isArray(u.activePackages) ? u.activePackages.length : 0;
+          return `
+            <tr>
+              <td class="px-4 py-3 font-bold text-white mono">
+                ${u.phone}<br>
+                <span class="text-[10px] text-slate-400 font-normal">Mời bởi: ${u.invite || u.inviterPhone || 'Không có'}</span>
+              </td>
+              <td class="px-4 py-3 font-bold text-emerald-400 mono">${this.formatMoney(u.balance)}</td>
+              <td class="px-4 py-3 text-slate-300 mono text-xs">
+                Nạp: <span class="text-emerald-400">${this.formatMoney(u.totalDeposited)}</span><br>
+                Rút: <span class="text-rose-400">${this.formatMoney(u.totalWithdrawn)}</span>
+              </td>
+              <td class="px-4 py-3">
+                <span class="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-[10px] font-bold">VIP ${u.userVip || 0}</span>
+                <span class="ml-1 text-[11px] text-slate-400">(${activePkgs} gói)</span>
+              </td>
+              <td class="px-4 py-3">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.isLocked ? 'bg-rose-500/20 text-rose-400' : 'bg-emerald-500/20 text-emerald-400'}">
+                  ${u.isLocked ? 'Đã Khóa' : 'Hoạt Động'}
+                </span>
+              </td>
+              <td class="px-4 py-3 text-right space-x-1">
+                <button onclick="Admin.viewDownlines('${u.phone}')" class="px-2.5 py-1 bg-indigo-600/30 text-indigo-300 hover:bg-indigo-600/50 border border-indigo-500/30 font-bold rounded-lg text-xs">Cấp Dưới</button>
+                <button onclick="Admin.openQuickBonus('${u.phone}')" class="px-2.5 py-1 bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 font-bold rounded-lg text-xs">+ / - Tiền</button>
+                <button onclick="Admin.openEditUser('${u.phone}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold rounded-lg text-xs">Sửa Hết</button>
+                <button onclick="Admin.toggleLockUser('${u.phone}', ${!u.isLocked})" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 ${u.isLocked ? 'text-emerald-400' : 'text-rose-400'} font-bold rounded-lg text-xs">
+                  ${u.isLocked ? 'Mở' : 'Khóa'}
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      },
+
+      viewDownlines(phone) {
+        const u = this.users[phone];
+        if (!u) return;
+
+        document.getElementById('lblDownlinePhone').innerText = phone;
+        document.getElementById('lblUplinePhone').innerText = u.invite || u.inviterPhone || 'Gốc (Không có tuyến trên)';
+
+        const f1List = Object.values(this.users).filter(x => x.phone !== phone && (x.invite === phone || x.inviterPhone === phone));
+        let f2List = [];
+        f1List.forEach(f1 => {
+          const sub = Object.values(this.users).filter(x => x.phone !== f1.phone && (x.invite === f1.phone || x.inviterPhone === f1.phone));
+          sub.forEach(s => f2List.push({ ...s, parentF1: f1.phone }));
+        });
+
+        let f1TotalDep = 0, f1DepositedCount = 0;
+        f1List.forEach(f1 => {
+          const dep = Number(f1.totalDeposited || 0);
+          f1TotalDep += dep;
+          if (dep > 0 || f1.hasDeposited) f1DepositedCount++;
+        });
+
+        let f2TotalDep = 0, f2DepositedCount = 0;
+        f2List.forEach(f2 => {
+          const dep = Number(f2.totalDeposited || 0);
+          f2TotalDep += dep;
+          if (dep > 0 || f2.hasDeposited) f2DepositedCount++;
+        });
+
+        document.getElementById('statF1Count').innerText = `${f1List.length} người (${f1DepositedCount} nạp)`;
+        document.getElementById('statF1Dep').innerText = this.formatMoney(f1TotalDep);
+        document.getElementById('statF1Com').innerText = this.formatMoney(f1TotalDep * 0.13);
+        document.getElementById('statF2Count').innerText = `${f2List.length} người (${f2DepositedCount} nạp)`;
+        document.getElementById('statF2Dep').innerText = this.formatMoney(f2TotalDep);
+        document.getElementById('statF2Com').innerText = this.formatMoney(f2TotalDep * 0.02);
+        document.getElementById('statTeamRevenue').innerText = this.formatMoney(f1TotalDep + f2TotalDep);
+
+        const f1Tbody = document.getElementById('tbodyF1Downlines');
+        if (f1List.length === 0) {
+          f1Tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-500">Chưa có F1 nào.</td></tr>';
+        } else {
+          f1Tbody.innerHTML = f1List.map(f1 => {
+            const dep = Number(f1.totalDeposited || 0);
+            return `
+              <tr>
+                <td class="px-3 py-2 mono font-bold text-white">${f1.phone}</td>
+                <td class="px-3 py-2"><span class="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 text-[10px] font-bold">VIP ${f1.userVip || 0}</span></td>
+                <td class="px-3 py-2 mono text-emerald-400 font-bold">${this.formatMoney(f1.balance)}</td>
+                <td class="px-3 py-2 mono text-white">${this.formatMoney(dep)}</td>
+                <td class="px-3 py-2 mono text-amber-400 font-bold">+${this.formatMoney(dep * 0.13)}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        const f2Tbody = document.getElementById('tbodyF2Downlines');
+        if (f2List.length === 0) {
+          f2Tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-500">Chưa có F2 nào.</td></tr>';
+        } else {
+          f2Tbody.innerHTML = f2List.map(f2 => {
+            const dep = Number(f2.totalDeposited || 0);
+            return `
+              <tr>
+                <td class="px-3 py-2 mono font-bold text-white">${f2.phone}</td>
+                <td class="px-3 py-2 mono text-cyan-400 text-xs">${f2.parentF1}</td>
+                <td class="px-3 py-2"><span class="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 text-[10px] font-bold">VIP ${f2.userVip || 0}</span></td>
+                <td class="px-3 py-2 mono text-white">${this.formatMoney(dep)}</td>
+                <td class="px-3 py-2 mono text-amber-400 font-bold">+${this.formatMoney(dep * 0.02)}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        document.getElementById('downlinesModal').classList.remove('hidden');
+      },
+
+      renderPackageStats() {
+        const box = document.getElementById('pkgStatsContainer');
+        if (!box) return;
+
+        const pkgList = [
+          { id: 'p75k', name: 'Dogecoin (DOGE)', price: 75000, img: 'https://assets.coingecko.com/coins/images/5/large/dogecoin.png' },
+          { id: 'p150k', name: 'Cardano (ADA)', price: 150000, img: 'https://assets.coingecko.com/coins/images/975/large/cardano.png' },
+          { id: 'p300k', name: 'Ripple (XRP)', price: 300000, img: 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png' },
+          { id: 'p600k', name: 'Solana (SOL)', price: 600000, img: 'https://assets.coingecko.com/coins/images/4128/large/solana.png' },
+          { id: 'p1m', name: 'BNB Chain (BNB)', price: 1000000, img: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png' },
+          { id: 'p2m', name: 'Ethereum (ETH)', price: 2000000, img: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png' },
+          { id: 'p5m', name: 'Bitcoin (BTC)', price: 5000000, img: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png' },
+          { id: 'p10m', name: 'Whale Fund (VIP)', price: 10000000, img: 'https://assets.coingecko.com/coins/images/325/large/Tether.png' }
+        ];
+
+        let stats = {};
+        pkgList.forEach(p => { stats[p.id] = { count: 0, revenue: 0 }; });
+
+        Object.values(this.users).forEach(u => {
+          if (Array.isArray(u.activePackages)) {
+            u.activePackages.forEach(ap => {
+              if (stats[ap.id]) {
+                stats[ap.id].count++;
+                stats[ap.id].revenue += ap.price;
+              }
+            });
+          }
+        });
+
+        box.innerHTML = pkgList.map(p => `
+          <div class="admin-card rounded-2xl p-4 border border-white/5 space-y-2">
+            <div class="flex items-center gap-2.5">
+              <img src="${p.img}" class="w-8 h-8 object-contain">
+              <div class="flex-1 overflow-hidden">
+                <div class="font-bold text-xs text-white truncate">${p.name}</div>
+                <div class="text-[10px] text-yellow-400">${this.formatMoney(p.price)}</div>
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 flex justify-between text-xs">
+              <span class="text-slate-400">Đang chạy:</span>
+              <strong class="text-white font-black">${stats[p.id].count} gói</strong>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-slate-400">Doanh thu:</span>
+              <strong class="text-emerald-400 font-black">${this.formatMoney(stats[p.id].revenue)}</strong>
+            </div>
+          </div>
+        `).join('');
+      },
+
+      renderGiftcodes() {
+        const box = document.getElementById('giftcodesListContainer');
+        if (!box) return;
+        const list = Object.entries(this.giftcodes);
+        if (list.length === 0) {
+          box.innerHTML = '<div class="py-4 text-center text-slate-500">Chưa có mã Giftcode nào.</div>';
+          return;
+        }
+
+        box.innerHTML = list.map(([code, g]) => `
+          <div class="p-3 bg-slate-900 rounded-xl border border-white/5 flex items-center justify-between">
+            <div>
+              <div class="font-black text-yellow-400 mono text-sm">${code}</div>
+              <div class="text-[10px] text-slate-400">
+                Thưởng: <b class="text-emerald-400">${this.formatMoney(g.min)} ~ ${this.formatMoney(g.max)}</b> • Đã dùng: <b>${g.usedCount || 0}/${g.maxUses || 0}</b>
+              </div>
+            </div>
+            <button onclick="Admin.deleteGiftcode('${code}')" class="px-2.5 py-1 bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 rounded-lg font-bold text-xs">Xóa</button>
+          </div>
+        `).join('');
+      },
+
+      renderCancelledLogs() {
+        const box = document.getElementById('tbodyCancelledLogs');
+        if (!box) return;
+        const list = Object.values(this.cancelledLogs);
+        document.getElementById('badgeCancel').innerText = list.length;
+        if (list.length === 0) {
+          box.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">Chưa có nhật ký nào.</td></tr>';
+          return;
+        }
+
+        box.innerHTML = list.map(c => `
+          <tr>
+            <td class="px-4 py-3 mono text-slate-400">${c.id || 'N/A'}</td>
+            <td class="px-4 py-3 font-bold text-yellow-400 mono">${c.phone}</td>
+            <td class="px-4 py-3 font-bold text-white">${c.action}</td>
+            <td class="px-4 py-3 text-rose-300 font-semibold">${c.reason}</td>
+            <td class="px-4 py-3 text-slate-400 text-xs">${c.time || 'Vừa xong'}</td>
+          </tr>
+        `).join('');
+      },
+
+      openEditUser(phone) {
+        const u = this.users[phone];
+        if (!u) return;
+
+        document.getElementById('lblEditPhone').innerText = phone;
+        document.getElementById('editHiddenPhone').value = phone;
+        document.getElementById('editInpBalance').value = u.balance || 0;
+        document.getElementById('editInpTotalDep').value = u.totalDeposited || 0;
+        document.getElementById('editInpTotalWit').value = u.totalWithdrawn || 0;
+        document.getElementById('editInpVip').value = u.userVip || 0;
+        document.getElementById('editInpInvite').value = u.invite || u.inviterPhone || '';
+        document.getElementById('editInpPass').value = '';
+        document.getElementById('editInpLocked').checked = u.isLocked || false;
+
+        document.getElementById('editFullUserModal').classList.remove('hidden');
+      },
+
+      saveUserFullChanges() {
+        const phone = document.getElementById('editHiddenPhone').value;
+        const u = this.users[phone];
+        if (!u) return;
+
+        const newBal = parseFloat(document.getElementById('editInpBalance').value) || 0;
+        const newTotalDep = parseFloat(document.getElementById('editInpTotalDep').value) || 0;
+        const newTotalWit = parseFloat(document.getElementById('editInpTotalWit').value) || 0;
+        const newVip = parseInt(document.getElementById('editInpVip').value) || 0;
+        const newInvite = document.getElementById('editInpInvite').value.trim();
+        const newPass = document.getElementById('editInpPass').value.trim();
+        const isLocked = document.getElementById('editInpLocked').checked;
+
+        const updateData = {
+          balance: newBal,
+          totalDeposited: newTotalDep,
+          totalWithdrawn: newTotalWit,
+          userVip: newVip,
+          invite: newInvite,
+          inviterPhone: newInvite,
+          isLocked: isLocked
+        };
+        if (newPass.length >= 6) updateData.password = newPass;
+
+        db.ref('users/' + phone).update(updateData).then(() => {
+          document.getElementById('editFullUserModal').classList.add('hidden');
+          this.showToast('Đã cập nhật thông tin thành viên!');
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      openQuickBonus(phone) {
+        document.getElementById('lblQuickPhone').innerText = phone;
+        document.getElementById('quickBonusPhone').value = phone;
+        document.getElementById('quickBonusAmount').value = '';
+        document.getElementById('quickBonusModal').classList.remove('hidden');
+      },
+
+      applyQuickBonus() {
+        const phone = document.getElementById('quickBonusPhone').value;
+        const amount = parseFloat(document.getElementById('quickBonusAmount').value) || 0;
+        if (!amount) return alert('Nhập số tiền hợp lệ!');
+
+        const u = this.users[phone];
+        if (!u) return;
+
+        const newBal = Math.max(0, (u.balance || 0) + amount);
+        db.ref('users/' + phone).update({ balance: newBal }).then(() => {
+          document.getElementById('quickBonusModal').classList.add('hidden');
+          this.showToast(`Đã cập nhật ví ${phone}: ${amount > 0 ? '+' : ''}${this.formatMoney(amount)}`);
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      deleteUserPermanent() {
+        const phone = document.getElementById('editHiddenPhone').value;
+        if (!confirm(`Xóa vĩnh viễn tài khoản ${phone}?`)) return;
+
+        db.ref('users/' + phone).remove().then(() => {
+          document.getElementById('editFullUserModal').classList.add('hidden');
+          this.showToast('Đã xóa thành viên!');
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      createGiftCode() {
+        const custom = document.getElementById('inpCustomCode').value.trim().toUpperCase();
+        const min = parseFloat(document.getElementById('inpCodeMin').value) || 5000;
+        const max = parseFloat(document.getElementById('inpCodeMax').value) || 50000;
+        const maxUses = parseInt(document.getElementById('inpCodeMaxUses').value) || 50;
+
+        if (min > max) return alert('Min không thể lớn hơn Max!');
+
+        const codeStr = custom || ('BINANCE_' + Math.random().toString(36).substring(2, 8).toUpperCase());
+        db.ref('giftcodes/' + codeStr).set({
+          min, max, maxUses,
+          usedCount: 0,
+          usedUsers: {}
+        }).then(() => {
+          document.getElementById('inpCustomCode').value = '';
+          this.showToast(`Đã tạo Giftcode [${codeStr}] thành công!`);
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      deleteGiftcode(code) {
+        if (!confirm(`Xóa mã Giftcode [${code}]?`)) return;
+        db.ref('giftcodes/' + code).remove().then(() => {
+          this.showToast(`Đã xóa giftcode ${code}`);
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      approveDeposit(depId) {
+        const d = this.deposits[depId];
+        if (!d) return;
+
+        db.ref('users/' + d.phone).once('value', snap => {
+          if (!snap.exists()) {
+            this.showToast('Không tìm thấy tài khoản người dùng!', true);
+            return;
+          }
+
+          const user = snap.val();
+          const newBalance = (user.balance || 0) + d.amount;
+          const newTotalDep = (user.totalDeposited || 0) + d.amount;
+          const userOrders = Array.isArray(user.orders) ? user.orders : [];
+
+          const ord = userOrders.find(o => o.id === depId);
+          if (ord) ord.status = 'APPROVED';
+
+          db.ref('users/' + d.phone).update({
+            balance: newBalance,
+            totalDeposited: newTotalDep,
+            hasDeposited: true,
+            orders: userOrders
+          }).then(() => {
+            // Hoa hồng F1 (13%), F2 (2%)
+            const inviter = user.invite || user.inviterPhone;
+            if (inviter) {
+              db.ref('users/' + inviter).once('value', f1Snap => {
+                if (f1Snap.exists()) {
+                  const f1 = f1Snap.val();
+                  const comF1 = d.amount * 0.13;
+                  const f1Bal = (f1.balance || 0) + comF1;
+                  const f1CommTotal = (f1.f1CommissionTotal || 0) + comF1;
+                  const f1DepCount = (f1.f1DepositedCount || 0) + 1;
+
+                  db.ref('users/' + inviter).update({
+                    balance: f1Bal,
+                    f1CommissionTotal: f1CommTotal,
+                    f1DepositedCount: f1DepCount
+                  });
+
+                  const inviter2 = f1.invite || f1.inviterPhone;
+                  if (inviter2) {
+                    db.ref('users/' + inviter2).once('value', f2Snap => {
+                      if (f2Snap.exists()) {
+                        const f2 = f2Snap.val();
+                        const comF2 = d.amount * 0.02;
+                        const f2Bal = (f2.balance || 0) + comF2;
+                        const f2CommTotal = (f2.f2CommissionTotal || 0) + comF2;
+
+                        db.ref('users/' + inviter2).update({
+                          balance: f2Bal,
+                          f2CommissionTotal: f2CommTotal
+                        });
+                      }
+                    });
+                  }
+                }
+              });
+            }
+
+            db.ref(`user_tx_status/${d.phone}/deposits/${depId}`).set({
+              status: 'APPROVED',
+              time: new Date().toLocaleTimeString()
+            });
+
+            db.ref('pending_deposits/' + depId).remove();
+            this.showToast('Đã duyệt nạp thành công! Tiền và hoa hồng đã được cộng.');
+          }).catch(e => this.showToast('Lỗi duyệt nạp: ' + e.message, true));
+        });
+      },
+
+      rejectDepositPrompt(depId) {
+        const d = this.deposits[depId];
+        if (!d) return;
+
+        const reason = prompt('Nhập lý do từ chối lệnh nạp tiền:', 'Chưa nhận được tiền chuyển khoản');
+        if (reason === null) return;
+
+        db.ref(`user_tx_status/${d.phone}/deposits/${depId}`).set({
+          status: 'REJECTED',
+          reason: reason || 'Lệnh nạp bị từ chối'
+        });
+
+        db.ref('users/' + d.phone + '/orders').once('value', snap => {
+          const orders = snap.val() || [];
+          const ord = orders.find(o => o.id === depId);
+          if (ord) ord.status = 'REJECTED';
+          db.ref('users/' + d.phone + '/orders').set(orders);
+        });
+
+        db.ref('pending_deposits/' + depId).remove().then(() => {
+          this.showToast('Đã từ chối lệnh nạp!');
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      approveWithdraw(witId) {
+        const w = this.withdraws[witId];
+        if (!w) return;
+
+        db.ref('users/' + w.phone).once('value', snap => {
+          if (snap.exists()) {
+            const user = snap.val();
+            const newTotalWit = (user.totalWithdrawn || 0) + w.amount;
+            const userOrders = Array.isArray(user.orders) ? user.orders : [];
+            const ord = userOrders.find(o => o.id === witId);
+            if (ord) ord.status = 'APPROVED';
+
+            db.ref('users/' + w.phone).update({
+              totalWithdrawn: newTotalWit,
+              orders: userOrders
+            });
+          }
+
+          db.ref(`user_tx_status/${w.phone}/withdraws/${witId}`).set({
+            status: 'APPROVED',
+            time: new Date().toLocaleTimeString()
+          });
+
+          db.ref('pending_withdraws/' + witId).remove();
+          this.showToast('Đã duyệt giải ngân rút tiền thành công!');
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      rejectWithdrawPrompt(witId) {
+        const w = this.withdraws[witId];
+        if (!w) return;
+
+        const reason = prompt('Nhập lý do từ chối rút tiền (tiền sẽ tự hoàn về ví khách):', 'Sai thông tin ngân hàng thụ hưởng');
+        if (reason === null) return;
+
+        db.ref('users/' + w.phone).once('value', snap => {
+          if (snap.exists()) {
+            const user = snap.val();
+            const refundedBal = (user.balance || 0) + w.amount;
+            const userOrders = Array.isArray(user.orders) ? user.orders : [];
+            const ord = userOrders.find(o => o.id === witId);
+            if (ord) ord.status = 'REJECTED';
+
+            db.ref('users/' + w.phone).update({
+              balance: refundedBal,
+              orders: userOrders
+            });
+          }
+
+          db.ref(`user_tx_status/${w.phone}/withdraws/${witId}`).set({
+            status: 'REJECTED',
+            reason: reason || 'Lệnh rút bị từ chối'
+          });
+
+          db.ref('pending_withdraws/' + witId).remove();
+          this.showToast('Đã từ chối lệnh rút và hoàn trả tiền về ví khách!');
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      toggleLockUser(phone, lockStatus) {
+        db.ref('users/' + phone).update({ isLocked: lockStatus }).then(() => {
+          this.showToast(lockStatus ? `Đã khóa ${phone}` : `Đã mở khóa ${phone}`);
+        }).catch(e => this.showToast('Lỗi: ' + e.message, true));
+      },
+
+      seedSampleData() {
+        const sample = {
+          '0981112222': {
+            phone: '0981112222', password: 'password123', balance: 150000, totalDeposited: 300000, totalWithdrawn: 100000,
+            userVip: 2, hasDeposited: true, hasEverBoughtPackage: true, maxSlots: 2, isLocked: false,
+            activePackages: [{ id: 'p75k', name: 'Dogecoin (DOGE)', price: 75000, vip: 0, startTime: Date.now() }],
+            invite: 'VIP8899', inviterPhone: 'VIP8899', f1CommissionTotal: 39000, f2CommissionTotal: 6000
+          },
+          '0983334444': {
+            phone: '0983334444', password: 'password123', balance: 50000, totalDeposited: 150000, totalWithdrawn: 0,
+            userVip: 1, hasDeposited: true, hasEverBoughtPackage: true, maxSlots: 1, isLocked: false,
+            activePackages: [], invite: '0981112222', inviterPhone: '0981112222'
+          },
+          '0985556666': {
+            phone: '0985556666', password: 'password123', balance: 20000, totalDeposited: 0, totalWithdrawn: 0,
+            userVip: 0, hasDeposited: false, hasEverBoughtPackage: false, maxSlots: 1, isLocked: false,
+            activePackages: [], invite: '0983334444', inviterPhone: '0983334444'
+          }
+        };
+
+        db.ref('users').update(sample).then(() => {
+          this.showToast('🎉 Đã nạp thành công 3 nick mẫu lên Firebase!');
+        }).catch(err => {
+          this.showToast('Lỗi: ' + err.message, true);
+        });
       },
 
       switchTab(tab) {
@@ -786,27 +1162,13 @@
       }
     };
 
-    auth.onAuthStateChanged(async user => {
-      Admin.stopRealtimeData();
-      document.getElementById('gatekeeperScreen').classList.remove('hidden');
-      document.getElementById('adminPanel').classList.add('hidden');
-      if (!user) return;
-      try {
-        const token = await user.getIdTokenResult(true);
-        if (auth.currentUser !== user) return;
-        if (token.claims.admin !== true) {
-          Admin.showToast('Tài khoản chưa có quyền quản trị (admin claim).', true);
-          await auth.signOut();
-          return;
-        }
+    window.onload = function() {
+      if (sessionStorage.getItem('admin_auth') === 'true') {
         document.getElementById('gatekeeperScreen').classList.add('hidden');
         document.getElementById('adminPanel').classList.remove('hidden');
         Admin.listenRealtimeData();
-      } catch (_) {
-        Admin.showToast('Không xác thực được quyền quản trị.', true);
       }
-    });
+    };
   </script>
 </body>
 </html>
-
