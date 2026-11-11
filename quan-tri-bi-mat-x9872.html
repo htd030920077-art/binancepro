@@ -9,6 +9,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-functions-compat.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
@@ -127,7 +128,7 @@
           </button>
         </div>
 
-        <p class="text-xs text-amber-300">Bảng đang hiển thị lệnh chờ xử lý. Mã nguồn hiện chưa có bộ xử lý duyệt/từ chối; việc duyệt tiền cần được triển khai riêng với phân quyền quản trị.</p>
+        <p class="text-xs text-amber-300">Duyệt nạp chỉ sau khi đối soát ngân hàng. Cần triển khai callable approveDeposit và tài khoản có quyền admin. Thao tác từ chối nạp/rút chưa được triển khai.</p>
       <!-- TAB 1: DUYỆT NẠP TIỀN -->
         <div id="tabView-deposits" class="space-y-3">
           <div class="flex items-center justify-between">
@@ -510,7 +511,8 @@
           cells.forEach(value => {
             const cell = document.createElement('td');
             cell.className = 'px-4 py-3';
-            cell.textContent = String(value ?? '');
+            if (value && value.nodeType === 1) cell.appendChild(value);
+            else cell.textContent = String(value ?? '');
             if (!rows.length) cell.colSpan = 6;
             row.appendChild(cell);
           });
@@ -536,7 +538,7 @@
         this.text('badgeDep', deposits.length);
         this.text('badgeWit', withdraws.length);
         this.table('tbodyDeposits', deposits.map(([id, record]) => [
-          id, record.phone, this.formatMoney(record.amount), record.time, 'Chờ duyệt'
+          id, record.phone, this.formatMoney(record.amount), record.time, this.depositActions(id, record)
         ]), 'Chưa có lệnh nạp chờ duyệt.');
         this.table('tbodyWithdraws', withdraws.map(([id, record]) => [
           id, record.phone, `${record.bank || ''} - ${record.stk || ''}`, record.name,
@@ -577,6 +579,34 @@
           record.orderId || id, record.phone, record.action || record.type || record.status,
           record.reason || '', record.time || ''
         ]), 'Chưa có nhật ký hủy.');
+      },
+
+      depositActions(id, record) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'px-3 py-2 rounded-xl bg-emerald-600 text-white font-bold';
+        button.textContent = this._approving?.has(id) ? 'Đang xử lý...' : 'Duyệt nạp';
+        button.disabled = !!this._approving?.has(id);
+        button.onclick = () => this.approveDeposit(id, record);
+        return button;
+      },
+
+      async approveDeposit(id, record) {
+        if (this._approving?.has(id)) return;
+        if (!confirm(`Chỉ duyệt sau khi đối soát ngân hàng. Xác nhận đã nhận ${this.formatMoney(record.amount)} từ ${record.phone}, mã ${id}?`)) return;
+        this._approving ||= new Set();
+        this._approving.add(id);
+        this.render();
+        try {
+          const approve = firebase.app().functions('asia-southeast1').httpsCallable('approveDeposit');
+          await approve({orderId:id,expectedAmount:record.amount,expectedPhone:record.phone});
+          this.showToast('Đã duyệt lệnh nạp; hệ thống đã xử lý hoa hồng và thưởng mời bạn.');
+        } catch (error) {
+          this.showToast('Không duyệt được lệnh: ' + (error.message || error.code), true);
+        } finally {
+          this._approving.delete(id);
+          this.render();
+        }
       },
 
       formatMoney(num) {
