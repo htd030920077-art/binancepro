@@ -913,30 +913,7 @@
       console.warn("Khởi tạo Firebase dự phòng:", e);
     }
 
-    // ==================== CẤU HÌNH BOT TELEGRAM ====================
-    const TELEGRAM_CONFIG = {
-      botToken: '9185715897:AAGv-awurzGIEMl_Xgv7__wvqwQNdti2Uv8',
-      chatId: '-5521775863'
-    };
-
-    async function sendTelegramNotification(text) {
-      if (!TELEGRAM_CONFIG.botToken || !TELEGRAM_CONFIG.chatId) return;
-      try {
-        const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
-        await fetch(url, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: TELEGRAM_CONFIG.chatId,
-            text: text,
-            parse_mode: 'HTML'
-          })
-        });
-      } catch (err) {
-        console.log('Telegram notice sent');
-      }
-    }
+    // Telegram notifications run in Cloud Functions; no bot credentials in this page.
 
     // ==================== DANH MỤC CÁC ĐỒNG COIN QUY ĐỔI ====================
     const catalog = [
@@ -1894,52 +1871,44 @@
     }
 
     // TẠO LỆNH NẠP -> ĐẨY VÀO pending_deposits ĐỂ ADMIN NHÌN THẤY & DUYỆT
-    function submitDepositAction() {
+    let depositSubmitting = false;
+    async function submitDepositAction() {
       if (!currentUser) { openAuthModal('login'); return; }
+      if (depositSubmitting) return;
+      if (!db) { showCustomToast('Chưa kết nối Firebase. Chưa tạo lệnh nạp.'); return; }
       const val = Number(document.getElementById('depositAmountInput').value);
-      if (!val || val < 20000 || val > 10000000) {
-        showCustomToast('Số tiền nạp từ 20.000đ đến 10.000.000đ');
+      if (!Number.isSafeInteger(val) || val < 20000 || val > 10000000) {
+        showCustomToast('Số tiền nạp từ 20.000đ đến 10.000.000đ, không nhập số lẻ');
         return;
       }
-
-      const orderId = 'NAP-' + Math.floor(1000 + Math.random() * 9000);
+      depositSubmitting = true;
+      const button = document.querySelector('#depositModal button[onclick="submitDepositAction()"]');
+      if (button) button.disabled = true;
+      const phone = currentUser.phone;
+      const orderId = db.ref('pending_deposits').push().key;
       const currentTime = new Date().toLocaleString('vi-VN');
-
-      const depRecord = {
-        id: orderId,
-        phone: currentUser.phone,
-        amount: val,
-        time: currentTime,
-        status: 'PENDING'
-      };
-
-      // 1. Đẩy vào pending_deposits/{id} để Admin duyệt
-      if (db) {
-        db.ref('pending_deposits/' + orderId).set(depRecord);
+      const depRecord = { id: orderId, phone, amount: val, time: currentTime, createdAt: Date.now(), status: 'PENDING' };
+      const orders = [{ id: orderId, type: 'deposit', user: `Nhà Đầu Tư #${phone.slice(-4)}`,
+        amount: val, status: 'pending', time: currentTime }, ...(currentUser.orders || [])];
+      try {
+        // Both records commit together, or neither is written.
+        await db.ref().update({
+          ['pending_deposits/' + orderId]: depRecord,
+          ['users/' + phone + '/orders']: orders
+        });
+      } catch (err) {
+        console.error('Không lưu được lệnh nạp:', err.code || err.message);
+        showCustomToast('Không lưu được lệnh nạp: ' + (err.code || err.message));
+        return;
+      } finally {
+        depositSubmitting = false;
+        if (button) button.disabled = false;
       }
-
-      // 2. Lưu vào lịch sử giao dịch cá nhân
-      currentUser.orders = currentUser.orders || [];
-      currentUser.orders.unshift({
-        id: orderId,
-        type: 'deposit',
-        user: `Nhà Đầu Tư #${currentUser.phone.slice(-4)}`,
-        amount: val,
-        status: 'pending',
-        time: currentTime
-      });
-
-      if (db) {
-        db.ref('users/' + currentUser.phone + '/orders').set(currentUser.orders);
-      }
-
+      // The user may have signed out while the request was pending.
+      if (!currentUser || currentUser.phone !== phone) return;
+      currentUser.orders = orders;
       closeModal('depositModal');
       document.getElementById('depositAmountInput').value = '';
-
-      // Tự động bắn thông báo nạp về Telegram
-      const teleMsg = `📥 <b>CÓ ĐƠN NẠP TIỀN MỚI CHỜ DUYỆT</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ Mã đơn: <code>${orderId}</code>\n▫️ Số điện thoại: <b>${currentUser.phone}</b>\n▫️ Số tiền nạp: <b>${formatNumber(val)} đ</b>\n▫️ Thời gian: ${currentTime}`;
-      sendTelegramNotification(teleMsg);
-
       // Hiển thị VietQR (Tự động nhận thông tin STK ngân hàng Admin cài đặt)
       const qrContent = `NT ${currentUser.phone}`;
       const qrUrl = `https://img.vietqr.io/image/${adminBankConfig.bank}-${adminBankConfig.stk}-compact2.png?amount=${val}&addInfo=${encodeURIComponent(qrContent)}&accountName=${encodeURIComponent(adminBankConfig.name)}`;
@@ -2059,9 +2028,8 @@
       triggerCongrat('Đã Gửi Yêu Cầu Rút!', `Lệnh rút ${formatNumber(amount)}đ đã được gửi đến Quản Trị Viên để chờ giải ngân về tài khoản của bạn!`);
       updateUI();
 
-      // Bắn thông báo lệnh rút về Telegram
-      const teleMsg = `⚠️ <b>CÓ LỆNH RÚT TIỀN MỚI CHỜ DUYỆT</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ Mã giao dịch: <code>${orderId}</code>\n▫️ Tài khoản: <b>${currentUser.phone}</b>\n▫️ Số tiền rút: <b>${formatNumber(amount)} đ</b>\n▫️ Ngân hàng / Ví: <b>${bank}</b>\n▫️ Số tài khoản: <code>${accNum}</code>\n▫️ Người nhận: <b>${accName}</b>\n▫️ Thời gian: ${currentTime}`;
-      sendTelegramNotification(teleMsg);
+      // Cloud Functions sends the withdrawal notification after the database write.
+
     }
 
     // ==================== LỊCH SỬ GIAO DỊCH ====================
@@ -2220,3 +2188,4 @@
   </script>
 </body>
 </html>
+
