@@ -10,7 +10,7 @@ let db=null;try{if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
 const TELEGRAM_CONFIG={botToken:'9026086925:AAFfbu1oOyasRCTJJXYzOj-2qanQhhnozsk',chatId:'7865394196'};
 async function sendTelegramNotification(text){if(!TELEGRAM_CONFIG.botToken||!TELEGRAM_CONFIG.chatId)return;try{const url=`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage?chat_id=${encodeURIComponent(TELEGRAM_CONFIG.chatId)}&text=${encodeURIComponent(text)}&parse_mode=HTML`;await fetch(url,{method:'GET',mode:'no-cors'})}catch(e){console.warn('Lỗi gửi Telegram',e)}}
 const sendTelegramAlert=sendTelegramNotification;
-const REGISTRATION_BONUS=10000;
+const REGISTRATION_BONUS=20000;
 const LEGACY_BANK=Object.freeze({bank:'ACB',stk:'54248',name:'HA TRUNG DUC'});
 const BRAND={name:'CoinChaine',domain:'https://coinchaine.xyz',support:'https://t.me/coinchaineprocskh',group:'https://t.me/coinchaineprochat'};
 const $=id=>document.getElementById(id);const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -22,6 +22,25 @@ function openModal(id){$(id)?.classList.add('open');if(id==='depositHistoryModal
 function closeModal(id){$(id)?.classList.remove('open')}
 let toastTimer;function showCustomToast(msg){let t=$('customToast');if(!t){t=document.createElement('div');t.id='customToast';document.body.appendChild(t)}t.className='toast';t.textContent=msg;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add('hidden'),3200)}
 function fail(e){showCustomToast('Không lưu được dữ liệu: '+(e?.message||e))}
+
+// Firebase có thể gọi callback với null từ cache trước khi nhận dữ liệu máy chủ.
+// Không hủy ngay ở trạng thái đó; chỉ nhận thành công khi đã xử lý dữ liệu thật.
+// Không phát sự kiện dữ liệu tạm trong lúc transaction đang thử lại.
+async function runExistingTransaction(ref,change,missingMessage){
+ const initial=await ref.once('value');
+ if(!initial.exists())throw Error(missingMessage);
+ let applied=false,reason=missingMessage;
+ const result=await ref.transaction(value=>{
+  applied=false;
+  if(value===null)return null;
+  const error=change(value);
+  if(error){reason=error;return undefined}
+  applied=true;return value;
+ },undefined,false);
+ if(!result.committed||!applied||!result.snapshot.exists())throw Error(reason);
+ return result;
+}
+
 const catalog=[
 {id:'pfree',name:'Free',symbol:'FREE',price:0,dailyProfit:5000,vip:0,isTrial:true,locked:false,img:'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%235eead4%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2338bdf8%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2226%22%20fill%3D%22%2310232d%22%2F%3E%3Cpath%20d%3D%22M63%2026a28%2028%200%201%200%200%2048%22%20fill%3D%22none%22%20stroke%3D%22url%28%23g%29%22%20stroke-width%3D%2210%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M49%2049l13-13a12%2012%200%200%201%2017%2017L66%2066a12%2012%200%200%201-17-17z%22%20fill%3D%22none%22%20stroke%3D%22%235eead4%22%20stroke-width%3D%227%22%2F%3E%3Cpath%20d%3D%22M59%2051l-9%209%22%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E',desc:'Gói Free được kích hoạt miễn phí một lần cho mỗi tài khoản. Mức cộng theo cấu hình là 5.000đ sau mỗi chu kỳ 24 giờ. Không phải mua tiền mã hóa hoặc gửi vốn cho gói này.'},
 {id:'p150k',name:'Cardano (ADA)',symbol:'ADA',price:100000,vip:1,locked:false,img:'https://assets.coingecko.com/coins/images/975/large/cardano.png',desc:'Cardano là nền tảng blockchain hỗ trợ hợp đồng thông minh. Tên và hình ảnh đồng coin được dùng để phân biệt gói; việc kích hoạt gói không đồng nghĩa mua ADA.'},
@@ -41,7 +60,10 @@ function packageName(p){return p.id==='p75k'?legacyPackage.name:(catalog.find(x=
 function dailyProfit(p){return p.id==='pfree'?5000:(Number.isFinite(Number(p.dailyProfit))?Number(p.dailyProfit):Math.round(Number(p.price||0)*0.12))}
 
 // Tên các nhánh dữ liệu được giữ để tương thích với ứng dụng khách hiện có.
-async function rootTransaction(change){if(!db)throw Error('Không kết nối được Firebase.');await db.ref().once('value');let reason='Không thể lưu thay đổi.';const r=await db.ref().transaction(root=>{if(!root){reason='Chưa có dữ liệu.';return}const error=change(root);if(error){reason=error;return}return root});if(!r.committed)throw Error(reason);return r}
+async function rootTransaction(change){
+ if(!db)throw Error('Không kết nối được Firebase.');
+ return runExistingTransaction(db.ref(),change,'Không tìm thấy dữ liệu trên máy chủ. Vui lòng tải lại bảng quản trị.');
+}
 function act(method,id,label,kind=''){return `<button class="btn ${kind}" onclick="Admin.${method}(${esc(JSON.stringify(String(id)))})">${label}</button>`}
 function emptyRow(cols,msg){return `<tr><td colspan="${cols}" class="muted center">${msg}</td></tr>`}
 const Admin={
@@ -107,9 +129,9 @@ const Admin={
  async rejectWithdrawPrompt(id){const reason=prompt('Lý do từ chối rút (hoàn tiền về ví khách):','Sai thông tin ngân hàng');if(reason===null)return;try{await this._settle('withdraw',id,'REJECTED',reason.trim()||'Lệnh rút bị từ chối');this.showToast('Đã từ chối và hoàn tiền về ví.')}catch(e){fail(e)}},
  async toggleLockUser(phone){try{const r=await db.ref('users/'+phone).transaction(u=>{if(!u)return;u.isLocked=!u.isLocked;return u});if(!r.committed)throw Error('Không tìm thấy tài khoản.');this.showToast('Đã cập nhật khóa tài khoản.')}catch(e){fail(e)}},
  async seedSampleData(){if(!confirm('Thêm 3 tài khoản mẫu chưa có vào dữ liệu hiện tại?'))return;const now=Date.now(),sample={
- '0981112222':{phone:'0981112222',password:'password123',balance:150000,totalDeposited:300000,totalWithdrawn:100000,userVip:2,hasDeposited:true,hasEverBoughtPackage:true,maxSlots:2,isLocked:false,freeClaimed:true,activePackages:[{id:'pfree',name:'Free',price:0,dailyProfit:5000,vip:0,startTime:now,nextPayoutTime:now+86400000}],invite:'',inviterPhone:'',f1CommissionTotal:39000,f2CommissionTotal:6000},
- '0983334444':{phone:'0983334444',password:'password123',balance:50000,totalDeposited:150000,totalWithdrawn:0,userVip:1,hasDeposited:true,hasEverBoughtPackage:true,maxSlots:1,isLocked:false,activePackages:[],invite:'0981112222',inviterPhone:'0981112222'},
- '0985556666':{phone:'0985556666',password:'password123',balance:REGISTRATION_BONUS,totalDeposited:0,totalWithdrawn:0,userVip:0,hasDeposited:false,hasEverBoughtPackage:false,maxSlots:1,isLocked:false,activePackages:[],invite:'0983334444',inviterPhone:'0983334444'}};
+ '0981112222':{phone:'0981112222',password:'password123',balance:150000,totalDeposited:300000,totalWithdrawn:100000,userVip:2,hasDeposited:true,hasEverBoughtPackage:true,isLocked:false,freeClaimed:true,activePackages:[{id:'pfree',name:'Free',price:0,dailyProfit:5000,vip:0,startTime:now,nextPayoutTime:now+86400000}],invite:'',inviterPhone:'',f1CommissionTotal:39000,f2CommissionTotal:6000},
+ '0983334444':{phone:'0983334444',password:'password123',balance:50000,totalDeposited:150000,totalWithdrawn:0,userVip:1,hasDeposited:true,hasEverBoughtPackage:true,isLocked:false,activePackages:[],invite:'0981112222',inviterPhone:'0981112222'},
+ '0985556666':{phone:'0985556666',password:'password123',balance:REGISTRATION_BONUS,totalDeposited:0,totalWithdrawn:0,userVip:0,hasDeposited:false,hasEverBoughtPackage:false,isLocked:false,activePackages:[],invite:'0983334444',inviterPhone:'0983334444'}};
  try{const r=await db.ref('users').transaction(users=>{users=users||{};for(const [phone,u] of Object.entries(sample)){if(!users[phone])users[phone]=u}return users});this.showToast('Đã thêm tài khoản mẫu còn thiếu; giữ nguyên tài khoản đã tồn tại.')}catch(e){fail(e)}},
  switchTab(tab){document.querySelectorAll('.tab-view').forEach(el=>el.classList.toggle('hidden',el.id!=='tabView-'+tab));document.querySelectorAll('.tab-btn').forEach(el=>el.classList.toggle('active',el.dataset.tab===tab))}
 };
