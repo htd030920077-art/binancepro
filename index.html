@@ -275,7 +275,7 @@
           </div>
         </div>
         <p class="text-[11px] text-slate-400 -mt-1">
-          Yêu cầu: Bạn bè phải phát sinh đơn nạp tiền được duyệt
+          Chỉ tính F1 có lệnh nạp được admin duyệt. Mỗi người tính một lần; thưởng mốc tự cộng vào ví.
         </p>
 
         <div id="friendTasksContainer" class="space-y-3 pt-1"></div>
@@ -308,7 +308,7 @@
           <i class="fa-solid fa-link binance-yellow"></i> Link Đăng Ký (Tự Động Nhập Mã Mời)
         </div>
         <div class="flex gap-2">
-          <input type="text" id="refLinkVal" value="https://binancepro.cloud/index.html?ref=VIP8899" readonly class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-semibold text-slate-300 outline-none">
+          <input type="text" id="refLinkVal" value="Đăng nhập để lấy link mời của bạn" readonly class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-semibold text-slate-300 outline-none">
           <button onclick="requireAuthAction(() => copyRefLink())" class="px-4 py-2 binance-btn-yellow font-black text-xs rounded-xl active:scale-95 transition-all shadow-sm">
             Sao chép
           </button>
@@ -1131,6 +1131,9 @@
         refRow.classList.remove('hidden');
         agreementRow.classList.remove('hidden');
         submitBtnText.innerText = "Đăng Ký & Nhận 20.000đ";
+        const refInput = document.getElementById('authRefInput');
+        const savedRef = localStorage.getItem('binancepro_referrer');
+        if (refInput && !refInput.value && /^0\d{9}$/.test(savedRef || '')) refInput.value = savedRef;
       }
     }
 
@@ -1145,7 +1148,7 @@
       const pass = document.getElementById('authPassInput').value.trim();
       const captchaInput = document.getElementById('authCaptchaInput').value.trim();
 
-      if (!phone || phone.length < 9) {
+      if (!/^0\d{9}$/.test(phone)) {
         showCustomToast('Vui lòng nhập số điện thoại hợp lệ!');
         return;
       }
@@ -1202,14 +1205,27 @@
           return;
         }
 
-        userRef.once('value', snap => {
+        userRef.once('value', async snap => {
           if (snap.exists()) {
             showCustomToast('Số điện thoại này đã được đăng ký trên hệ thống!');
             switchAuthTab('login');
             return;
           }
 
-          const refCode = document.getElementById('authRefInput').value.trim().toUpperCase();
+          const refCode = document.getElementById('authRefInput').value.trim();
+          if (refCode && (!/^0\d{9}$/.test(refCode) || refCode === phone)) {
+            showCustomToast('Mã giới thiệu phải là SĐT người mời, không được tự mời mình.');
+            return;
+          }
+          if (refCode) {
+            let inviter;
+            try { inviter = await db.ref('users/' + refCode).once('value'); }
+            catch (error) { showCustomToast('Không kiểm tra được người mời. Vui lòng thử lại.'); return; }
+            if (!inviter.exists()) {
+              showCustomToast('Người giới thiệu không tồn tại.');
+              return;
+            }
+          }
           const newUser = {
             phone: phone,
             password: pass,
@@ -1237,15 +1253,20 @@
           };
 
           // Lưu người dùng độc lập - KHÔNG ghi đè người khác
-          userRef.set(newUser).then(() => {
+          userRef.transaction(existing => existing === null ? newUser : undefined).then(result => {
+            if (!result.committed) {
+              showCustomToast('Số điện thoại này đã có tài khoản. Vui lòng đăng nhập.');
+              return;
+            }
+            localStorage.removeItem('binancepro_referrer');
             currentUser = newUser;
             localStorage.setItem('binance_pro_current_phone', phone);
             closeModal('authModal');
             triggerCongrat('Đăng Ký Thành Công!', 'Chúc mừng bạn đã tạo tài khoản và nhận ngay +20.000đ vốn tân thủ vào ví!');
             listenUserRealtime(phone);
             updateUI();
-          });
-        });
+          }).catch(error => showCustomToast('Không tạo được tài khoản: ' + (error.code || error.message)));
+        }, error => showCustomToast('Không đọc được tài khoản: ' + (error.code || error.message)));
       }
     }
 
@@ -1379,7 +1400,7 @@
         document.getElementById('statF1Comm').innerText = formatNumber(currentUser.f1CommissionTotal || 0) + ' đ';
         document.getElementById('statF2Comm').innerText = formatNumber(currentUser.f2CommissionTotal || 0) + ' đ';
         document.getElementById('taskF1CountTop').innerText = currentUser.f1DepositedCount || 0;
-        document.getElementById('refLinkVal').value = `${window.location.origin}${window.location.pathname}?ref=${currentUser.phone}`;
+        document.getElementById('refLinkVal').value = `https://binancepro.cloud/?ref=${encodeURIComponent(currentUser.phone)}`;
       } else {
         meNameText.innerText = "Chưa Đăng Nhập";
         mePhoneText.innerText = "Vui lòng đăng nhập tài khoản";
@@ -1394,6 +1415,7 @@
         document.getElementById('statF1Comm').innerText = '0 đ';
         document.getElementById('statF2Comm').innerText = '0 đ';
         document.getElementById('taskF1CountTop').innerText = 0;
+        document.getElementById('refLinkVal').value = 'Đăng nhập để lấy link mời của bạn';
       }
 
       renderProductsTab();
@@ -1718,7 +1740,7 @@
         if (isClaimed) {
           btnContent = `<button disabled class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-500 font-bold text-xs cursor-not-allowed">Đã nhận</button>`;
         } else if (isReady) {
-          btnContent = `<button onclick="requireAuthAction(() => claimFriendRewardAction(${m.count}, ${m.rew}))" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs active:scale-95 shadow-sm">Nhận thưởng</button>`;
+          btnContent = `<button disabled class="px-3 py-1.5 rounded-xl bg-slate-800 text-amber-400 text-xs">Chờ hệ thống cộng thưởng</button>`;
         } else {
           btnContent = `<button disabled class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-500 font-bold text-xs cursor-not-allowed border border-slate-700">${f1Count}/${m.count}</button>`;
         }
@@ -1772,25 +1794,6 @@
       updateUI();
     }
 
-    function claimFriendRewardAction(count, rew) {
-      if (!currentUser) return;
-      if (!currentUser.taskClaimed) currentUser.taskClaimed = {};
-      if ((currentUser.f1DepositedCount || 0) >= count && !currentUser.taskClaimed[count]) {
-        currentUser.taskClaimed[count] = true;
-        currentUser.balance = (currentUser.balance || 0) + rew;
-
-        if (db) {
-          db.ref('users/' + currentUser.phone).update({
-            balance: currentUser.balance,
-            taskClaimed: currentUser.taskClaimed
-          });
-        }
-
-        triggerCongrat('Nhận Thưởng Thành Công!', `Đã nhận +${formatNumber(rew)}đ khi đạt mốc mời ${count} người nạp.`);
-        updateUI();
-      }
-    }
-
     // ==================== TAB ĐỘI NHÓM & BỘ LỌC CHUẨN XÁC ====================
     function filterTeam(filterType) {
       teamFilter = filterType;
@@ -1830,9 +1833,9 @@
         });
 
         if (filter === 'deposited') {
-          f1List = f1List.filter(f1 => (f1.totalDeposited || 0) > 0 || f1.hasDeposited);
+          f1List = f1List.filter(f1 => Number(f1.totalDeposited || 0) > 0);
         } else if (filter === 'unpaid') {
-          f1List = f1List.filter(f1 => !((f1.totalDeposited || 0) > 0 || f1.hasDeposited));
+          f1List = f1List.filter(f1 => !(Number(f1.totalDeposited || 0) > 0));
         }
 
         if (f1List.length === 0) {
@@ -1850,7 +1853,7 @@
               </div>
               <div class="text-right">
                 <span class="binance-yellow font-black">+${formatNumber(totalF1Dep * 0.13)}đ</span>
-                <div class="text-[10px] text-slate-400">Hoa hồng 13%</div>
+                <div class="text-[10px] text-slate-400">Ước tính theo tổng nạp 13%</div>
               </div>
             </div>
           `;
@@ -1858,11 +1861,18 @@
       });
     }
 
-    function copyRefLink() {
+    async function copyRefLink() {
+      if (!currentUser) return;
+      const link = `https://binancepro.cloud/?ref=${encodeURIComponent(currentUser.phone)}`;
       const input = document.getElementById('refLinkVal');
-      input.select();
-      navigator.clipboard.writeText(input.value);
-      showCustomToast('Đã sao chép link mời!');
+      input.value = link;
+      try {
+        await navigator.clipboard.writeText(link);
+        showCustomToast('Đã sao chép link mời!');
+      } catch (_) {
+        input.focus(); input.select();
+        showCustomToast('Chạm giữ ô link để sao chép.');
+      }
     }
 
     // ==================== NẠP & RÚT TIỀN: LIÊN KẾT 100% VỚI ADMIN ====================
@@ -2144,10 +2154,11 @@
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       const ref = urlParams.get('ref');
-      if (ref) {
+      if (ref && /^0\d{9}$/.test(ref)) {
+        if (!localStorage.getItem('binancepro_referrer')) localStorage.setItem('binancepro_referrer', ref);
         openAuthModal('register');
         const refInput = document.getElementById('authRefInput');
-        if (refInput) refInput.value = ref;
+        if (refInput) refInput.value = localStorage.getItem('binancepro_referrer');
       }
 
       const savedPhone = localStorage.getItem('binance_pro_current_phone');
