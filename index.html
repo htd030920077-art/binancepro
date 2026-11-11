@@ -7,48 +7,70 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Binance Pro - Nền Tảng Đầu Tư</title>
+  <title>Binance Pro - Nền Tảng Đầu Tư Tiền Mã Hóa Hàng Đầu</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
-      background-color: #f1f5f9;
+      background-color: #0b0e11;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(240, 185, 11, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(240, 185, 11, 0.05) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10 L40 20 L30 30 L20 20 Z M30 35 L40 45 L30 55 L20 45 Z M10 30 L20 40 L10 50 L0 40 Z M50 30 L60 40 L50 50 L40 40 Z' fill='%23f0b90b' fill-opacity='0.02'/%3E%3C/svg%3E");
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
+    .binance-bg-card {
+      background: linear-gradient(145deg, rgba(30, 35, 41, 0.95), rgba(24, 28, 33, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .binance-yellow { color: #F0B90B; }
+    .binance-btn-yellow {
+      background: #F0B90B;
+      color: #0b0e11;
+    }
+    .binance-btn-yellow:hover {
+      background: #fcd535;
+    }
+    .watermark-binance {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' fill='%23F0B90B' opacity='0.025'%3E%3Cpath d='M12 0L6.22 5.78l2.12 2.12L12 4.24l3.66 3.66 2.12-2.12L12 0zm5.78 6.22L12 12l-5.78-5.78L4.08 8.34 12 16.26l7.92-7.92-2.14-2.12zM12 14.14l-2.12 2.12L12 18.38l2.12-2.12L12 14.14zm5.78-2.12L12 17.8l-5.78-5.78L2.14 14.14 12 24l9.86-9.86-4.08-3.92z'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 100px 100px;
+    }
   </style>
 </head>
-<body class="flex justify-center min-h-screen text-slate-800 antialiased select-none">
+<body class="flex justify-center min-h-screen text-slate-100 antialiased select-none">
   <!-- Mobile Container -->
-  <div class="w-full max-w-md bg-white min-h-screen flex flex-col relative shadow-xl pb-20">
+  <div class="w-full max-w-md bg-[#181a20] min-h-screen flex flex-col relative shadow-2xl pb-20 watermark-binance border-x border-slate-800">
   
-  <!-- MÀN HÌNH BẢO TRÌ SERVER (KHI ADMIN BẬT BẢO TRÌ) -->
-  <div id="maintenanceScreen" class="fixed inset-0 z-[100] bg-slate-950 flex hidden flex-col items-center justify-center p-6 text-center text-white">
-    <div class="w-20 h-20 rounded-3xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-4xl mb-4 shadow-xl shadow-amber-500/10">
-      <i class="fa-solid fa-screwdriver-wrench animate-bounce"></i>
+    <!-- MÀN HÌNH BẢO TRÌ SERVER (ĐỒNG BỘ TRỰC TIẾP TỪ ADMIN) -->
+    <div id="maintenanceScreen" class="fixed inset-0 z-[100] bg-slate-950 flex hidden flex-col items-center justify-center p-6 text-center text-white">
+      <div class="w-20 h-20 rounded-3xl bg-[#F0B90B]/10 border border-[#F0B90B]/30 flex items-center justify-center text-[#F0B90B] text-4xl mb-4 shadow-xl shadow-yellow-500/10">
+        <i class="fa-solid fa-screwdriver-wrench animate-bounce"></i>
+      </div>
+      <h2 class="text-xl font-black text-white tracking-tight">HỆ THỐNG ĐANG BẢO TRÌ</h2>
+      <p class="text-xs text-slate-400 mt-2 max-w-xs leading-relaxed">
+        Server Binance Pro đang tiến hành nâng cấp hạ tầng định kỳ để nâng cao trải nghiệm đầu tư và bảo mật. Vui lòng quay lại sau!
+      </p>
+      <div class="mt-6 px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-[11px] font-mono">
+        Trạng thái: Máy chủ tạm ngưng phục vụ
+      </div>
     </div>
-    <h2 class="text-xl font-black text-white tracking-tight">HỆ THỐNG ĐANG BẢO TRÌ</h2>
-    <p class="text-xs text-slate-400 mt-2 max-w-xs leading-relaxed">
-      Server Binance Pro đang tiến hành nâng cấp hạ tầng định kỳ để nâng cao trải nghiệm đầu tư và bảo mật. Vui lòng quay lại sau!
-    </p>
-    <div class="mt-6 px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-[11px] font-mono">
-      Thời gian dự kiến: 30 - 60 phút
-    </div>
-  </div>
 
-    <!-- Header Binance Pro -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+    <!-- Header Binance Pro với Logo Chính Hãng -->
+    <header class="sticky top-0 z-40 bg-[#181a20]/95 backdrop-blur-md px-4 py-3 border-b border-slate-800 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 to-yellow-500 flex items-center justify-center text-slate-900 shadow-md shadow-yellow-500/20 font-black">
-          <i class="fa-solid fa-cubes text-lg text-slate-900"></i>
+        <!-- Logo Binance Thật Sắc Nét -->
+        <div class="w-9 h-9 rounded-xl bg-[#F0B90B] flex items-center justify-center shadow-md shadow-yellow-500/20 p-1 shrink-0 overflow-hidden">
+          <img src="https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png" alt="Binance Logo" class="w-full h-full object-contain">
         </div>
         <div>
           <div class="flex items-center gap-1">
-            <span class="font-extrabold text-base tracking-tight text-slate-900">BINANCE <span class="text-amber-500">PRO</span></span>
+            <span class="font-extrabold text-base tracking-tight text-white">BINANCE <span class="binance-yellow">PRO</span></span>
           </div>
           <div class="flex items-center gap-1.5 text-[11px] font-medium text-slate-400">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -59,7 +81,7 @@
       
       <!-- Nút Đăng Nhập / Trạng thái trên Header -->
       <div id="headerAuthContainer">
-        <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-amber-500 text-white font-bold text-xs shadow-sm active:scale-95 transition-transform">
+        <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3 py-1.5 rounded-full binance-btn-yellow font-black text-xs shadow-sm active:scale-95 transition-transform">
           <i class="fa-solid fa-right-to-bracket text-xs"></i>
           <span>Đăng Nhập</span>
         </button>
@@ -69,70 +91,117 @@
     <!-- ==================== TAB 1: TRANG CHỦ ==================== -->
     <main id="tab-home" class="tab-content active px-4 py-3 space-y-4">
       <!-- Khung số dư ví & 2 nút Nạp / Rút -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mt-1">
+      <div class="binance-bg-card rounded-2xl p-4 shadow-lg mt-1 border border-slate-800 relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-32 h-32 opacity-5 pointer-events-none">
+          <img src="https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png" alt="BNB" class="w-full h-full object-contain">
+        </div>
         <div class="flex justify-between items-center text-xs font-semibold text-slate-400">
           <span>Tổng tài sản ví</span>
-          <span id="homeSlotPreview" class="px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 font-bold text-[10px]">0/1 Gói</span>
+          <span id="homeSlotPreview" class="px-2 py-0.5 rounded-full bg-yellow-500/10 text-[#F0B90B] font-bold text-[10px] border border-[#F0B90B]/20">0/1 Gói</span>
         </div>
         <div class="flex items-baseline gap-1 my-1">
-          <span id="homeBalanceVal" class="text-2xl font-black text-slate-800 tracking-tight">0</span>
-          <span class="text-sm font-bold text-amber-500">đ</span>
+          <span id="homeBalanceVal" class="text-2xl font-black text-white tracking-tight">0</span>
+          <span class="text-sm font-bold binance-yellow">đ</span>
         </div>
         <div class="grid grid-cols-2 gap-3 mt-3">
-          <button onclick="requireAuthAction(() => openModal('depositModal'))" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md shadow-amber-500/25 active:scale-95 transition-transform">
+          <button onclick="requireAuthAction(() => openModal('depositModal'))" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl binance-btn-yellow font-black text-sm shadow-md active:scale-95 transition-transform">
             <i class="fa-solid fa-wallet text-xs"></i>
             Nạp tiền
           </button>
-          <button onclick="requireAuthAction(() => handleWithdrawClick())" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-md shadow-emerald-500/25 active:scale-95 transition-transform">
+          <button onclick="requireAuthAction(() => handleWithdrawClick())" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-md active:scale-95 transition-transform">
             <i class="fa-solid fa-money-bill-transfer text-xs"></i>
             Rút tiền
           </button>
         </div>
       </div>
 
+      <!-- Banner Minh Họa Thị Trường Crypto Phong Cách Sàn -->
+      <div class="rounded-2xl overflow-hidden shadow-lg border border-slate-800 relative bg-gradient-to-r from-slate-900 via-[#1e2329] to-slate-900 p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#F0B90B]">
+              <i class="fa-solid fa-chart-line"></i> Thị Trường Tiền Mã Hóa 24/7
+            </div>
+            <div class="text-sm font-extrabold text-white mt-1">Thuật Toán Ký Quỹ Định Lượng AI</div>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">Tự động kết nối sổ lệnh thanh khoản liên sàn hàng đầu.</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-[#0b0e11] p-2 border border-yellow-500/30 flex items-center justify-center shrink-0 shadow-lg">
+            <i class="fa-solid fa-coins text-2xl text-[#F0B90B]"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Giới Thiệu Binance Từ Bắt Đầu Đến Nay -->
+      <div class="binance-bg-card rounded-2xl p-4 text-white shadow-lg space-y-3 border border-yellow-500/20 relative overflow-hidden">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-2.5">
+          <div class="w-10 h-10 rounded-xl bg-[#F0B90B] p-1.5 flex items-center justify-center shrink-0">
+            <img src="https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png" alt="Binance Logo" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <div class="text-xs font-black binance-yellow uppercase tracking-wider">Hệ Sinh Thái Blockchain Số 1 Thế Giới</div>
+            <div class="text-sm font-bold text-white">Lịch Sử & Uy Tín Của Binance</div>
+          </div>
+        </div>
+        
+        <div class="space-y-2 text-xs text-slate-300 leading-relaxed">
+          <div class="flex gap-2">
+            <span class="text-yellow-400 font-bold shrink-0">• 2017:</span>
+            <span>Thành lập bởi Changpeng Zhao (CZ). Đạt vị thế sàn giao dịch lớn nhất thế giới chỉ sau 180 ngày hoạt động.</span>
+          </div>
+          <div class="flex gap-2">
+            <span class="text-yellow-400 font-bold shrink-0">• 2019-2021:</span>
+            <span>Phát triển BNB Chain, hệ sinh thái tài chính phi tập trung (DeFi) và Web3 với hàng trăm triệu lượt giao dịch.</span>
+          </div>
+          <div class="flex gap-2">
+            <span class="text-yellow-400 font-bold shrink-0">• Hiện Nay:</span>
+            <span>Phục vụ trên 200 triệu người dùng tại 180 quốc gia. Quỹ SAFU bảo hiểm tài sản độc lập trị giá hàng tỷ USD.</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Bảng Giới Thiệu 1: Cơ chế sinh lời -->
-      <div class="bg-gradient-to-br from-amber-50 via-white to-orange-50 rounded-2xl p-4 border border-amber-100/80 shadow-sm space-y-2">
-        <div class="flex items-center gap-2 text-slate-800 font-extrabold text-xs uppercase tracking-wide">
-          <div class="w-6 h-6 rounded-lg bg-amber-500 text-white flex items-center justify-center text-xs shadow-xs">
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-2">
+        <div class="flex items-center gap-2 text-white font-extrabold text-xs uppercase tracking-wide">
+          <div class="w-6 h-6 rounded-lg bg-[#F0B90B] text-slate-950 flex items-center justify-center text-xs shadow-xs">
             <i class="fa-solid fa-bolt"></i>
           </div>
-          <span>Cơ Chế Lợi Nhuận 12% / Ngày</span>
+          <span>Cơ Chế Ký Quỹ Lãi 12% / Ngày</span>
         </div>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Nền tảng vận hành các hợp đồng ủy thác thuật toán định lượng. Khi tham gia gói đầu tư, hệ thống bắt đầu chu kỳ tính lãi độc lập và hoàn trả đủ 12% lợi nhuận sau tròn 24 giờ.
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Nền tảng vận hành các hợp đồng ủy thác thuật toán định lượng quy đổi tương đương các đồng coin lớn. Sau tròn 24 giờ ký quỹ, hệ thống tự động hoàn vốn và quyết toán lãi 12% vào ví.
         </p>
       </div>
 
       <!-- Bảng Giới Thiệu 2: Thanh Khoản & Bảo Hiểm -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-2.5">
-        <div class="flex items-center gap-2 text-slate-800 font-extrabold text-xs uppercase tracking-wide">
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-2.5">
+        <div class="flex items-center gap-2 text-white font-extrabold text-xs uppercase tracking-wide">
           <div class="w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-xs shadow-xs">
             <i class="fa-solid fa-shield-halved"></i>
           </div>
-          <span>Bảo Hiểm Vốn & Thanh Khoản 24/7</span>
+          <span>Bảo Hiểm SAFU & Thanh Khoản 24/7</span>
         </div>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <p class="text-xs text-slate-400 leading-relaxed">
           Hệ thống đảm bảo bảo lưu nguồn vốn, miễn phí giao dịch rút tiền 0% từ 25.000đ về thẻ ngân hàng hoặc các ví điện tử liên kết.
         </p>
       </div>
 
       <!-- Bảng Giới Thiệu 3: Hướng Dẫn 3 Bước -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
-        <div class="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-1.5">
-          <i class="fa-solid fa-list-ol text-amber-500"></i> 3 Bước Tham Gia Dễ Dàng
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3">
+        <div class="text-xs font-extrabold text-white uppercase tracking-wide flex items-center gap-1.5">
+          <i class="fa-solid fa-list-ol binance-yellow"></i> 3 Bước Tham Gia Dễ Dàng
         </div>
         <div class="space-y-2 text-xs">
           <div class="flex items-start gap-2.5">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
-            <div class="text-slate-600"><strong>Đăng ký tài khoản:</strong> Tạo tài khoản mới nhận ngay 20.000đ vốn trải nghiệm.</div>
+            <span class="w-5 h-5 rounded-full bg-slate-800 text-yellow-400 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 border border-slate-700">1</span>
+            <div class="text-slate-400"><strong class="text-slate-200">Đăng ký tài khoản:</strong> Tạo tài khoản mới nhận ngay 20.000đ vốn trải nghiệm.</div>
           </div>
           <div class="flex items-start gap-2.5">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
-            <div class="text-slate-600"><strong>Kích hoạt gói đầu tư:</strong> Chọn gói phù hợp tại mục Sản phẩm để sinh lời 12%/ngày.</div>
+            <span class="w-5 h-5 rounded-full bg-slate-800 text-yellow-400 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 border border-slate-700">2</span>
+            <div class="text-slate-400"><strong class="text-slate-200">Kích hoạt gói coin:</strong> Chọn gói coin phù hợp tại mục Sản phẩm để sinh lời 12%/ngày.</div>
           </div>
           <div class="flex items-start gap-2.5">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
-            <div class="text-slate-600"><strong>Thu hoạch lợi nhuận & Rút tiền:</strong> Nhận lợi nhuận sau đúng 24h và tạo lệnh rút tiền 0% phí.</div>
+            <span class="w-5 h-5 rounded-full bg-slate-800 text-yellow-400 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 border border-slate-700">3</span>
+            <div class="text-slate-400"><strong class="text-slate-200">Thu hoạch lợi nhuận & Rút tiền:</strong> Nhận lợi nhuận sau đúng 24h và tạo lệnh rút tiền 0% phí.</div>
           </div>
         </div>
       </div>
@@ -141,75 +210,72 @@
     <!-- ==================== TAB 2: SẢN PHẨM ==================== -->
     <main id="tab-products" class="tab-content px-4 py-3 space-y-3">
       <!-- Khung hiển thị Slot chứa gói -->
-      <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-3.5 flex items-center justify-between">
+      <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3.5 flex items-center justify-between">
         <div>
-          <div class="text-[11px] font-bold text-emerald-700">Ô Chứa Gói Đầu Tư:</div>
-          <div id="slotStatusBadge" class="text-sm font-extrabold text-emerald-900 mt-0.5">0 / 1 Gói Đang Chạy</div>
+          <div class="text-[11px] font-bold text-emerald-400">Ô Chứa Gói Ký Quỹ:</div>
+          <div id="slotStatusBadge" class="text-sm font-extrabold text-emerald-200 mt-0.5">0 / 1 Gói Đang Chạy</div>
         </div>
-        <button onclick="requireAuthAction(() => openModal('buySlotModal'))" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all">
+        <button onclick="requireAuthAction(() => openModal('buySlotModal'))" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all">
           <i class="fa-solid fa-plus text-[10px]"></i> Mua thêm ô (20.000đ)
         </button>
       </div>
 
-      <!-- Danh sách gói đang chạy (Bộ đếm ngược thời gian chuẩn) -->
+      <!-- Danh sách gói đang chạy -->
       <div id="activePackagesBox" class="space-y-2.5"></div>
 
       <div class="flex items-center justify-between pt-1">
-        <h3 class="text-xs font-black text-slate-600 uppercase tracking-wider">Danh Mục Gói Đầu Tư (Lãi 12%/ngày)</h3>
+        <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider">Danh Mục Ký Quỹ Coin (Lãi 12%/ngày)</h3>
       </div>
 
-      <!-- Danh mục các gói kèm chi tiết đầy đủ -->
+      <!-- Danh mục các gói coin -->
       <div id="catalogList" class="space-y-3"></div>
     </main>
 
     <!-- ==================== TAB 3: NHIỆM VỤ ==================== -->
     <main id="tab-tasks" class="tab-content px-4 py-3 space-y-4">
-      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 p-4 text-white shadow-lg shadow-orange-500/25">
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 p-4 text-white shadow-lg">
         <div class="relative z-10">
-          <span class="inline-block px-2.5 py-0.5 rounded-full bg-white/20 text-white font-semibold text-[10px] backdrop-blur-sm mb-1.5">Tích Lũy Thưởng</span>
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-black/20 text-white font-semibold text-[10px] backdrop-blur-sm mb-1.5 border border-white/10">Tích Lũy Thưởng</span>
           <h2 class="text-lg font-black tracking-tight leading-snug">Trung Tâm Nhiệm Vụ</h2>
-          <p class="text-xs text-orange-100 font-medium mt-0.5">Điểm danh nhận tiền & thưởng giới thiệu bạn bè</p>
+          <p class="text-xs text-amber-100 font-medium mt-0.5">Điểm danh nhận tiền & thưởng giới thiệu bạn bè</p>
         </div>
-        <i class="fa-solid fa-gift absolute -right-2 -bottom-3 text-7xl text-white/20 pointer-events-none"></i>
+        <i class="fa-solid fa-gift absolute -right-2 -bottom-3 text-7xl text-white/10 pointer-events-none"></i>
       </div>
 
       <!-- Khung Điểm danh 7 ngày -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3">
         <div class="flex items-start justify-between">
           <div>
-            <div class="text-xs font-extrabold text-slate-800 flex items-center gap-1.5">
-              <i class="fa-solid fa-calendar-check text-amber-500"></i> ĐIỂM DANH 7 NGÀY
+            <div class="text-xs font-extrabold text-white flex items-center gap-1.5">
+              <i class="fa-solid fa-calendar-check binance-yellow"></i> ĐIỂM DANH 7 NGÀY
             </div>
-            <p class="text-[11px] text-slate-400 mt-0.5 leading-relaxed">
-              Ngày 1 nhận 1.000đ, tích lũy ngày 7 nhận x2 (14.000đ)
-            </p>
           </div>
-          <button id="taskDailyBtn" onclick="requireAuthAction(() => doDailyAttendance())" class="px-3 py-1.5 rounded-xl font-bold text-xs transition-all flex items-center gap-1 bg-amber-500 hover:bg-amber-600 text-white shadow-sm active:scale-95">
+          <button id="taskDailyBtn" onclick="requireAuthAction(() => doDailyAttendance())" class="px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center gap-1 binance-btn-yellow shadow-sm active:scale-95">
             Điểm danh
           </button>
         </div>
 
-        <div class="flex items-center justify-between text-[11px] text-slate-400 bg-slate-50 px-3 py-2 rounded-xl">
+        <div class="flex items-center justify-between text-[11px] text-slate-400 bg-slate-900/80 px-3 py-2 rounded-xl border border-slate-800">
           <span>Mỗi ngày 1 lần • Tự động mở lại lúc:</span>
-          <span class="font-bold text-amber-600">00:00 hàng ngày</span>
+          <span class="font-bold binance-yellow">00:00 (Giờ Việt Nam)</span>
         </div>
 
         <div id="attendanceGrid" class="grid grid-cols-4 gap-2 pt-1"></div>
       </div>
 
       <!-- Mời bạn bè nạp tiền -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3">
         <div class="flex items-center justify-between">
-          <div class="text-xs font-extrabold text-slate-800 flex items-center gap-1.5">
-            <i class="fa-solid fa-user-plus text-amber-500"></i> MỜI BẠN BÈ NẠP TIỀN
+          <div class="text-xs font-extrabold text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-user-plus binance-yellow"></i> MỜI BẠN BÈ NẠP TIỀN
           </div>
           <div class="text-right">
-            <span id="taskF1CountTop" class="text-sm font-black text-amber-600">0</span>
+            <span id="taskF1CountTop" class="text-sm font-black binance-yellow">0</span>
             <div class="text-[10px] text-slate-400 font-semibold leading-none">Người nạp</div>
           </div>
         </div>
         <p class="text-[11px] text-slate-400 -mt-1">
-          Yêu cầu: Bạn bè phải phát sinh đơn nạp tiền
+          Yêu cầu: Bạn bè phải phát sinh đơn nạp tiền được duyệt
         </p>
 
         <div id="friendTasksContainer" class="space-y-3 pt-1"></div>
@@ -218,88 +284,88 @@
 
     <!-- ==================== TAB 4: ĐỘI NHÓM ==================== -->
     <main id="tab-team" class="tab-content px-4 py-3 space-y-4">
-      <div class="rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-600 p-4 text-white shadow-lg shadow-yellow-600/20">
-        <span class="inline-block px-2.5 py-0.5 rounded-full bg-white/20 text-white font-semibold text-[10px] mb-1.5">Hoa Hồng Giới Thiệu</span>
+      <div class="rounded-2xl bg-gradient-to-r from-amber-600 to-yellow-600 p-4 text-white shadow-lg">
+        <span class="inline-block px-2.5 py-0.5 rounded-full bg-black/20 text-white font-semibold text-[10px] mb-1.5 border border-white/10">Hoa Hồng Giới Thiệu</span>
         <h2 class="text-lg font-black tracking-tight leading-snug">F1 Nhận 13% • F2 Nhận 2%</h2>
         <p class="text-xs text-amber-100 font-medium mt-0.5">Tiền hoa hồng được cộng ngay vào ví khi tuyến dưới nạp tiền</p>
       </div>
 
       <!-- 2 Ô Thống kê hoa hồng F1 & F2 -->
       <div class="grid grid-cols-2 gap-3">
-        <div class="bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm text-center">
+        <div class="binance-bg-card rounded-2xl p-3.5 border border-slate-800 shadow-sm text-center">
           <div class="text-[11px] font-bold text-slate-400 uppercase">Hoa Hồng F1 (13%)</div>
-          <div id="statF1Comm" class="text-base font-black text-amber-600 mt-1">0 đ</div>
+          <div id="statF1Comm" class="text-base font-black binance-yellow mt-1">0 đ</div>
         </div>
-        <div class="bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm text-center">
+        <div class="binance-bg-card rounded-2xl p-3.5 border border-slate-800 shadow-sm text-center">
           <div class="text-[11px] font-bold text-slate-400 uppercase">Hoa Hồng F2 (2%)</div>
-          <div id="statF2Comm" class="text-base font-black text-yellow-600 mt-1">0 đ</div>
+          <div id="statF2Comm" class="text-base font-black text-amber-400 mt-1">0 đ</div>
         </div>
       </div>
 
-      <!-- Link mời (Đã đồng bộ domain binancepro.cloud) -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-2">
-        <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-          <i class="fa-solid fa-link text-amber-500"></i> Link Đăng Ký (Tự Động Nhập Mã Mời)
+      <!-- Link mời -->
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-2">
+        <div class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+          <i class="fa-solid fa-link binance-yellow"></i> Link Đăng Ký (Tự Động Nhập Mã Mời)
         </div>
         <div class="flex gap-2">
-          <input type="text" id="refLinkVal" value="https://binancepro.cloud/index.html?ref=VIP8899" readonly class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-600 outline-none">
-          <button onclick="requireAuthAction(() => copyRefLink())" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl active:scale-95 transition-all shadow-sm">
+          <input type="text" id="refLinkVal" value="https://binancepro.cloud/index.html?ref=VIP8899" readonly class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-semibold text-slate-300 outline-none">
+          <button onclick="requireAuthAction(() => copyRefLink())" class="px-4 py-2 binance-btn-yellow font-black text-xs rounded-xl active:scale-95 transition-all shadow-sm">
             Sao chép
           </button>
         </div>
       </div>
 
-      <!-- Tuyến dưới -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
+      <!-- Tuyến dưới kèm bộ lọc 3 nút -->
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-700">Danh Sách Tuyến Dưới</span>
+          <span class="text-xs font-bold text-slate-300">Danh Sách Tuyến Dưới</span>
         </div>
-        <div class="flex gap-1.5 bg-slate-100 p-1 rounded-xl">
-          <button onclick="filterTeam('all')" id="btnFilterAll" class="flex-1 py-1 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-xs">Tất cả</button>
-          <button onclick="filterTeam('deposited')" id="btnFilterDep" class="flex-1 py-1 text-xs font-bold rounded-lg text-slate-500">Đã nạp</button>
-          <button onclick="filterTeam('unpaid')" id="btnFilterUnpaid" class="flex-1 py-1 text-xs font-bold rounded-lg text-slate-500">Chưa nạp</button>
+        <div class="flex gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
+          <button onclick="filterTeam('all')" id="btnFilterAll" class="flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white shadow-xs">Tất cả</button>
+          <button onclick="filterTeam('deposited')" id="btnFilterDep" class="flex-1 py-1 text-xs font-bold rounded-lg text-slate-400">Đã nạp</button>
+          <button onclick="filterTeam('unpaid')" id="btnFilterUnpaid" class="flex-1 py-1 text-xs font-bold rounded-lg text-slate-400">Chưa nạp</button>
         </div>
-        <div id="teamContainer" class="divide-y divide-slate-100 pt-1"></div>
+        <div id="teamContainer" class="divide-y divide-slate-800 pt-1"></div>
       </div>
     </main>
 
     <!-- ==================== TAB 5: TÔI ==================== -->
     <main id="tab-me" class="tab-content px-4 py-3 space-y-4">
-      <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
+      <div class="binance-bg-card rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div id="meAvatarBox" class="w-14 h-14 rounded-full bg-slate-200 flex items-center justify-center text-white text-2xl shadow-md">
+            <div id="meAvatarBox" class="w-14 h-14 rounded-full bg-slate-800 flex items-center justify-center text-white text-2xl shadow-md border border-slate-700">
               <i class="fa-solid fa-user text-slate-400"></i>
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <span id="meNameText" class="font-extrabold text-base text-slate-800">Chưa Đăng Nhập</span>
-                <span id="userVipBadge" class="hidden px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-black tracking-wide">VIP 0</span>
+                <span id="meNameText" class="font-extrabold text-base text-white">Chưa Đăng Nhập</span>
+                <span id="userVipBadge" class="hidden px-2 py-0.5 rounded-md bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-[10px] font-black tracking-wide">VIP 0</span>
               </div>
               <div id="mePhoneText" class="text-xs text-slate-400 font-medium mt-0.5">Vui lòng đăng nhập tài khoản</div>
-              <div id="meSecText" class="text-[11px] font-bold text-amber-600 flex items-center gap-1 mt-0.5">
+              <div id="meSecText" class="text-[11px] font-bold text-amber-500 flex items-center gap-1 mt-0.5">
                 <i class="fa-solid fa-circle-exclamation text-[10px]"></i> Chưa xác thực
               </div>
             </div>
           </div>
           
-          <button id="meAuthBtn" onclick="openAuthModal('login')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-white font-bold text-xs shadow-sm active:scale-95">
+          <button id="meAuthBtn" onclick="openAuthModal('login')" class="px-3 py-1.5 rounded-xl binance-btn-yellow font-black text-xs shadow-sm active:scale-95">
             Đăng nhập
           </button>
         </div>
 
-        <div class="pt-2 border-t border-slate-50">
+        <div class="pt-2 border-t border-slate-800">
           <div class="text-xs font-semibold text-slate-400">Tổng tài sản ví</div>
           <div class="flex items-baseline gap-1 my-1">
-            <span id="meBalanceVal" class="text-2xl font-black text-slate-800 tracking-tight">0</span>
-            <span class="text-sm font-bold text-amber-500">đ</span>
+            <span id="meBalanceVal" class="text-2xl font-black text-white tracking-tight">0</span>
+            <span class="text-sm font-bold binance-yellow">đ</span>
           </div>
           <div class="grid grid-cols-2 gap-3 mt-3">
-            <button onclick="requireAuthAction(() => openModal('depositModal'))" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md shadow-amber-500/25 active:scale-95 transition-transform">
+            <button onclick="requireAuthAction(() => openModal('depositModal'))" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl binance-btn-yellow font-black text-sm shadow-md active:scale-95 transition-transform">
               <i class="fa-solid fa-wallet text-xs"></i>
               Nạp tiền
             </button>
-            <button onclick="requireAuthAction(() => handleWithdrawClick())" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-md shadow-emerald-500/25 active:scale-95 transition-transform">
+            <button onclick="requireAuthAction(() => handleWithdrawClick())" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-md active:scale-95 transition-transform">
               <i class="fa-solid fa-money-bill-transfer text-xs"></i>
               Rút tiền
             </button>
@@ -308,523 +374,521 @@
       </div>
 
       <!-- Ô Nhập Giftcode tại mục Tôi -->
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm space-y-2">
+      <div class="binance-bg-card rounded-2xl p-3.5 border border-slate-800 shadow-sm space-y-2">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-            <i class="fa-solid fa-ticket text-amber-500"></i> Đổi Mã Quà Tặng (Giftcode)
+          <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-ticket binance-yellow"></i> Đổi Mã Quà Tặng (Giftcode)
           </span>
         </div>
         <div class="flex gap-2">
-          <input type="text" id="meGiftcodeInput" placeholder="Nhập mã quà tặng..." class="flex-1 uppercase bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold tracking-wider outline-none focus:border-amber-500">
-          <button onclick="requireAuthAction(() => claimCodeMe())" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-xl text-xs font-bold active:scale-95 transition-all shadow-sm">
+          <input type="text" id="meGiftcodeInput" placeholder="Nhập mã quà tặng..." class="flex-1 uppercase bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-bold tracking-wider text-white outline-none focus:border-yellow-500">
+          <button onclick="requireAuthAction(() => claimCodeMe())" class="px-4 py-2 binance-btn-yellow rounded-xl text-xs font-black active:scale-95 transition-all shadow-sm">
             Nhận Quà
           </button>
         </div>
       </div>
 
       <!-- Menu options -->
-      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm divide-y divide-slate-100 overflow-hidden">
-        <div onclick="requireAuthAction(() => openModal('depositHistoryModal'))" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
+      <div class="binance-bg-card rounded-2xl border border-slate-800 shadow-sm divide-y divide-slate-800 overflow-hidden">
+        <div onclick="requireAuthAction(() => openModal('depositHistoryModal'))" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-800/50 transition-colors">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+            <div class="w-8 h-8 rounded-lg bg-yellow-500/10 text-yellow-400 flex items-center justify-center text-sm border border-yellow-500/20">
               <i class="fa-solid fa-receipt"></i>
             </div>
-            <span class="text-xs font-bold text-slate-700">Lịch sử giao dịch tổng thể</span>
+            <span class="text-xs font-bold text-slate-200">Lịch sử nạp tiền</span>
           </div>
-          <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+          <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
         </div>
 
-        <div onclick="openModal('introModal')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
+        <div onclick="requireAuthAction(() => openModal('withdrawHistoryModal'))" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-800/50 transition-colors">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center text-sm">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-sm border border-emerald-500/20">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-200">Lịch sử rút tiền</span>
+          </div>
+          <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
+        </div>
+
+        <div onclick="openModal('introModal')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-sm border border-amber-500/20">
               <i class="fa-solid fa-circle-info"></i>
             </div>
-            <span class="text-xs font-bold text-slate-700">Giới thiệu về Binance Pro</span>
+            <span class="text-xs font-bold text-slate-200">Giới thiệu toàn diện về Binance</span>
           </div>
-          <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+          <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
         </div>
 
-        <div onclick="openModal('cskhModal')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
+        <div onclick="openModal('cskhModal')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-800/50 transition-colors">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-500 flex items-center justify-center text-sm">
+            <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center text-sm border border-sky-500/20">
               <i class="fa-brands fa-telegram"></i>
             </div>
             <div>
-              <div class="text-xs font-bold text-slate-700">Chăm sóc khách hàng Telegram</div>
+              <div class="text-xs font-bold text-slate-200">Chăm sóc khách hàng Telegram</div>
               <div class="text-[10px] text-slate-400">Trực tuyến 24/7 giải quyết khiếu nại</div>
             </div>
           </div>
-          <span class="text-xs font-bold text-sky-500">Chat ngay</span>
+          <span class="text-xs font-bold text-sky-400">Chat ngay</span>
         </div>
 
-        <div onclick="openModal('teleGroupModal')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
+        <div onclick="openModal('teleGroupModal')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-800/50 transition-colors">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-500 flex items-center justify-center text-sm">
+            <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-sm border border-indigo-500/20">
               <i class="fa-solid fa-users-viewfinder"></i>
             </div>
             <div>
-              <div class="text-xs font-bold text-slate-700">Nhóm giao lưu Telegram</div>
+              <div class="text-xs font-bold text-slate-200">Nhóm cộng đồng Binance Pro</div>
               <div class="text-[10px] text-slate-400">Chia sẻ bằng chứng rút tiền</div>
             </div>
           </div>
-          <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+          <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
         </div>
 
         <!-- Nút Đăng Xuất (khi đã đăng nhập) -->
-        <div id="logoutRow" onclick="handleLogout()" class="hidden p-3.5 flex items-center justify-between cursor-pointer hover:bg-rose-50 transition-colors text-rose-600">
+        <div id="logoutRow" onclick="handleLogout()" class="hidden p-3.5 flex items-center justify-between cursor-pointer hover:bg-rose-950/30 transition-colors text-rose-400">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-sm">
+            <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center text-sm border border-rose-500/20">
               <i class="fa-solid fa-power-off"></i>
             </div>
             <span class="text-xs font-bold">Đăng xuất tài khoản</span>
           </div>
-          <i class="fa-solid fa-chevron-right text-rose-300 text-xs"></i>
+          <i class="fa-solid fa-chevron-right text-rose-400 text-xs"></i>
         </div>
       </div>
     </main>
 
     <!-- ==================== BOTTOM NAVIGATION ==================== -->
-    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md h-16 bg-white/95 backdrop-blur-md border-t border-slate-100 flex items-center justify-around z-40">
-      <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-amber-500">
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md h-16 bg-[#181a20]/95 backdrop-blur-md border-t border-slate-800 flex items-center justify-around z-40">
+      <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-[#F0B90B]">
         <i class="fa-solid fa-house text-lg"></i>
         <span class="text-[10px] font-bold mt-1">Trang chủ</span>
       </button>
 
-      <button onclick="switchTab('products')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-600">
+      <button onclick="switchTab('products')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-200">
         <i class="fa-solid fa-layer-group text-lg"></i>
         <span class="text-[10px] font-bold mt-1">Sản phẩm</span>
       </button>
 
-      <button onclick="switchTab('tasks')" class="nav-btn relative flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-600">
+      <button onclick="switchTab('tasks')" class="nav-btn relative flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-200">
         <i class="fa-solid fa-list-check text-lg"></i>
         <span class="text-[10px] font-bold mt-1">Nhiệm vụ</span>
-        <span id="taskDot" class="hidden absolute top-2.5 right-6 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white"></span>
+        <span id="taskDot" class="hidden absolute top-2.5 right-6 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-slate-900"></span>
       </button>
 
-      <button onclick="switchTab('team')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-600">
+      <button onclick="switchTab('team')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-200">
         <i class="fa-solid fa-users text-lg"></i>
         <span class="text-[10px] font-bold mt-1">Đội nhóm</span>
       </button>
 
-      <button onclick="switchTab('me')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-600">
+      <button onclick="switchTab('me')" class="nav-btn flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-200">
         <i class="fa-solid fa-user text-lg"></i>
         <span class="text-[10px] font-bold mt-1">Tôi</span>
       </button>
     </nav>
 
-    <!-- ==================== MODAL ĐĂNG NHẬP / ĐĂNG KÝ CHUYÊN NGHIỆP ==================== -->
-    <div id="authModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-4 border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+    <!-- ==================== MODAL ĐĂNG NHẬP / ĐĂNG KÝ ==================== -->
+    <div id="authModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-4 border border-slate-700 animate-in fade-in zoom-in-95 duration-200">
         
-        <!-- Header Modal & Nút Đóng -->
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 to-yellow-500 flex items-center justify-center text-slate-900 shadow-md shadow-yellow-500/20 font-black">
-              <i class="fa-solid fa-cubes text-sm"></i>
+            <div class="w-9 h-9 rounded-xl bg-[#F0B90B] flex items-center justify-center shadow-md shadow-yellow-500/20 p-1 shrink-0 overflow-hidden">
+              <img src="https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png" alt="Binance Logo" class="w-full h-full object-contain">
             </div>
             <div>
-              <div class="text-sm font-black text-slate-900 tracking-tight leading-none">BINANCE <span class="text-amber-500">PRO</span></div>
+              <div class="text-sm font-black text-white tracking-tight leading-none">BINANCE <span class="binance-yellow">PRO</span></div>
               <div class="text-[10px] text-slate-400 font-semibold mt-0.5">Cổng Xác Thực An Toàn</div>
             </div>
           </div>
-          <button onclick="closeModal('authModal')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-colors">
+          <button onclick="closeModal('authModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
             <i class="fa-solid fa-xmark text-sm"></i>
           </button>
         </div>
 
-        <!-- 2 Tab Chuyển đổi Đăng Nhập / Đăng Ký -->
-        <div class="flex bg-slate-100 p-1 rounded-2xl">
-          <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-black rounded-xl transition-all bg-white text-slate-900 shadow-sm">
+        <div class="flex bg-slate-900 p-1 rounded-2xl border border-slate-800">
+          <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-black rounded-xl transition-all bg-slate-800 text-white shadow-sm">
             Đăng Nhập
           </button>
-          <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 text-xs font-bold rounded-xl transition-all text-slate-500 hover:text-slate-700">
+          <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 text-xs font-bold rounded-xl transition-all text-slate-400 hover:text-white">
             Đăng Ký Mới
           </button>
         </div>
 
-        <!-- Banner thông báo tặng 20k khi chọn tab Đăng ký -->
-        <div id="authRegPromoBanner" class="hidden p-2.5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-orange-500/10 border border-amber-200/80 flex items-center gap-2">
-          <div class="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xs shrink-0 shadow-xs">
+        <div id="authRegPromoBanner" class="hidden p-2.5 rounded-2xl bg-yellow-500/10 border border-yellow-500/30 flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-[#F0B90B] text-slate-950 flex items-center justify-center text-xs shrink-0 shadow-xs">
             <i class="fa-solid fa-gift"></i>
           </div>
           <div class="text-[11px] leading-tight">
-            <span class="font-bold text-amber-800">Thưởng Tân Thủ:</span>
-            <span class="text-slate-600 block">Tạo tài khoản nhận ngay <strong class="text-amber-600 font-extrabold">+20.000đ</strong></span>
+            <span class="font-bold text-yellow-400">Thưởng Tân Thủ:</span>
+            <span class="text-slate-300 block">Tạo tài khoản nhận ngay <strong class="binance-yellow font-extrabold">+20.000đ</strong></span>
           </div>
         </div>
 
-        <!-- Form nhập liệu -->
         <div class="space-y-2.5">
-          <!-- Ô Số điện thoại -->
           <div>
-            <label class="text-[11px] font-bold text-slate-600 block mb-1">Số điện thoại</label>
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Số điện thoại</label>
             <div class="relative flex items-center">
-              <span class="absolute left-3 text-slate-400 text-xs flex items-center gap-1 font-bold">
-                <i class="fa-solid fa-phone text-[11px] text-amber-500"></i>
-                <span class="text-slate-300">|</span>
+              <span class="absolute left-3 text-slate-500 text-xs flex items-center gap-1 font-bold">
+                <i class="fa-solid fa-phone text-[11px] binance-yellow"></i>
+                <span class="text-slate-600">|</span>
               </span>
-              <input type="tel" id="authPhoneInput" placeholder="Ví dụ: 0984568899" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-3.5 py-2.5 text-xs font-bold text-slate-800 outline-none focus:border-amber-500 focus:bg-white transition-all">
+              <input type="tel" id="authPhoneInput" placeholder="Ví dụ: 0984568899" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-3.5 py-2.5 text-xs font-bold text-white outline-none focus:border-yellow-500">
             </div>
           </div>
 
-          <!-- Ô Mật khẩu -->
           <div>
-            <label class="text-[11px] font-bold text-slate-600 block mb-1">Mật khẩu</label>
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Mật khẩu</label>
             <div class="relative flex items-center">
-              <span class="absolute left-3 text-slate-400 text-xs flex items-center gap-1 font-bold">
-                <i class="fa-solid fa-lock text-[11px] text-amber-500"></i>
-                <span class="text-slate-300">|</span>
+              <span class="absolute left-3 text-slate-500 text-xs flex items-center gap-1 font-bold">
+                <i class="fa-solid fa-lock text-[11px] binance-yellow"></i>
+                <span class="text-slate-600">|</span>
               </span>
-              <input type="password" id="authPassInput" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-10 py-2.5 text-xs font-bold text-slate-800 outline-none focus:border-amber-500 focus:bg-white transition-all">
-              <button type="button" onclick="togglePasswordVisibility('authPassInput', 'eyeIcon1')" class="absolute right-3 text-slate-400 hover:text-slate-600 text-xs">
+              <input type="password" id="authPassInput" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-10 py-2.5 text-xs font-bold text-white outline-none focus:border-yellow-500">
+              <button type="button" onclick="togglePasswordVisibility('authPassInput', 'eyeIcon1')" class="absolute right-3 text-slate-400 hover:text-white text-xs">
                 <i id="eyeIcon1" class="fa-solid fa-eye-slash"></i>
               </button>
             </div>
           </div>
 
-          <!-- Ô Nhập lại Mật khẩu (Chỉ hiện khi Đăng Ký) -->
           <div id="authConfirmPassRow" class="hidden">
-            <label class="text-[11px] font-bold text-slate-600 block mb-1">Xác nhận mật khẩu</label>
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Xác nhận mật khẩu</label>
             <div class="relative flex items-center">
-              <span class="absolute left-3 text-slate-400 text-xs flex items-center gap-1 font-bold">
-                <i class="fa-solid fa-shield-halved text-[11px] text-amber-500"></i>
-                <span class="text-slate-300">|</span>
+              <span class="absolute left-3 text-slate-500 text-xs flex items-center gap-1 font-bold">
+                <i class="fa-solid fa-shield-halved text-[11px] binance-yellow"></i>
+                <span class="text-slate-600">|</span>
               </span>
-              <input type="password" id="authConfirmPassInput" placeholder="Nhập lại mật khẩu..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-10 py-2.5 text-xs font-bold text-slate-800 outline-none focus:border-amber-500 focus:bg-white transition-all">
-              <button type="button" onclick="togglePasswordVisibility('authConfirmPassInput', 'eyeIcon2')" class="absolute right-3 text-slate-400 hover:text-slate-600 text-xs">
+              <input type="password" id="authConfirmPassInput" placeholder="Nhập lại mật khẩu..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-10 py-2.5 text-xs font-bold text-white outline-none focus:border-yellow-500">
+              <button type="button" onclick="togglePasswordVisibility('authConfirmPassInput', 'eyeIcon2')" class="absolute right-3 text-slate-400 hover:text-white text-xs">
                 <i id="eyeIcon2" class="fa-solid fa-eye-slash"></i>
               </button>
             </div>
           </div>
 
-          <!-- Ô Mã Captcha xác thực -->
           <div>
-            <label class="text-[11px] font-bold text-slate-600 block mb-1">Mã bảo mật</label>
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Mã bảo mật</label>
             <div class="flex gap-2 items-center">
-              <div class="relative flex-1">
-                <input type="text" id="authCaptchaInput" maxlength="4" placeholder="Nhập mã 4 số" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-black tracking-widest text-slate-800 outline-none focus:border-amber-500 focus:bg-white">
-              </div>
-              <div onclick="generateCaptchaCode()" class="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-slate-800 to-slate-900 text-amber-400 font-mono font-black text-sm tracking-widest rounded-xl select-none shadow-xs" title="Bấm để đổi mã khác">
+              <input type="text" id="authCaptchaInput" maxlength="4" placeholder="Nhập 4 số" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs font-black tracking-widest text-white outline-none focus:border-yellow-500">
+              <div onclick="generateCaptchaCode()" class="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-slate-950 text-[#F0B90B] font-mono font-black text-sm tracking-widest rounded-xl select-none border border-slate-800">
                 <span id="captchaDisplay">8899</span>
                 <i class="fa-solid fa-rotate-right text-[10px] text-slate-400"></i>
               </div>
             </div>
           </div>
 
-          <!-- Ô Mã Giới Thiệu (Chỉ hiện khi Đăng Ký) -->
           <div id="authRefRow" class="hidden">
-            <label class="text-[11px] font-bold text-slate-600 block mb-1">Mã giới thiệu</label>
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Mã giới thiệu (SĐT người mời)</label>
             <div class="relative flex items-center">
-              <span class="absolute left-3 text-slate-400 text-xs flex items-center gap-1 font-bold">
-                <i class="fa-solid fa-user-tag text-[11px] text-amber-500"></i>
-                <span class="text-slate-300">|</span>
+              <span class="absolute left-3 text-slate-500 text-xs flex items-center gap-1 font-bold">
+                <i class="fa-solid fa-user-tag text-[11px] binance-yellow"></i>
+                <span class="text-slate-600">|</span>
               </span>
-              <input type="text" id="authRefInput" placeholder="VIP8899" value="VIP8899" class="w-full uppercase bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-3.5 py-2.5 text-xs font-extrabold text-slate-800 outline-none focus:border-amber-500 focus:bg-white">
+              <input type="text" id="authRefInput" placeholder="Không bắt buộc" class="w-full uppercase bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-3.5 py-2.5 text-xs font-extrabold text-white outline-none focus:border-yellow-500">
             </div>
           </div>
 
-          <!-- Checkbox Điều Khoản (Chỉ hiện khi Đăng Ký) -->
           <div id="authAgreementRow" class="hidden pt-1">
-            <label class="flex items-start gap-2 text-[10px] text-slate-500 cursor-pointer select-none">
-              <input type="checkbox" id="authAgreementCheck" checked class="mt-0.5 rounded text-amber-500 focus:ring-0">
-              <span>Tôi xác nhận từ đủ 18 tuổi và đồng ý với <strong class="text-slate-700">Điều khoản & Bảo mật</strong> Binance Pro.</span>
+            <label class="flex items-start gap-2 text-[10px] text-slate-400 cursor-pointer select-none">
+              <input type="checkbox" id="authAgreementCheck" checked class="mt-0.5 rounded text-yellow-500 focus:ring-0 bg-slate-900 border-slate-700">
+              <span>Tôi đồng ý với <strong class="text-slate-200">Điều khoản & Bảo mật</strong> Binance Pro.</span>
             </label>
           </div>
         </div>
 
-        <!-- Nút Xác Nhận Đăng Nhập / Đăng Ký -->
-        <button id="authSubmitBtn" onclick="submitAuthForm()" class="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-900 rounded-xl text-xs font-black shadow-lg shadow-yellow-500/25 active:scale-95 transition-all flex items-center justify-center gap-1.5">
+        <button id="authSubmitBtn" onclick="submitAuthForm()" class="w-full py-3 binance-btn-yellow rounded-xl text-xs font-black shadow-lg shadow-yellow-500/20 active:scale-95 transition-all flex items-center justify-center gap-1.5">
           <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i>
           <span id="authSubmitBtnText">Đăng Nhập Ngay</span>
         </button>
 
-        <!-- Footer cam kết bảo mật chuẩn quốc tế -->
-        <div class="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 border-t border-slate-100 pt-2.5">
-          <i class="fa-solid fa-lock text-[9px] text-emerald-500"></i>
-          <span>Mã hóa đầu cuối SSL 256-Bit • Bảo mật tuyệt đối</span>
+        <div class="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 border-t border-slate-800 pt-2.5">
+          <i class="fa-solid fa-lock text-[9px] text-emerald-400"></i>
+          <span>Mã hóa SSL 256-Bit • Bảo mật chuẩn Binance</span>
         </div>
       </div>
     </div>
 
-    <!-- MODAL XÁC NHẬN MUA GÓI -->
-    <div id="confirmBuyPkgModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl text-center space-y-3">
-        <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center text-3xl mx-auto shadow-inner">
+    <!-- MODAL XÁC NHẬN KÝ QUỸ -->
+    <div id="confirmBuyPkgModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl text-center space-y-3 border border-slate-700">
+        <div class="w-16 h-16 rounded-full bg-yellow-500/10 text-[#F0B90B] flex items-center justify-center text-3xl mx-auto border border-yellow-500/20">
           <i class="fa-solid fa-file-signature"></i>
         </div>
-        <h3 class="text-base font-black text-slate-800">Xác Nhận Kích Hoạt Gói</h3>
-        <p class="text-xs text-slate-500">Bạn có chắc chắn muốn tham gia gói đầu tư này không?</p>
-        <div class="bg-slate-50 rounded-2xl p-3 border border-slate-100 text-xs space-y-1.5 text-left">
+        <h3 class="text-base font-black text-white">Xác Nhận Ký Quỹ Coin</h3>
+        <p class="text-xs text-slate-400">Bạn có chắc chắn muốn tham gia gói ký quỹ này không?</p>
+        <div class="bg-slate-900 rounded-2xl p-3 border border-slate-800 text-xs space-y-1.5 text-left">
           <div class="flex justify-between">
-            <span class="text-slate-500">Tên gói:</span>
-            <strong id="confirmPkgName" class="text-slate-800 font-extrabold">--</strong>
+            <span class="text-slate-400">Gói Coin:</span>
+            <strong id="confirmPkgName" class="text-white font-extrabold">--</strong>
           </div>
           <div class="flex justify-between">
-            <span class="text-slate-500">Giá trị đầu tư:</span>
-            <strong id="confirmPkgPrice" class="text-amber-600 font-black">--</strong>
+            <span class="text-slate-400">Giá trị ký quỹ:</span>
+            <strong id="confirmPkgPrice" class="binance-yellow font-black">--</strong>
           </div>
           <div class="flex justify-between">
-            <span class="text-slate-500">Lợi nhuận (12%):</span>
-            <strong id="confirmPkgProfit" class="text-emerald-600 font-extrabold">-- / 24h</strong>
+            <span class="text-slate-400">Lợi nhuận (12%):</span>
+            <strong id="confirmPkgProfit" class="text-emerald-400 font-extrabold">-- / 24h</strong>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2 pt-2">
-          <button onclick="closeModal('confirmBuyPkgModal')" class="py-2.5 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold active:scale-95 transition-all">Hủy Bỏ</button>
-          <button onclick="executeBuyConfirmedPackage()" class="py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold active:scale-95 transition-all shadow-md shadow-amber-500/25">Xác Nhận Mua</button>
+          <button onclick="closeModal('confirmBuyPkgModal')" class="py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold active:scale-95 transition-all">Hủy Bỏ</button>
+          <button onclick="executeBuyConfirmedPackage()" class="py-2.5 rounded-xl binance-btn-yellow text-xs font-black active:scale-95 transition-all shadow-md">Xác Nhận Mua</button>
         </div>
       </div>
     </div>
 
-    <!-- MODAL CHI TIẾT TẤT CẢ CÁC GÓI ĐẦU TƯ -->
-    <div id="detailPkgModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-          <h3 id="detailPkgTitle" class="text-sm font-black text-slate-800">Chi Tiết Gói Đầu Tư</h3>
-          <button onclick="closeModal('detailPkgModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    <!-- MODAL CHI TIẾT TỪNG ĐỒNG COIN -->
+    <div id="detailPkgModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3 border border-slate-700">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <h3 id="detailPkgTitle" class="text-sm font-black text-white">Chi Tiết Đồng Coin</h3>
+          <button onclick="closeModal('detailPkgModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="detailPkgBody" class="space-y-2 text-xs text-slate-600"></div>
-        <button onclick="closeModal('detailPkgModal')" class="w-full py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold">Đã Hiểu</button>
+        <div id="detailPkgBody" class="space-y-2 text-xs text-slate-300"></div>
+        <button onclick="closeModal('detailPkgModal')" class="w-full py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-700">Đã Hiểu</button>
       </div>
     </div>
 
     <!-- MODAL NẠP TIỀN -->
-    <div id="depositModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3.5">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-          <h3 class="text-sm font-black text-slate-800">Nạp Tiền Đầu Tư</h3>
-          <button onclick="closeModal('depositModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center">
+    <div id="depositModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3.5 border border-slate-700">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+          <h3 class="text-sm font-black text-white">Nạp Tiền Đầu Tư</h3>
+          <button onclick="closeModal('depositModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
             <i class="fa-solid fa-xmark text-sm"></i>
           </button>
         </div>
         <div class="space-y-3">
           <div>
-            <label class="text-[11px] font-bold text-slate-500 block mb-1.5">Chọn nhanh số tiền nạp:</label>
+            <label class="text-[11px] font-bold text-slate-400 block mb-1.5">Chọn nhanh số tiền nạp:</label>
             <div class="grid grid-cols-4 gap-1.5 text-xs font-bold">
-              <button type="button" onclick="setQuickDeposit(20000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">20k</button>
-              <button type="button" onclick="setQuickDeposit(75000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">75k</button>
-              <button type="button" onclick="setQuickDeposit(150000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">150k</button>
-              <button type="button" onclick="setQuickDeposit(300000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">300k</button>
-              <button type="button" onclick="setQuickDeposit(600000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">600k</button>
-              <button type="button" onclick="setQuickDeposit(1000000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">1tr</button>
-              <button type="button" onclick="setQuickDeposit(2000000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">2tr</button>
-              <button type="button" onclick="setQuickDeposit(5000000)" class="py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-600 border border-slate-200">5tr</button>
+              <button type="button" onclick="setQuickDeposit(20000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">20k</button>
+              <button type="button" onclick="setQuickDeposit(75000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">75k</button>
+              <button type="button" onclick="setQuickDeposit(150000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">150k</button>
+              <button type="button" onclick="setQuickDeposit(300000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">300k</button>
+              <button type="button" onclick="setQuickDeposit(600000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">600k</button>
+              <button type="button" onclick="setQuickDeposit(1000000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">1tr</button>
+              <button type="button" onclick="setQuickDeposit(2000000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">2tr</button>
+              <button type="button" onclick="setQuickDeposit(5000000)" class="py-1.5 rounded-lg bg-slate-800 hover:bg-yellow-500/20 text-slate-300 hover:text-yellow-400 border border-slate-700">5tr</button>
             </div>
           </div>
           <div>
-            <label class="text-[11px] font-bold text-slate-500 block mb-1">Số tiền nạp (Tối thiểu 20.000đ):</label>
-            <input type="number" id="depositAmountInput" placeholder="Ví dụ: 20000" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-bold outline-none focus:border-amber-500">
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Số tiền nạp (Tối thiểu 20.000đ):</label>
+            <input type="number" id="depositAmountInput" placeholder="Ví dụ: 20000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white outline-none focus:border-yellow-500">
           </div>
-          <div class="text-[11px] text-amber-700 bg-amber-50 p-2.5 rounded-xl border border-amber-200/60 leading-relaxed">
+          <div class="text-[11px] text-yellow-300/80 bg-yellow-500/10 p-2.5 rounded-xl border border-yellow-500/20 leading-relaxed">
             • Quét mã VietQR chuyển khoản chính xác nội dung để được cập nhật số dư tự động 24/7.
           </div>
         </div>
-        <button onclick="submitDepositAction()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-black shadow-md shadow-amber-500/25 active:scale-95 transition-all">
+        <button onclick="submitDepositAction()" class="w-full py-3 binance-btn-yellow rounded-xl text-xs font-black shadow-md active:scale-95 transition-all">
           Tạo Lệnh Nạp Tiền
         </button>
       </div>
     </div>
 
     <!-- MODAL VIETQR (ACB - 54248 - HA TRUNG DUC) -->
-    <div id="vietqrModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl text-center space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-          <h3 class="text-sm font-black text-slate-800">Quét Mã VietQR Nạp Tiền</h3>
-          <button onclick="closeModal('vietqrModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    <div id="vietqrModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl text-center space-y-3 border border-slate-700">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <h3 class="text-sm font-black text-white">Quét Mã VietQR Nạp Tiền</h3>
+          <button onclick="closeModal('vietqrModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="p-2 bg-slate-50 rounded-2xl border border-slate-100 inline-block mx-auto">
+        <div class="p-2 bg-white rounded-2xl border border-slate-700 inline-block mx-auto">
           <img id="vietqrImage" src="" alt="VietQR" class="w-48 h-48 mx-auto rounded-xl object-contain bg-white">
         </div>
-        <div class="bg-slate-50 rounded-2xl p-3 border border-slate-100 text-xs space-y-1.5 text-left">
+        <div class="bg-slate-900 rounded-2xl p-3 border border-slate-800 text-xs space-y-1.5 text-left">
           <div class="flex justify-between">
             <span class="text-slate-400">Ngân hàng:</span>
-            <strong class="text-slate-800">ACB (Á Châu)</strong>
+            <strong class="text-white">ACB (Á Châu)</strong>
           </div>
           <div class="flex justify-between">
             <span class="text-slate-400">Số tài khoản:</span>
-            <strong class="text-slate-800 font-mono">54248</strong>
+            <strong class="text-white font-mono">54248</strong>
           </div>
           <div class="flex justify-between">
             <span class="text-slate-400">Chủ tài khoản:</span>
-            <strong class="text-slate-800 uppercase">HA TRUNG DUC</strong>
+            <strong class="text-white uppercase">HA TRUNG DUC</strong>
           </div>
           <div class="flex justify-between">
             <span class="text-slate-400">Số tiền:</span>
-            <strong id="vietqrAmountText" class="text-emerald-600 font-extrabold">--</strong>
+            <strong id="vietqrAmountText" class="text-emerald-400 font-extrabold">--</strong>
           </div>
-          <div class="flex justify-between items-center pt-1 border-t border-slate-200">
+          <div class="flex justify-between items-center pt-1 border-t border-slate-800">
             <span class="text-slate-400">Nội dung:</span>
-            <strong id="vietqrContentText" class="text-amber-600 font-mono font-black">--</strong>
+            <strong id="vietqrContentText" class="binance-yellow font-mono font-black">--</strong>
           </div>
         </div>
         <p class="text-[11px] text-slate-400">Sau khi chuyển khoản thành công, hệ thống sẽ xác nhận và cập nhật số dư!</p>
-        <button onclick="closeModal('vietqrModal')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-500/20">Tôi Đã Chuyển Tiền</button>
+        <button onclick="closeModal('vietqrModal')" class="w-full py-2.5 binance-btn-yellow rounded-xl text-xs font-bold shadow-md">Tôi Đã Chuyển Tiền</button>
       </div>
     </div>
 
-    <!-- MODAL RÚT TIỀN -->
-    <div id="withdrawModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3.5">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-          <h3 class="text-sm font-black text-slate-800">Rút Tiền Về Tài Khoản</h3>
-          <button onclick="closeModal('withdrawModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center">
+    <!-- MODAL RÚT TIỀN (GỬI DUYỆT ADMIN) -->
+    <div id="withdrawModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3.5 border border-slate-700">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+          <h3 class="text-sm font-black text-white">Rút Tiền Về Tài Khoản</h3>
+          <button onclick="closeModal('withdrawModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
             <i class="fa-solid fa-xmark text-sm"></i>
           </button>
         </div>
         <div class="space-y-3">
           <div>
-            <label class="text-[11px] font-bold text-slate-500 block mb-1">Phương thức nhận tiền:</label>
-            <select id="withdrawBankSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none">
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Phương thức nhận tiền:</label>
+            <select id="withdrawBankSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-white outline-none">
               <optgroup label="Ví Điện Tử">
                 <option value="Ví MoMo">Ví MoMo</option>
                 <option value="Ví ZaloPay">Ví ZaloPay</option>
                 <option value="Ví Viettel Money">Ví Viettel Money</option>
-                <option value="VNPT Money">Ví VNPT Money</option>
-                <option value="ShopeePay">Ví ShopeePay</option>
               </optgroup>
               <optgroup label="Ngân Hàng Việt Nam">
+                <option value="MB Bank">MB Bank (Quân Đội)</option>
                 <option value="Vietcombank">Vietcombank</option>
                 <option value="Techcombank">Techcombank</option>
-                <option value="MB Bank">MB Bank (Quân Đội)</option>
-                <option value="BIDV">BIDV</option>
-                <option value="Agribank">Agribank</option>
                 <option value="ACB">ACB (Á Châu)</option>
                 <option value="VPBank">VPBank</option>
                 <option value="TPBank">TPBank</option>
-                <option value="Sacombank">Sacombank</option>
-                <option value="HDBank">HDBank</option>
+                <option value="BIDV">BIDV</option>
+                <option value="Agribank">Agribank</option>
               </optgroup>
             </select>
           </div>
           <div>
-            <label class="text-[11px] font-bold text-slate-500 block mb-1">Số tài khoản / Số ví:</label>
-            <input type="text" id="withdrawAccNum" placeholder="Nhập STK hoặc SĐT ví" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold outline-none">
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Số tài khoản / Số ví:</label>
+            <input type="text" id="withdrawAccNum" placeholder="Nhập STK hoặc SĐT ví" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs font-bold text-white outline-none">
           </div>
           <div>
-            <label class="text-[11px] font-bold text-slate-500 block mb-1">Họ tên chủ tài khoản (In hoa):</label>
-            <input type="text" id="withdrawAccName" placeholder="NGUYEN VAN A" class="w-full uppercase bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold outline-none">
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Họ tên chủ tài khoản (In hoa):</label>
+            <input type="text" id="withdrawAccName" placeholder="NGUYEN VAN A" class="w-full uppercase bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs font-bold text-white outline-none">
           </div>
           <div>
-            <label class="text-[11px] font-bold text-slate-500 block mb-1">Số tiền rút (Tối thiểu 25.000đ, chỉ rút tiền chẵn):</label>
-            <input type="number" id="withdrawAmountInput" placeholder="Ví dụ: 25000, 30000" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold outline-none">
+            <label class="text-[11px] font-bold text-slate-400 block mb-1">Số tiền rút (Tối thiểu 25.000đ, chỉ rút tiền chẵn):</label>
+            <input type="number" id="withdrawAmountInput" placeholder="Ví dụ: 25000, 30000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs font-bold text-white outline-none">
           </div>
-          <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl space-y-1">
+          <div class="text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-xl space-y-1 border border-slate-800">
             <div class="flex justify-between">
               <span>Phí rút tiền:</span>
-              <span class="font-bold text-emerald-600">0% (Miễn phí)</span>
+              <span class="font-bold text-emerald-400">0% (Miễn phí)</span>
             </div>
             <div class="flex justify-between">
               <span>Quy tắc:</span>
-              <span class="font-bold text-amber-600">Chỉ rút số chẵn tròn nghìn (không số lẻ)</span>
+              <span class="font-bold binance-yellow">Chỉ rút số chẵn tròn nghìn</span>
             </div>
-            <div class="text-[10px] text-amber-600 font-semibold pt-1">
+            <div class="text-[10px] text-yellow-400/80 font-semibold pt-1">
               * Khóa thông tin ngân hàng vĩnh viễn sau lệnh rút đầu tiên.
             </div>
           </div>
         </div>
-        <button onclick="submitWithdrawAction()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black shadow-md shadow-emerald-500/25 active:scale-95 transition-all">
+        <button onclick="submitWithdrawAction()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black shadow-md active:scale-95 transition-all">
           Xác Nhận Rút Tiền
         </button>
       </div>
     </div>
 
     <!-- MODAL MUA THÊM Ô ĐẦU TƯ 20.000đ -->
-    <div id="buySlotModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl">
-        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-3 shadow-inner">
+    <div id="buySlotModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl border border-slate-700">
+        <div class="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-3xl mx-auto mb-3 border border-emerald-500/20">
           <i class="fa-solid fa-box-open"></i>
         </div>
-        <h3 class="text-base font-black text-slate-800">Mở Thêm Ô Chứa Đầu Tư</h3>
-        <p class="text-xs text-slate-500 mt-2 px-2 leading-relaxed">
-          Bạn có muốn sử dụng <strong class="text-emerald-600">20.000đ</strong> từ số dư ví để nâng cấp thêm 1 slot ô chứa đầu tư không?
+        <h3 class="text-base font-black text-white">Mở Thêm Ô Chứa Đầu Tư</h3>
+        <p class="text-xs text-slate-400 mt-2 px-2 leading-relaxed">
+          Bạn có muốn sử dụng <strong class="text-emerald-400">20.000đ</strong> từ số dư ví để nâng cấp thêm 1 slot ô chứa đầu tư không?
         </p>
         <div class="grid grid-cols-2 gap-2 mt-5">
-          <button onclick="closeModal('buySlotModal')" class="py-2.5 px-3 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold active:scale-95 transition-all">Để sau</button>
-          <button onclick="confirmBuySlotAction()" class="py-2.5 px-3 rounded-xl bg-emerald-500 text-white text-xs font-bold active:scale-95 transition-all shadow-md shadow-emerald-500/25">Mở Ngay (20.000đ)</button>
+          <button onclick="closeModal('buySlotModal')" class="py-2.5 px-3 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold active:scale-95 transition-all">Để sau</button>
+          <button onclick="confirmBuySlotAction()" class="py-2.5 px-3 rounded-xl bg-emerald-500 text-white text-xs font-bold active:scale-95 transition-all shadow-md">Mở Ngay (20.000đ)</button>
         </div>
-      </div>
-    </div>
-
-    <!-- MODAL CHI TIẾT THÀNH VIÊN ĐỘI NHÓM -->
-    <div id="teamMemberModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-          <h3 class="text-sm font-black text-slate-800">Chi Tiết Tuyến Dưới</h3>
-          <button onclick="closeModal('teamMemberModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div id="teamMemberDetailBody" class="text-xs space-y-2 text-slate-600"></div>
-        <button onclick="closeModal('teamMemberModal')" class="w-full py-2 bg-slate-800 text-white rounded-xl text-xs font-bold">Đóng</button>
       </div>
     </div>
 
     <!-- MODAL POPUP THÀNH CÔNG -->
-    <div id="congratModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl">
-        <div id="congratIcon" class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-500 flex items-center justify-center text-3xl mx-auto mb-3 shadow-inner">
+    <div id="congratModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl border border-slate-700">
+        <div class="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-3xl mx-auto mb-3 border border-emerald-500/20">
           <i class="fa-solid fa-circle-check"></i>
         </div>
-        <h3 id="congratTitle" class="text-base font-black text-slate-800">Thành Công!</h3>
-        <p id="congratDesc" class="text-xs text-slate-500 mt-2 px-2 leading-relaxed">Giao dịch của bạn đã hoàn tất.</p>
-        <button onclick="closeModal('congratModal')" class="w-full mt-5 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold active:scale-95 transition-all">Đóng</button>
+        <h3 id="congratTitle" class="text-base font-black text-white">Thành Công!</h3>
+        <p id="congratDesc" class="text-xs text-slate-400 mt-2 px-2 leading-relaxed">Giao dịch của bạn đã hoàn tất.</p>
+        <button onclick="closeModal('congratModal')" class="w-full mt-5 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold active:scale-95 transition-all hover:bg-slate-700">Đóng</button>
       </div>
     </div>
 
     <!-- MODAL LỊCH SỬ NẠP -->
-    <div id="depositHistoryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl flex flex-col max-h-[80vh]">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 class="text-sm font-black text-slate-800">Lịch Sử Nạp Tiền</h3>
-          <button onclick="closeModal('depositHistoryModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    <div id="depositHistoryModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl flex flex-col max-h-[80vh] border border-slate-700">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 class="text-sm font-black text-white">Lịch Sử Nạp Tiền</h3>
+          <button onclick="closeModal('depositHistoryModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="depositHistoryContent" class="flex-1 overflow-y-auto py-2 divide-y divide-slate-100 text-xs no-scrollbar"></div>
+        <div id="depositHistoryContent" class="flex-1 overflow-y-auto py-2 divide-y divide-slate-800 text-xs no-scrollbar"></div>
       </div>
     </div>
 
     <!-- MODAL LỊCH SỬ RÚT -->
-    <div id="withdrawHistoryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl flex flex-col max-h-[80vh]">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 class="text-sm font-black text-slate-800">Lịch Sử Rút Tiền</h3>
-          <button onclick="closeModal('withdrawHistoryModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    <div id="withdrawHistoryModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl flex flex-col max-h-[80vh] border border-slate-700">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 class="text-sm font-black text-white">Lịch Sử Rút Tiền</h3>
+          <button onclick="closeModal('withdrawHistoryModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="withdrawHistoryContent" class="flex-1 overflow-y-auto py-2 divide-y divide-slate-100 text-xs no-scrollbar"></div>
+        <div id="withdrawHistoryContent" class="flex-1 overflow-y-auto py-2 divide-y divide-slate-800 text-xs no-scrollbar"></div>
       </div>
     </div>
 
-    <!-- MODAL GIỚI THIỆU -->
-    <div id="introModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-          <h3 class="text-sm font-black text-slate-800">Về Binance Pro</h3>
-          <button onclick="closeModal('introModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    <!-- MODAL GIỚI THIỆU TOÀN DIỆN VỀ BINANCE -->
+    <div id="introModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm shadow-2xl space-y-3 border border-slate-700 max-h-[80vh] flex flex-col">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-lg bg-[#F0B90B] p-1 flex items-center justify-center shrink-0">
+              <img src="https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png" alt="Binance Logo" class="w-full h-full object-contain">
+            </div>
+            <h3 class="text-sm font-black text-white">Giới Thiệu Về Binance</h3>
+          </div>
+          <button onclick="closeModal('introModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          <strong>Binance Pro</strong> là nền tảng đầu tư số thế hệ mới, cam kết hoàn vốn 12% mỗi 24h, bảo mật thông tin và thanh khoản tự động 24/7.
-        </p>
+        <div class="overflow-y-auto no-scrollbar space-y-2.5 text-xs text-slate-300 leading-relaxed pr-1">
+          <p>
+            <strong>Binance</strong> là hệ sinh thái blockchain hàng đầu thế giới với bộ sản phẩm tài chính toàn diện, bao gồm sàn giao dịch tài sản kỹ thuật số lớn nhất tính theo khối lượng giao dịch.
+          </p>
+          <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-1.5">
+            <div class="font-bold binance-yellow">Cột mốc lịch sử thành lập:</div>
+            <div>• <strong>2017:</strong> Thành lập tại Thượng Hải sau đợt ICO thành công huy động 15 triệu USD.</div>
+            <div>• <strong>2018:</strong> Trở thành sàn có thanh khoản số 1 thế giới, thành lập quỹ từ thiện Binance Charity và vườn ươm Binance Labs.</div>
+            <div>• <strong>2020:</strong> Ra mắt BNB Chain với hợp đồng thông minh, phí giao dịch siêu rẻ.</div>
+            <div>• <strong>2026:</strong> Tiếp tục giữ vững ngôi vị số 1 thế giới với hệ thống bảo chứng dữ liệu tài sản Proof of Reserves minh bạch 1:1.</div>
+          </div>
+          <p>
+            Hệ thống Binance Pro được thiết kế như một nền tảng ủy thác định lượng an toàn, liên kết chặt chẽ với tỷ giá và sự phát triển của các đồng tiền mã hóa hàng đầu.
+          </p>
+        </div>
+        <button onclick="closeModal('introModal')" class="w-full py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold shrink-0">Đóng</button>
       </div>
     </div>
 
     <!-- MODAL CSKH TELEGRAM -->
-    <div id="cskhModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl space-y-3">
-        <div class="w-16 h-16 rounded-full bg-sky-100 text-sky-500 flex items-center justify-center text-3xl mx-auto"><i class="fa-brands fa-telegram"></i></div>
-        <h3 class="text-sm font-black text-slate-800">CSKH Telegram Trực Tuyến</h3>
-        <p class="text-xs text-slate-500">Hỗ trợ 24/7 giải quyết khiếu nại nạp rút: <strong>@BinancePro_Support01</strong></p>
-        <a href="https://t.me/BinancePro_Support01" target="_blank" onclick="closeModal('cskhModal')" class="block w-full py-2.5 bg-sky-500 text-white rounded-xl text-xs font-bold text-center shadow-md shadow-sky-500/20 active:scale-95 transition-all">Mở Telegram Ngay</a>
+    <div id="cskhModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl space-y-3 border border-slate-700">
+        <div class="w-16 h-16 rounded-full bg-sky-500/10 text-sky-400 flex items-center justify-center text-3xl mx-auto border border-sky-500/20"><i class="fa-brands fa-telegram"></i></div>
+        <h3 class="text-sm font-black text-white">CSKH Telegram Trực Tuyến</h3>
+        <p class="text-xs text-slate-400">Hỗ trợ 24/7 giải quyết khiếu nại nạp rút: <strong class="text-sky-400">@BinancePro_Support01</strong></p>
+        <a href="https://t.me/BinancePro_Support01" target="_blank" onclick="closeModal('cskhModal')" class="block w-full py-2.5 bg-sky-500 text-white rounded-xl text-xs font-bold text-center active:scale-95 transition-all">Mở Telegram Ngay</a>
       </div>
     </div>
 
     <!-- MODAL TELEGRAM GROUP -->
-    <div id="teleGroupModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl space-y-3">
-        <div class="w-16 h-16 rounded-full bg-indigo-100 text-indigo-500 flex items-center justify-center text-3xl mx-auto"><i class="fa-solid fa-users"></i></div>
-        <h3 class="text-sm font-black text-slate-800">Cộng Đồng Binance Pro</h3>
-        <p class="text-xs text-slate-500">Giao lưu cùng cộng đồng nhà đầu tư: <strong>https://t.me/BinanceproChat</strong></p>
-        <a href="https://t.me/BinanceproChat" target="_blank" onclick="closeModal('teleGroupModal')" class="block w-full py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center shadow-md shadow-indigo-600/20 active:scale-95 transition-all">Tham Gia Ngay</a>
+    <div id="teleGroupModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#1e2329] rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl space-y-3 border border-slate-700">
+        <div class="w-16 h-16 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-3xl mx-auto border border-indigo-500/20"><i class="fa-solid fa-users"></i></div>
+        <h3 class="text-sm font-black text-white">Cộng Đồng Binance Pro</h3>
+        <p class="text-xs text-slate-400">Giao lưu cùng cộng đồng nhà đầu tư: <strong class="text-indigo-400">https://t.me/BinanceproChat</strong></p>
+        <a href="https://t.me/BinanceproChat" target="_blank" onclick="closeModal('teleGroupModal')" class="block w-full py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center active:scale-95 transition-all">Tham Gia Ngay</a>
       </div>
     </div>
 
     <!-- TOAST THÔNG BÁO -->
-    <div id="customToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg hidden"></div>
+    <div id="customToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 border border-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg hidden"></div>
   </div>
 
   <script>
@@ -869,164 +933,110 @@
       }).catch(err => console.log('Lỗi gửi Telegram:', err));
     }
 
-    // ==================== HỆ THỐNG LƯU TRỮ VĨNH VIỄN LOCALSTORAGE ====================
-    const STORAGE_KEY_USERS = 'binance_pro_users';
-    const STORAGE_KEY_CURRENT = 'binance_pro_current_phone';
-    const STORAGE_KEY_TRIAL_SOLD = 'binance_pro_trial_sold';
-    const STORAGE_KEY_MAINTENANCE = 'binance_pro_maintenance';
-    const STORAGE_KEY_WITHDRAW_ACTIVE = 'binance_pro_withdraw_active';
-    const STORAGE_KEY_GIFTCODES = 'binance_pro_giftcodes';
-
-    function getStoredUsers() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY_USERS)) || {};
-      } catch (e) {
-        return {};
-      }
-    }
-
-    function saveStoredUsers(users) {
-      localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(users));
-    }
-
-    function getCurrentPhone() {
-      return localStorage.getItem(STORAGE_KEY_CURRENT) || null;
-    }
-
-    function setCurrentPhone(phone) {
-      if (phone) {
-        localStorage.setItem(STORAGE_KEY_CURRENT, phone);
-      } else {
-        localStorage.removeItem(STORAGE_KEY_CURRENT);
-      }
-    }
-
-    // Trạng thái tài khoản mẫu rỗng
-    function createDefaultUserState(phone, password) {
-      return {
-        phone: phone,
-        password: password,
-        balance: 20000, // TẶNG 20.000đ KHI ĐĂNG KÝ
-        userVip: 0,
-        hasEverBoughtPackage: false,
-        maxSlots: 1,
-        activePackages: [], // [{ id, name, price, vip, startTime, nextPayoutTime }]
-        attDayCount: 0,
-        attLastDate: '',
-        f1DepositedCount: 0,
-        taskClaimed: { 5: false, 10: false, 20: false, 50: false, 100: false },
-        f1CommissionTotal: 0,
-        f2CommissionTotal: 0,
-        bankLocked: false,
-        savedBank: { bank: '', accNum: '', accName: '' },
-        orders: [],
-        usedGiftcodes: []
-      };
-    }
-
-    // Biến state phiên làm việc
-    let currentUser = null; // null nếu chưa đăng nhập
-    let authMode = 'login'; // 'login' hoặc 'register'
-
-    // Danh mục gói
+    // ==================== DANH MỤC CÁC ĐỒNG COIN QUY ĐỔI ====================
     const catalog = [
       { 
         id: 'p75k', 
-        name: 'Gói Trải Nghiệm', 
+        name: 'Dogecoin (DOGE)', 
+        symbol: 'DOGE',
+        gradient: 'from-amber-600/30 to-yellow-600/10',
         price: 75000, 
         vip: 0, 
         isTrial: true, 
         locked: false,
-        img: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói trải nghiệm đặc quyền dành cho tân thủ làm quen hệ sinh thái sinh lời.'
+        img: 'https://assets.coingecko.com/coins/images/5/large/dogecoin.png',
+        desc: 'Dogecoin (DOGE) được thành lập vào tháng 12/2013 bởi Billy Markus và Jackson Palmer. Ban đầu là một đồng meme vui nhộn, DOGE đã trở thành một trong những đồng tiền mã hóa phổ biến nhất thế giới nhờ sự hậu thuẫn của cộng đồng và tỷ phú Elon Musk với tốc độ giao dịch cực nhanh và chi phí siêu rẻ.'
       },
       { 
         id: 'p150k', 
-        name: 'Gói VIP 1', 
+        name: 'Cardano (ADA)', 
+        symbol: 'ADA',
+        gradient: 'from-blue-600/30 to-cyan-600/10',
         price: 150000, 
         vip: 1, 
         isTrial: false, 
         locked: false,
-        img: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói đầu tư nâng cấp VIP 1, chu kỳ thanh toán tự động mỗi 24 giờ.'
+        img: 'https://assets.coingecko.com/coins/images/975/large/cardano.png',
+        desc: 'Cardano (ADA) được thành lập vào năm 2017 bởi Charles Hoskinson (đồng sáng lập Ethereum). Đây là nền tảng blockchain thế hệ thứ 3 đầu tiên được xây dựng dựa trên phương pháp nghiên cứu học thuật được bình duyệt nghiêm ngặt, chú trọng tính bền vững, phân cấp và bảo mật cao.'
       },
       { 
         id: 'p300k', 
-        name: 'Gói VIP 2', 
+        name: 'Ripple (XRP)', 
+        symbol: 'XRP',
+        gradient: 'from-slate-600/30 to-zinc-600/10',
         price: 300000, 
         vip: 2, 
         isTrial: false, 
         locked: false,
-        img: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói đầu tư VIP 2 với tỷ suất sinh lời vượt trội, bảo toàn vốn 100%.'
+        img: 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png',
+        desc: 'Ripple (XRP) được thành lập vào năm 2012 bởi Chris Larsen và Jed McCaleb. XRP Ledger được thiết kế chuyên biệt để hỗ trợ các ngân hàng và tổ chức tài chính chuyển tiền xuyên biên giới theo thời gian thực với độ trễ chỉ 3-5 giây và chi phí gần như bằng 0.'
       },
       { 
         id: 'p600k', 
-        name: 'Gói VIP 3', 
+        name: 'Solana (SOL)', 
+        symbol: 'SOL',
+        gradient: 'from-purple-600/30 to-emerald-600/10',
         price: 600000, 
         vip: 3, 
         isTrial: false, 
         locked: false,
-        img: 'https://images.unsplash.com/photo-1622979135225-d2ba269bc1df?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói đầu tư VIP 3 tối ưu hóa dòng tiền thu nhập thụ động hàng ngày.'
+        img: 'https://assets.coingecko.com/coins/images/4128/large/solana.png',
+        desc: 'Solana (SOL) được thành lập vào năm 2017 bởi Anatoly Yakovenko. Nổi tiếng với cơ chế đồng thuận Proof of History (PoH), Solana có khả năng xử lý lên tới 65.000 giao dịch mỗi giây, là cái nôi phát triển mạnh mẽ cho các ứng dụng DeFi, Web3 và GameFi toàn cầu.'
       },
       { 
         id: 'p1m', 
-        name: 'Gói VIP 4', 
+        name: 'BNB Chain (BNB)', 
+        symbol: 'BNB',
+        gradient: 'from-yellow-600/35 to-amber-600/10',
         price: 1000000, 
         vip: 4, 
         isTrial: false, 
         locked: true,
-        img: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói đầu tư tài chính chuyên nghiệp cấp độ VIP 4 (Chuẩn bị mở bán đợt tiếp theo).'
+        img: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png',
+        desc: 'BNB được thành lập vào tháng 7/2017 cùng thời điểm ra mắt sàn Binance. Ban đầu là token ERC-20 trên Ethereum, BNB sau đó chuyển sang mạng lưới BNB Chain độc lập và trở thành đồng tiền mã hóa đứng top 4 thế giới, cung cấp nhiên liệu vận hành hệ sinh thái khổng lồ của Binance.'
       },
       { 
         id: 'p2m', 
-        name: 'Gói VIP 5', 
+        name: 'Ethereum (ETH)', 
+        symbol: 'ETH',
+        gradient: 'from-indigo-600/30 to-violet-600/10',
         price: 2000000, 
         vip: 5, 
         isTrial: false, 
         locked: true,
-        img: 'https://images.unsplash.com/photo-1634704784915-aacf363b021f?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói đầu tư VIP 5 danh mục quỹ cao cấp với hợp đồng thông minh tự động.'
+        img: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png',
+        desc: 'Ethereum (ETH) được lập trình viên Vitalik Buterin đề xuất vào năm 2013 và chính thức hoạt động vào năm 2015. Ethereum là nền tảng hợp đồng thông minh (Smart Contract) đầu tiên và lớn nhất lịch sử, là xương sống cho toàn bộ nền kinh tế phi tập trung DeFi và NFT trên hành tinh.'
       },
       { 
         id: 'p5m', 
-        name: 'Gói VIP 6', 
+        name: 'Bitcoin (BTC)', 
+        symbol: 'BTC',
+        gradient: 'from-amber-500/35 to-orange-600/10',
         price: 5000000, 
         vip: 6, 
         isTrial: false, 
         locked: true,
-        img: 'https://images.unsplash.com/photo-1644361566696-3d442b5b482a?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói ủy thác quy mô lớn VIP 6 định mức thanh khoản siêu tốc.'
+        img: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
+        desc: 'Bitcoin (BTC) được tạo ra vào ngày 3/1/2009 bởi nhân vật ẩn danh Satoshi Nakamoto. Là đồng tiền mã hóa đầu tiên trên thế giới, Bitcoin mở ra kỷ nguyên tài sản số với cơ chế phi tập trung, giới hạn tuyệt đối 21 triệu đồng coin, được coi là vàng kỹ thuật số và kho lưu trữ giá trị an toàn nhất.'
       },
       { 
         id: 'p10m', 
-        name: 'Gói VIP 7', 
+        name: 'Binance Whale Fund (VIP)', 
+        symbol: 'WHALE',
+        gradient: 'from-emerald-600/35 to-teal-600/10',
         price: 10000000, 
         vip: 7, 
         isTrial: false, 
         locked: true,
-        img: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?auto=format&fit=crop&w=300&q=80',
-        desc: 'Gói thượng đỉnh VIP 7 dành riêng cho đối tác chiến lược và quỹ đầu tư lớn.'
+        img: 'https://assets.coingecko.com/coins/images/325/large/Tether.png',
+        desc: 'Gói quỹ thượng đỉnh Binance Whale Fund quy đổi tương đương chỉ số rổ Top 10 Crypto lớn nhất thị trường, áp dụng thuật toán định lượng cao cấp dành riêng cho các nhà đầu tư lớn và các tổ chức đối tác chiến lược.'
       }
     ];
 
     let pendingBuyPackageId = null;
-
-    function saveCurrentUserData() {
-      if (!currentUser) return;
-      const users = getStoredUsers();
-      users[currentUser.phone] = currentUser;
-      saveStoredUsers(users);
-      if (db) {
-        try {
-          db.ref('users/' + currentUser.phone).set(currentUser);
-        } catch (e) {
-          console.warn("Lỗi lưu Firebase:", e);
-        }
-      }
-    }
+    let currentUser = null;
+    let authMode = 'login';
+    let teamFilter = 'all';
 
     function formatNumber(num) {
       return Number(num || 0).toLocaleString('vi-VN');
@@ -1060,7 +1070,7 @@
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('text-amber-500');
+        btn.classList.remove('text-[#F0B90B]');
         btn.classList.add('text-slate-400');
       });
 
@@ -1071,12 +1081,11 @@
       if (idx !== -1) {
         const activeNav = document.querySelectorAll('.nav-btn')[idx];
         activeNav.classList.remove('text-slate-400');
-        activeNav.classList.add('text-amber-500');
+        activeNav.classList.add('text-[#F0B90B]');
       }
       updateUI();
     }
 
-    // ==================== BẢO VỆ CHỨC NĂNG: YÊU CẦU ĐĂNG NHẬP ====================
     function requireAuthAction(callback) {
       if (!currentUser) {
         openAuthModal('login');
@@ -1088,7 +1097,6 @@
       }
     }
 
-        // ==================== HỆ THỐNG XÁC THỰC CHUYÊN NGHIỆP ====================
     let currentCaptcha = '8899';
 
     function generateCaptchaCode() {
@@ -1103,7 +1111,7 @@
       if (!input || !icon) return;
       if (input.type === 'password') {
         input.type = 'text';
-        icon.className = 'fa-solid fa-eye text-amber-500';
+        icon.className = 'fa-solid fa-eye text-[#F0B90B]';
       } else {
         input.type = 'password';
         icon.className = 'fa-solid fa-eye-slash text-slate-400';
@@ -1124,16 +1132,16 @@
       document.getElementById('authCaptchaInput').value = '';
 
       if (authMode === 'login') {
-        tabLogin.className = "flex-1 py-2 text-xs font-black rounded-xl transition-all bg-white text-slate-900 shadow-sm";
-        tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-xl transition-all text-slate-500 hover:text-slate-700";
+        tabLogin.className = "flex-1 py-2 text-xs font-black rounded-xl transition-all bg-slate-800 text-white shadow-sm";
+        tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-xl transition-all text-slate-400 hover:text-white";
         promoBanner.classList.add('hidden');
         confirmPassRow.classList.add('hidden');
         refRow.classList.add('hidden');
         agreementRow.classList.add('hidden');
         submitBtnText.innerText = "Đăng Nhập Ngay";
       } else {
-        tabRegister.className = "flex-1 py-2 text-xs font-black rounded-xl transition-all bg-white text-slate-900 shadow-sm";
-        tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-xl transition-all text-slate-500 hover:text-slate-700";
+        tabRegister.className = "flex-1 py-2 text-xs font-black rounded-xl transition-all bg-slate-800 text-white shadow-sm";
+        tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-xl transition-all text-slate-400 hover:text-white";
         promoBanner.classList.remove('hidden');
         confirmPassRow.classList.remove('hidden');
         refRow.classList.remove('hidden');
@@ -1147,6 +1155,7 @@
       switchAuthTab(mode || 'login');
     }
 
+    // ĐĂNG NHẬP / ĐĂNG KÝ TRỰC TIẾP FIREBASE - ĐỒNG BỘ 100% VỚI ADMIN
     function submitAuthForm() {
       const phone = document.getElementById('authPhoneInput').value.trim();
       const pass = document.getElementById('authPassInput').value.trim();
@@ -1166,25 +1175,37 @@
         return;
       }
 
-      const users = getStoredUsers();
+      if (!db) {
+        showCustomToast('Không thể kết nối máy chủ Firebase!');
+        return;
+      }
+
+      const userRef = db.ref('users/' + phone);
 
       if (authMode === 'login') {
-        if (!users[phone]) {
-          showCustomToast('Tài khoản chưa tồn tại, hãy chuyển sang Đăng Ký!');
-          switchAuthTab('register');
-          return;
-        }
-        if (users[phone].password !== pass) {
-          showCustomToast('Mật khẩu đăng nhập không đúng!');
-          return;
-        }
-        currentUser = users[phone];
-        setCurrentPhone(phone);
-        closeModal('authModal');
-        triggerCongrat('Đăng Nhập Thành Công!', `Chào mừng trở lại, Nhà Đầu Tư #${phone.slice(-4)}!`);
-        updateUI();
+        userRef.once('value', snap => {
+          if (!snap.exists()) {
+            showCustomToast('Tài khoản chưa tồn tại, hãy chuyển sang Đăng Ký!');
+            switchAuthTab('register');
+            return;
+          }
+          const u = snap.val();
+          if (u.password !== pass) {
+            showCustomToast('Mật khẩu đăng nhập không đúng!');
+            return;
+          }
+          if (u.isLocked) {
+            alert('Tài khoản của bạn đã bị Quản Trị Viên tạm khóa! Vui lòng liên hệ CSKH.');
+            return;
+          }
+          currentUser = u;
+          localStorage.setItem('binance_pro_current_phone', phone);
+          closeModal('authModal');
+          triggerCongrat('Đăng Nhập Thành Công!', `Chào mừng trở lại, Nhà Đầu Tư #${phone.slice(-4)}!`);
+          listenUserRealtime(phone);
+          updateUI();
+        });
       } else {
-        // Đăng ký mới
         const confirmPass = document.getElementById('authConfirmPassInput').value.trim();
         const agreement = document.getElementById('authAgreementCheck').checked;
 
@@ -1196,116 +1217,161 @@
           showCustomToast('Vui lòng đồng ý với Điều khoản & Bảo mật!');
           return;
         }
-        if (users[phone]) {
-          showCustomToast('Số điện thoại này đã được đăng ký trên hệ thống!');
-          switchAuthTab('login');
-          return;
-        }
 
-        const newUser = createDefaultUserState(phone, pass);
-        // Lưu IP và Người giới thiệu
-        newUser.ip = '113.161.' + Math.floor(10 + Math.random()*85) + '.' + Math.floor(10 + Math.random()*85);
-        const refCode = document.getElementById('authRefInput').value.trim().toUpperCase();
-        if (refCode) {
-          newUser.inviterPhone = refCode;
-        }
-        users[phone] = newUser;
-        saveStoredUsers(users);
-        if (db) {
-          try { db.ref('users/' + phone).set(newUser); } catch(e) {}
-        }
+        userRef.once('value', snap => {
+          if (snap.exists()) {
+            showCustomToast('Số điện thoại này đã được đăng ký trên hệ thống!');
+            switchAuthTab('login');
+            return;
+          }
 
-        currentUser = newUser;
-        setCurrentPhone(phone);
-        closeModal('authModal');
-        triggerCongrat('Đăng Ký Thành Công!', `Chúc mừng bạn đã tạo tài khoản và nhận ngay +20.000đ vốn tân thủ vào ví!`);
-        updateUI();
+          const refCode = document.getElementById('authRefInput').value.trim().toUpperCase();
+          const newUser = {
+            phone: phone,
+            password: pass,
+            balance: 20000,
+            totalDeposited: 0,
+            totalWithdrawn: 0,
+            userVip: 0,
+            hasDeposited: false,
+            hasEverBoughtPackage: false,
+            maxSlots: 1,
+            activePackages: [],
+            attDayCount: 0,
+            attLastDate: '',
+            f1DepositedCount: 0,
+            taskClaimed: { 5: false, 10: false, 20: false, 50: false, 100: false },
+            f1CommissionTotal: 0,
+            f2CommissionTotal: 0,
+            invite: refCode || '',
+            inviterPhone: refCode || '',
+            isLocked: false,
+            bankLocked: false,
+            savedBank: { bank: '', accNum: '', accName: '' },
+            orders: [],
+            usedGiftcodes: []
+          };
+
+          // Lưu người dùng độc lập - KHÔNG ghi đè người khác
+          userRef.set(newUser).then(() => {
+            currentUser = newUser;
+            localStorage.setItem('binance_pro_current_phone', phone);
+            closeModal('authModal');
+            triggerCongrat('Đăng Ký Thành Công!', 'Chúc mừng bạn đã tạo tài khoản và nhận ngay +20.000đ vốn tân thủ vào ví!');
+            listenUserRealtime(phone);
+            updateUI();
+          });
+        });
       }
     }
 
     function handleLogout() {
       currentUser = null;
-      setCurrentPhone(null);
+      localStorage.removeItem('binance_pro_current_phone');
       showCustomToast('Đã đăng xuất tài khoản!');
       updateUI();
     }
 
-    // ==================== CHECK & CỘNG LÃI TỰ ĐỘNG SAU 24H ====================
+    // LẮNG NGHE DỮ LIỆU TÀI KHOẢN THỜI GIAN THỰC & KHÓA NICK TỪ ADMIN
+    function listenUserRealtime(phone) {
+      if (!db || !phone) return;
+      db.ref('users/' + phone).on('value', snap => {
+        if (snap.exists()) {
+          currentUser = snap.val();
+          if (currentUser.isLocked) {
+            alert('Tài khoản của bạn đã bị Quản Trị Viên tạm khóa! Vui lòng liên hệ CSKH.');
+            handleLogout();
+            return;
+          }
+          updateUI();
+          checkAutoPayoutPackages();
+        }
+      });
+
+      // Lắng nghe trạng thái phê duyệt nạp / rút từ Admin: user_tx_status/{phone}
+      db.ref(`user_tx_status/${phone}/deposits`).on('child_added', snap => {
+        const tx = snap.val();
+        if (tx && tx.status === 'APPROVED') {
+          showCustomToast(`🎉 Lệnh nạp tiền ${snap.key} đã được Admin duyệt thành công!`);
+        }
+      });
+
+      db.ref(`user_tx_status/${phone}/withdraws`).on('child_added', snap => {
+        const tx = snap.val();
+        if (tx && tx.status === 'APPROVED') {
+          showCustomToast(`💸 Lệnh rút tiền ${snap.key} đã được Admin duyệt giải ngân thành công!`);
+        } else if (tx && tx.status === 'REJECTED') {
+          showCustomToast(`⚠️ Lệnh rút tiền ${snap.key} bị từ chối: ${tx.reason || ''}. Tiền đã hoàn về ví!`);
+        }
+      });
+    }
+
+    // TÍNH LÃI CHUẨN XÁC DỰA TRÊN MỐC THỜI GIAN THỰC ĐỘC LẬP
     function checkAutoPayoutPackages() {
       if (!currentUser || !currentUser.activePackages || currentUser.activePackages.length === 0) return;
       const now = Date.now();
       let hasChange = false;
 
       currentUser.activePackages.forEach(pkg => {
-        const cycle = 86400000; // 24 giờ
+        const cycle = 86400000;
         if (!pkg.nextPayoutTime) {
           pkg.nextPayoutTime = pkg.startTime + cycle;
         }
 
         if (now >= pkg.nextPayoutTime) {
           const profit = pkg.price * 0.12;
-          currentUser.balance += profit;
+          currentUser.balance = (currentUser.balance || 0) + profit;
           pkg.nextPayoutTime += cycle;
           hasChange = true;
           showCustomToast(`🎉 Gói ${pkg.name} vừa tự động cộng +${formatNumber(profit)}đ tiền lãi 24h!`);
         }
       });
 
-      if (hasChange) {
-        saveCurrentUserData();
+      if (hasChange && db) {
+        db.ref('users/' + currentUser.phone).update({
+          balance: currentUser.balance,
+          activePackages: currentUser.activePackages
+        });
         updateUI();
       }
     }
 
-    // ==================== CẬP NHẬT GIAO DIỆN & DỮ LIỆU ====================
-    
-    function checkServerStatus() {
-      const isMaint = localStorage.getItem(STORAGE_KEY_MAINTENANCE) === 'true';
-      const mScreen = document.getElementById('maintenanceScreen');
-      if (mScreen) {
-        if (isMaint) mScreen.classList.remove('hidden');
-        else mScreen.classList.add('hidden');
-      }
-
-      if (currentUser && currentUser.isBanned) {
-        alert('Tài khoản của bạn đã bị Quản Trị Viên tạm khóa! Vui lòng liên hệ CSKH.');
-        handleLogout();
-      }
+    // HÀM LẤY NGÀY THEO GIỜ VIỆT NAM (GMT+7) CHUẨN XÁC CHỐNG LỆCH 7H SÁNG CỦA UTC
+    function getVietnamDateString() {
+      const now = new Date();
+      const vnTime = new Date(now.getTime() + (7 * 3600000));
+      return vnTime.toISOString().slice(0, 10);
     }
-    setInterval(checkServerStatus, 2000);
 
     function updateUI() {
       const isAuth = !!currentUser;
-      const balance = isAuth ? currentUser.balance : 0;
-      const vip = isAuth ? currentUser.userVip : 0;
+      const balance = isAuth ? (currentUser.balance || 0) : 0;
+      const vip = isAuth ? (currentUser.userVip || 0) : 0;
       const slotCount = isAuth ? (currentUser.activePackages ? currentUser.activePackages.length : 0) : 0;
-      const maxSlots = isAuth ? currentUser.maxSlots : 1;
+      const maxSlots = isAuth ? (currentUser.maxSlots || 1) : 1;
 
-      // Header Button
       const headerAuth = document.getElementById('headerAuthContainer');
       if (isAuth) {
         headerAuth.innerHTML = `
-          <div onclick="switchTab('me')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold cursor-pointer hover:bg-slate-200">
+          <div onclick="switchTab('me')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-800 text-slate-200 text-xs font-bold cursor-pointer hover:bg-slate-700 border border-slate-700">
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span>${currentUser.phone.substring(0, 3)}****${currentUser.phone.substring(currentUser.phone.length - 3)}</span>
           </div>
         `;
       } else {
         headerAuth.innerHTML = `
-          <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-amber-500 text-white font-bold text-xs shadow-sm active:scale-95 transition-transform">
+          <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3 py-1.5 rounded-full binance-btn-yellow font-black text-xs shadow-sm active:scale-95 transition-transform">
             <i class="fa-solid fa-right-to-bracket text-xs"></i>
             <span>Đăng Nhập</span>
           </button>
         `;
       }
 
-      // Home & Me Balances
       document.getElementById('homeBalanceVal').innerText = formatNumber(balance);
       document.getElementById('meBalanceVal').innerText = formatNumber(balance);
       document.getElementById('homeSlotPreview').innerText = `${slotCount}/${maxSlots} Gói`;
       document.getElementById('slotStatusBadge').innerText = `${slotCount} / ${maxSlots} Gói Đang Chạy`;
 
-      // Profile Me Tab
       const meNameText = document.getElementById('meNameText');
       const mePhoneText = document.getElementById('mePhoneText');
       const meSecText = document.getElementById('meSecText');
@@ -1318,26 +1384,27 @@
         meNameText.innerText = `Nhà Đầu Tư #${currentUser.phone.slice(-4)}`;
         mePhoneText.innerText = `SĐT: ${currentUser.phone}`;
         meSecText.innerHTML = `<i class="fa-solid fa-shield-halved text-[10px]"></i> Đã bảo mật 2 lớp`;
-        meSecText.className = "text-[11px] font-bold text-emerald-600 flex items-center gap-1 mt-0.5";
+        meSecText.className = "text-[11px] font-bold text-emerald-400 flex items-center gap-1 mt-0.5";
         userVipBadge.innerText = `VIP ${vip}`;
         userVipBadge.classList.remove('hidden');
         meAuthBtn.classList.add('hidden');
         logoutRow.classList.remove('hidden');
-        meAvatarBox.className = "w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-600 flex items-center justify-center text-white text-2xl shadow-md shadow-yellow-500/20";
+        meAvatarBox.className = "w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-600 flex items-center justify-center text-slate-950 text-2xl shadow-md font-black";
         meAvatarBox.innerHTML = '<i class="fa-solid fa-robot"></i>';
 
-        document.getElementById('statF1Comm').innerText = formatNumber(currentUser.f1CommissionTotal) + ' đ';
-        document.getElementById('statF2Comm').innerText = formatNumber(currentUser.f2CommissionTotal) + ' đ';
-        document.getElementById('taskF1CountTop').innerText = currentUser.f1DepositedCount;
+        document.getElementById('statF1Comm').innerText = formatNumber(currentUser.f1CommissionTotal || 0) + ' đ';
+        document.getElementById('statF2Comm').innerText = formatNumber(currentUser.f2CommissionTotal || 0) + ' đ';
+        document.getElementById('taskF1CountTop').innerText = currentUser.f1DepositedCount || 0;
+        document.getElementById('refLinkVal').value = `${window.location.origin}${window.location.pathname}?ref=${currentUser.phone}`;
       } else {
         meNameText.innerText = "Chưa Đăng Nhập";
         mePhoneText.innerText = "Vui lòng đăng nhập tài khoản";
         meSecText.innerHTML = `<i class="fa-solid fa-circle-exclamation text-[10px]"></i> Chưa xác thực`;
-        meSecText.className = "text-[11px] font-bold text-amber-600 flex items-center gap-1 mt-0.5";
+        meSecText.className = "text-[11px] font-bold text-amber-500 flex items-center gap-1 mt-0.5";
         userVipBadge.classList.add('hidden');
         meAuthBtn.classList.remove('hidden');
         logoutRow.classList.add('hidden');
-        meAvatarBox.className = "w-14 h-14 rounded-full bg-slate-200 flex items-center justify-center text-white text-2xl shadow-md";
+        meAvatarBox.className = "w-14 h-14 rounded-full bg-slate-800 flex items-center justify-center text-white text-2xl shadow-md border border-slate-700";
         meAvatarBox.innerHTML = '<i class="fa-solid fa-user text-slate-400"></i>';
 
         document.getElementById('statF1Comm').innerText = '0 đ';
@@ -1345,21 +1412,17 @@
         document.getElementById('taskF1CountTop').innerText = 0;
       }
 
-      // Link mời đồng bộ chuẩn domain mới binancepro.cloud
-      if (isAuth) {
-        document.getElementById('refLinkVal').value = `https://binancepro.cloud/index.html?ref=${currentUser.phone}`;
-      }
-
       renderProductsTab();
       renderTasksTab();
-      renderTeamTab('all');
+      renderTeamTab(teamFilter);
       updateTaskDot();
     }
 
     function updateTaskDot() {
       const dot = document.getElementById('taskDot');
       if (!dot) return;
-      if (currentUser && currentUser.attLastDate !== new Date().toISOString().slice(0, 10)) {
+      const todayStr = getVietnamDateString();
+      if (currentUser && currentUser.attLastDate !== todayStr) {
         dot.classList.remove('hidden');
       } else {
         dot.classList.add('hidden');
@@ -1374,23 +1437,23 @@
         currentUser.activePackages.forEach((pkg, index) => {
           const profit = pkg.price * 0.12;
           activeBox.innerHTML += `
-            <div class="bg-white rounded-2xl p-3.5 border-l-4 border-emerald-500 border border-slate-100 shadow-sm space-y-2">
+            <div class="binance-bg-card rounded-2xl p-3.5 border-l-4 border-emerald-500 border border-slate-800 shadow-sm space-y-2">
               <div class="flex items-center justify-between">
                 <div>
-                  <span class="font-extrabold text-sm text-slate-800">${pkg.name}</span>
-                  <span class="ml-1.5 px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-black">VIP ${pkg.vip}</span>
+                  <span class="font-extrabold text-sm text-white">${pkg.name}</span>
+                  <span class="ml-1.5 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-black border border-emerald-500/30">VIP ${pkg.vip || 0}</span>
                 </div>
-                <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> Đang sinh lời
                 </span>
               </div>
-              <div class="grid grid-cols-2 gap-2 text-xs text-slate-500">
-                <div>Gói nạp: <strong class="text-slate-800 font-bold">${formatNumber(pkg.price)}đ</strong></div>
-                <div>Lãi 24h: <strong class="text-emerald-600 font-bold">+${formatNumber(profit)}đ</strong></div>
+              <div class="grid grid-cols-2 gap-2 text-xs text-slate-400">
+                <div>Ký quỹ: <strong class="text-white font-bold">${formatNumber(pkg.price)}đ</strong></div>
+                <div>Lãi 24h: <strong class="text-emerald-400 font-bold">+${formatNumber(profit)}đ</strong></div>
               </div>
-              <div class="flex items-center justify-between pt-1 border-t border-slate-50 text-[11px]">
+              <div class="flex items-center justify-between pt-1 border-t border-slate-800 text-[11px]">
                 <span class="text-slate-400">Thời gian trả lãi tiếp theo:</span>
-                <span id="countdown_pkg_${index}" class="font-mono font-bold text-amber-600">Đang tính...</span>
+                <span id="countdown_pkg_${index}" class="font-mono font-bold binance-yellow">Đang tính...</span>
               </div>
             </div>
           `;
@@ -1400,63 +1463,65 @@
 
       const list = document.getElementById('catalogList');
       list.innerHTML = '';
-      const totalTrialSold = Number(localStorage.getItem(STORAGE_KEY_TRIAL_SOLD) || 0);
 
       catalog.forEach(item => {
         const profit = item.price * 0.12;
-        let isSoldOut = false;
-        let trialProgressHtml = '';
-
-        if (item.isTrial) {
-          const progressPercent = Math.min(100, Math.round((totalTrialSold / 30) * 100));
-          const remainingPercent = Math.max(0, 100 - progressPercent);
-          isSoldOut = totalTrialSold >= 30;
-
-          trialProgressHtml = `
-            <div class="space-y-1 pt-1">
-              <div class="flex justify-between text-[11px] font-bold">
-                <span class="text-slate-500">Tiến độ mở bán:</span>
-                <span class="text-amber-600">${progressPercent}% (Còn lại: ${remainingPercent}%)</span>
-              </div>
-              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-300" style="width: ${progressPercent}%"></div>
-              </div>
-            </div>
-          `;
-        }
 
         let btnHtml = '';
         if (item.locked) {
-          btnHtml = `<button disabled class="w-full py-2 bg-slate-100 text-slate-400 font-bold text-xs rounded-xl cursor-not-allowed">Sớm Hoạt Động</button>`;
-        } else if (isSoldOut) {
-          btnHtml = `<button disabled class="w-full py-2 bg-slate-100 text-slate-400 font-bold text-xs rounded-xl cursor-not-allowed">Đã Bán Hết (100%)</button>`;
+          btnHtml = `<button disabled class="w-full py-2 bg-slate-800 text-slate-500 font-bold text-xs rounded-xl cursor-not-allowed border border-slate-700">Sớm Hoạt Động</button>`;
         } else {
-          btnHtml = `<button onclick="requireAuthAction(() => askBuyPackage('${item.id}'))" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl active:scale-95 transition-all shadow-sm">Kích Hoạt Gói</button>`;
+          btnHtml = `<button onclick="requireAuthAction(() => askBuyPackage('${item.id}'))" class="w-full py-2.5 binance-btn-yellow font-black text-xs rounded-xl active:scale-95 transition-all shadow-sm">Ký Quỹ Ngay</button>`;
         }
 
         list.innerHTML += `
-          <div class="bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm space-y-2.5">
-            <div class="flex gap-3 items-center">
-              <img src="${item.img}" alt="${item.name}" class="w-14 h-14 rounded-xl object-cover shrink-0 border border-slate-100 shadow-xs">
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-1.5">
-                    <span class="font-extrabold text-sm text-slate-800">${item.name}</span>
-                    <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-black">VIP ${item.vip}</span>
-                  </div>
-                  <span class="text-sm font-black text-amber-600">${formatNumber(item.price)}đ</span>
+          <div class="binance-bg-card rounded-3xl border border-slate-800 shadow-xl overflow-hidden relative transition-all active:scale-[0.99]">
+            <!-- Khối Hình Ảnh Minh Họa Đồng Coin Chi Tiết Sắc Nét -->
+            <div class="relative bg-gradient-to-r ${item.gradient || 'from-yellow-600/20 to-slate-900'} p-4 border-b border-slate-800/80 overflow-hidden">
+              <!-- Watermark Hình Đồng Coin Chìm To Ở Góc -->
+              <div class="absolute -right-4 -bottom-6 w-28 h-28 opacity-15 pointer-events-none">
+                <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain filter drop-shadow">
+              </div>
+
+              <!-- Huy hiệu VIP & Tỷ lệ hoàn vốn -->
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-yellow-500/20 text-[#F0B90B] border border-yellow-500/30 text-[10px] font-black uppercase tracking-wider">VIP ${item.vip}</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] font-black flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  LÃI 12% / 24H
+                </span>
+              </div>
+
+              <!-- Ảnh Đồng Coin Lớn & Thông Tin Trực Quan -->
+              <div class="flex items-center gap-3.5 relative z-10">
+                <div class="w-16 h-16 rounded-2xl bg-[#0b0e11]/90 p-2 border-2 border-yellow-500/30 shadow-2xl flex items-center justify-center shrink-0 backdrop-blur-md">
+                  <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain filter drop-shadow-lg transform transition-transform hover:scale-110">
                 </div>
-                <div class="text-[11px] text-slate-400 mt-0.5">Hoàn lãi 12%/ngày • Tròn 24h</div>
-                ${trialProgressHtml}
+                <div class="flex-1">
+                  <div class="font-black text-white text-base tracking-tight leading-snug">${item.name}</div>
+                  <div class="text-[11px] text-slate-300 font-medium flex items-center gap-1 mt-0.5">
+                    <span class="text-yellow-400 font-bold">${item.symbol || 'COIN'}</span> • Hợp đồng định lượng AI
+                  </div>
+                  <div class="text-xs font-black binance-yellow mt-1">
+                    Giá trị: <span class="text-sm font-black text-white">${formatNumber(item.price)}đ</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-2 text-xs text-slate-500 pt-1 border-t border-slate-50">
-              <div>Hoàn trả mỗi ngày: <strong class="text-slate-700 block font-bold">12% / ngày</strong></div>
-              <div>Thu nhập dự kiến: <strong class="text-emerald-600 block font-bold">+${formatNumber(profit)}đ / 24h</strong></div>
-            </div>
-            <div class="flex gap-2 pt-1">
-              <div class="flex-1">${btnHtml}</div>
-              <button onclick="viewPkgDetail('${item.id}')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl active:scale-95 transition-all">Chi tiết</button>
+
+            <!-- Nội dung chi tiết & Nút bấm -->
+            <div class="p-4 space-y-3 bg-[#181a20]">
+              <div class="flex items-center justify-between text-xs text-slate-400 pt-1 border-t border-slate-800">
+                <span>Lợi nhuận nhận:</span>
+                <strong class="text-emerald-400 font-black text-sm">+${formatNumber(profit)}đ / ngày</strong>
+              </div>
+              <div class="flex gap-2.5 pt-1">
+                <div class="flex-1">${btnHtml}</div>
+                <button onclick="viewPkgDetail('${item.id}')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl active:scale-95 transition-all border border-slate-700 flex items-center gap-1.5 shrink-0 shadow-sm">
+                  <i class="fa-solid fa-circle-info text-[#F0B90B] text-xs"></i>
+                  <span>Chi tiết</span>
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -1494,19 +1559,42 @@
       if (!item) return;
       const profit = item.price * 0.12;
       const profitMonth = profit * 30;
-      const statusText = item.locked ? '<span class="text-slate-400 font-bold">Sớm Hoạt Động</span>' : '<span class="text-emerald-600 font-bold">Đang Mở Bán</span>';
+      const statusText = item.locked ? '<span class="text-slate-500 font-bold">Sớm Hoạt Động</span>' : '<span class="text-emerald-400 font-bold">Đang Mở Ký Quỹ</span>';
 
       document.getElementById('detailPkgTitle').innerText = 'Thông Tin ' + item.name;
       document.getElementById('detailPkgBody').innerHTML = `
-        <div class="p-3 bg-slate-50 rounded-xl space-y-2 border border-slate-100">
-          <div class="flex justify-between"><span>Số tiền đầu tư:</span><strong class="text-slate-800">${formatNumber(item.price)}đ</strong></div>
-          <div class="flex justify-between"><span>Cấp bậc VIP:</span><strong class="text-amber-600">VIP ${item.vip}</strong></div>
-          <div class="flex justify-between"><span>Lợi nhuận cam kết:</span><strong class="text-emerald-600">12% mỗi 24 giờ</strong></div>
-          <div class="flex justify-between"><span>Lãi thực nhận ngày:</span><strong class="text-emerald-600 font-extrabold">+${formatNumber(profit)}đ / ngày</strong></div>
-          <div class="flex justify-between"><span>Ước tính 30 ngày:</span><strong class="text-amber-600 font-extrabold">+${formatNumber(profitMonth)}đ</strong></div>
-          <div class="flex justify-between border-t border-slate-200 pt-1.5"><span>Trạng thái gói:</span>${statusText}</div>
+        <!-- Banner Hình Ảnh Minh Họa Đồng Coin Chi Tiết -->
+        <div class="rounded-2xl overflow-hidden relative h-32 border border-yellow-500/30 shadow-2xl bg-gradient-to-r ${item.gradient || 'from-yellow-600/30 to-slate-900'} flex items-center justify-between px-4">
+          <div class="absolute -right-4 -bottom-6 w-32 h-32 opacity-20 pointer-events-none">
+            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain filter drop-shadow">
+          </div>
+          
+          <div class="relative z-10 flex items-center gap-3.5">
+            <div class="w-16 h-16 rounded-2xl bg-[#0b0e11] p-2 border-2 border-yellow-500/40 shadow-2xl flex items-center justify-center shrink-0">
+              <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain filter drop-shadow-md">
+            </div>
+            <div>
+              <div class="font-black text-white text-base tracking-tight">${item.name}</div>
+              <div class="text-[10px] text-[#F0B90B] font-extrabold uppercase tracking-widest mt-0.5">Ký Quỹ Định Lượng VIP ${item.vip}</div>
+              <div class="text-[10px] text-emerald-400 font-bold mt-0.5"><i class="fa-solid fa-shield-halved"></i> Bảo hiểm an toàn SAFU</div>
+            </div>
+          </div>
         </div>
-        <p class="text-[11px] text-slate-500 leading-relaxed px-1">${item.desc}</p>
+
+        <div class="p-3.5 bg-slate-900 rounded-2xl space-y-2 border border-slate-800 text-xs">
+          <div class="flex justify-between"><span>Mức ký quỹ:</span><strong class="text-white font-extrabold">${formatNumber(item.price)}đ</strong></div>
+          <div class="flex justify-between"><span>Lợi nhuận cam kết:</span><strong class="text-emerald-400 font-extrabold">12% mỗi 24 giờ</strong></div>
+          <div class="flex justify-between"><span>Lãi thực nhận ngày:</span><strong class="text-emerald-400 font-black text-sm">+${formatNumber(profit)}đ / 24h</strong></div>
+          <div class="flex justify-between"><span>Ước tính tích lũy 30 ngày:</span><strong class="binance-yellow font-black text-sm">+${formatNumber(profitMonth)}đ</strong></div>
+          <div class="flex justify-between border-t border-slate-800 pt-2 text-[11px]"><span>Trạng thái ký quỹ:</span>${statusText}</div>
+        </div>
+
+        <div class="p-3.5 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-1.5">
+          <div class="font-bold binance-yellow text-[11px] flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info"></i> Lịch Sử & Nguồn Gốc Thành Lập:
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed text-justify">${item.desc}</p>
+        </div>
       `;
       openModal('detailPkgModal');
     }
@@ -1516,16 +1604,11 @@
       const item = catalog.find(p => p.id === pkgId);
       if (!item) return;
 
-      if (currentUser.activePackages.length >= currentUser.maxSlots) {
+      if (currentUser.activePackages && currentUser.activePackages.length >= (currentUser.maxSlots || 1)) {
         openModal('buySlotModal');
         return;
       }
-      const totalTrialSold = Number(localStorage.getItem(STORAGE_KEY_TRIAL_SOLD) || 0);
-      if (item.isTrial && totalTrialSold >= 30) {
-        showCustomToast('Gói Trải Nghiệm đã đạt giới hạn 100%!');
-        return;
-      }
-      if (currentUser.balance < item.price) {
+      if ((currentUser.balance || 0) < item.price) {
         showCustomToast('Số dư ví không đủ ' + formatNumber(item.price) + 'đ. Vui lòng nạp thêm!');
         openModal('depositModal');
         return;
@@ -1545,16 +1628,11 @@
       if (!item) return;
 
       const now = Date.now();
-      currentUser.balance -= item.price;
+      currentUser.balance = (currentUser.balance || 0) - item.price;
       currentUser.hasEverBoughtPackage = true;
-      if (item.vip > currentUser.userVip) currentUser.userVip = item.vip;
+      if (item.vip > (currentUser.userVip || 0)) currentUser.userVip = item.vip;
 
-      if (item.isTrial) {
-        const sold = Number(localStorage.getItem(STORAGE_KEY_TRIAL_SOLD) || 0) + 1;
-        localStorage.setItem(STORAGE_KEY_TRIAL_SOLD, sold);
-        if (db) db.ref('trial_sold').set(sold);
-      }
-
+      currentUser.activePackages = currentUser.activePackages || [];
       currentUser.activePackages.push({
         id: item.id,
         name: item.name,
@@ -1564,32 +1642,48 @@
         nextPayoutTime: now + 86400000
       });
 
-      saveCurrentUserData();
-      triggerCongrat('Kích Hoạt Gói Thành Công!', `Chúc mừng bạn đã kích hoạt thành công ${item.name} (VIP ${item.vip}). Lợi nhuận sẽ được trả tự động sau mỗi 24h!`);
+      // Lưu cập nhật riêng user lên Firebase
+      if (db) {
+        db.ref('users/' + currentUser.phone).update({
+          balance: currentUser.balance,
+          hasEverBoughtPackage: true,
+          userVip: currentUser.userVip,
+          activePackages: currentUser.activePackages
+        });
+      }
+
+      triggerCongrat('Ký Quỹ Thành Công!', `Chúc mừng bạn đã kích hoạt thành công ${item.name} (VIP ${item.vip}). Lợi nhuận sẽ được trả tự động sau mỗi 24h!`);
       pendingBuyPackageId = null;
       updateUI();
     }
 
     function confirmBuySlotAction() {
       if (!currentUser) return;
-      if (currentUser.balance < 20000) {
+      if ((currentUser.balance || 0) < 20000) {
         showCustomToast('Số dư ví không đủ 20.000đ để mua thêm ô chứa!');
         return;
       }
       currentUser.balance -= 20000;
-      currentUser.maxSlots += 1;
-      saveCurrentUserData();
+      currentUser.maxSlots = (currentUser.maxSlots || 1) + 1;
+
+      if (db) {
+        db.ref('users/' + currentUser.phone).update({
+          balance: currentUser.balance,
+          maxSlots: currentUser.maxSlots
+        });
+      }
+
       closeModal('buySlotModal');
       triggerCongrat('Mở Slot Thành Công!', 'Bạn đã mua thêm 1 ô chứa thành công với giá 20.000đ. Hiện có thể chạy cùng lúc ' + currentUser.maxSlots + ' gói.');
       updateUI();
     }
 
-    // ==================== TAB NHIỆM VỤ ====================
+    // ĐIỂM DANH THEO MÚI GIỜ VIỆT NAM (00:00 GMT+7) & CƠ CHẾ XOAY VÒNG CHU KỲ SAU 7 NGÀY
     function renderTasksTab() {
       const grid = document.getElementById('attendanceGrid');
       grid.innerHTML = '';
       const dailyRewards = [1000, 2000, 3000, 4000, 5000, 6000, 14000];
-      const attCount = currentUser ? currentUser.attDayCount : 0;
+      const attCount = currentUser ? (currentUser.attDayCount % 7 || (currentUser.attDayCount > 0 ? 7 : 0)) : 0;
 
       dailyRewards.forEach((rew, idx) => {
         const dayNum = idx + 1;
@@ -1598,30 +1692,30 @@
         if (dayNum === 7) rewText += ' (x2)';
 
         grid.innerHTML += `
-          <div class="rounded-xl border ${isDone ? 'bg-emerald-50 border-emerald-300 text-emerald-800' : 'bg-slate-50 border-slate-200 text-slate-700'} p-2 text-center">
-            <div class="text-[10px] font-bold ${isDone ? 'text-emerald-700' : 'text-slate-400'} flex items-center justify-center gap-0.5">
-              Ngày ${dayNum} ${isDone ? '<i class="fa-solid fa-check text-[10px] text-emerald-600"></i>' : ''}
+          <div class="rounded-xl border ${isDone ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200' : 'bg-slate-900 border-slate-800 text-slate-300'} p-2 text-center">
+            <div class="text-[10px] font-bold ${isDone ? 'text-emerald-400' : 'text-slate-500'} flex items-center justify-center gap-0.5">
+              Ngày ${dayNum} ${isDone ? '<i class="fa-solid fa-check text-[10px] text-emerald-400"></i>' : ''}
             </div>
             <div class="text-[11px] font-black mt-1">${rewText}</div>
           </div>
         `;
       });
 
-      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayStr = getVietnamDateString();
       const btn = document.getElementById('taskDailyBtn');
       if (currentUser && currentUser.attLastDate === todayStr) {
         btn.innerText = 'Hôm nay đã nhận';
-        btn.className = 'px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-100 text-slate-400 cursor-not-allowed';
+        btn.className = 'px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700';
         btn.disabled = true;
       } else {
         btn.innerText = 'Điểm danh ngay';
-        btn.className = 'px-3 py-1.5 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-600 text-white shadow-sm active:scale-95';
+        btn.className = 'px-3 py-1.5 rounded-xl font-black text-xs binance-btn-yellow shadow-sm active:scale-95';
         btn.disabled = false;
       }
 
       const tasksBox = document.getElementById('friendTasksContainer');
       tasksBox.innerHTML = '';
-      const f1Count = currentUser ? currentUser.f1DepositedCount : 0;
+      const f1Count = currentUser ? (currentUser.f1DepositedCount || 0) : 0;
 
       const milestones = [
         { count: 5, rew: 50000 },
@@ -1632,27 +1726,27 @@
       ];
 
       milestones.forEach(m => {
-        const isClaimed = currentUser ? currentUser.taskClaimed[m.count] : false;
+        const isClaimed = currentUser ? (currentUser.taskClaimed && currentUser.taskClaimed[m.count]) : false;
         const isReady = f1Count >= m.count && !isClaimed;
         const pct = Math.min(100, (f1Count / m.count) * 100);
 
         let btnContent = '';
         if (isClaimed) {
-          btnContent = `<button disabled class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-400 font-bold text-xs cursor-not-allowed">Đã nhận</button>`;
+          btnContent = `<button disabled class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-500 font-bold text-xs cursor-not-allowed">Đã nhận</button>`;
         } else if (isReady) {
-          btnContent = `<button onclick="requireAuthAction(() => claimFriendRewardAction(${m.count}, ${m.rew}))" class="px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs active:scale-95 shadow-sm">Nhận thưởng</button>`;
+          btnContent = `<button onclick="requireAuthAction(() => claimFriendRewardAction(${m.count}, ${m.rew}))" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs active:scale-95 shadow-sm">Nhận thưởng</button>`;
         } else {
-          btnContent = `<button disabled class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-400 font-bold text-xs cursor-not-allowed">${f1Count}/${m.count}</button>`;
+          btnContent = `<button disabled class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-500 font-bold text-xs cursor-not-allowed border border-slate-700">${f1Count}/${m.count}</button>`;
         }
 
         tasksBox.innerHTML += `
-          <div class="border border-slate-100 rounded-2xl p-3 space-y-2">
+          <div class="border border-slate-800 bg-slate-900/60 rounded-2xl p-3 space-y-2">
             <div class="flex items-center justify-between text-xs">
-              <span class="font-bold text-slate-700">Mời ${m.count} người nạp tiền</span>
-              <span class="font-black text-orange-500">+${formatNumber(m.rew)}đ</span>
+              <span class="font-bold text-slate-200">Mời ${m.count} người nạp tiền</span>
+              <span class="font-black binance-yellow">+${formatNumber(m.rew)}đ</span>
             </div>
-            <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-amber-500 to-yellow-500 transition-all duration-300" style="width: ${pct}%"></div>
+            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-yellow-500 to-amber-500 transition-all duration-300" style="width: ${pct}%"></div>
             </div>
             <div class="flex items-center justify-between text-[11px] text-slate-400 pt-0.5">
               <span>Đạt: ${f1Count}/${m.count} người nạp</span>
@@ -1665,77 +1759,119 @@
 
     function doDailyAttendance() {
       if (!currentUser) return;
-      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayStr = getVietnamDateString();
       if (currentUser.attLastDate === todayStr) {
         showCustomToast('Hôm nay bạn đã điểm danh rồi!');
         return;
       }
-      if (currentUser.attDayCount >= 7) {
-        showCustomToast('Bạn đã hoàn tất 7 ngày điểm danh!');
-        return;
+
+      if (!currentUser.attDayCount || currentUser.attDayCount >= 7) {
+        currentUser.attDayCount = 1;
+      } else {
+        currentUser.attDayCount++;
       }
 
-      currentUser.attDayCount++;
       const rewards = [1000, 2000, 3000, 4000, 5000, 6000, 14000];
       const rew = rewards[currentUser.attDayCount - 1];
-      currentUser.balance += rew;
+      currentUser.balance = (currentUser.balance || 0) + rew;
       currentUser.attLastDate = todayStr;
 
-      saveCurrentUserData();
+      if (db) {
+        db.ref('users/' + currentUser.phone).update({
+          balance: currentUser.balance,
+          attDayCount: currentUser.attDayCount,
+          attLastDate: currentUser.attLastDate
+        });
+      }
+
       triggerCongrat('Điểm Danh Ngày ' + currentUser.attDayCount, `Bạn nhận được +${formatNumber(rew)}đ vào tài khoản ví!`);
       updateUI();
     }
 
     function claimFriendRewardAction(count, rew) {
       if (!currentUser) return;
-      if (currentUser.f1DepositedCount >= count && !currentUser.taskClaimed[count]) {
+      if (!currentUser.taskClaimed) currentUser.taskClaimed = {};
+      if ((currentUser.f1DepositedCount || 0) >= count && !currentUser.taskClaimed[count]) {
         currentUser.taskClaimed[count] = true;
-        currentUser.balance += rew;
-        saveCurrentUserData();
+        currentUser.balance = (currentUser.balance || 0) + rew;
+
+        if (db) {
+          db.ref('users/' + currentUser.phone).update({
+            balance: currentUser.balance,
+            taskClaimed: currentUser.taskClaimed
+          });
+        }
+
         triggerCongrat('Nhận Thưởng Thành Công!', `Đã nhận +${formatNumber(rew)}đ khi đạt mốc mời ${count} người nạp.`);
         updateUI();
       }
     }
 
-    // ==================== TAB ĐỘI NHÓM & HOA HỒNG F1/F2 ====================
-    function renderTeamTab(filter) {
+    // ==================== TAB ĐỘI NHÓM & BỘ LỌC CHUẨN XÁC ====================
+    function filterTeam(filterType) {
+      teamFilter = filterType;
+      
+      const btnAll = document.getElementById('btnFilterAll');
+      const btnDep = document.getElementById('btnFilterDep');
+      const btnUnpaid = document.getElementById('btnFilterUnpaid');
+      
+      if (btnAll) btnAll.className = "flex-1 py-1 text-xs font-bold rounded-lg text-slate-400";
+      if (btnDep) btnDep.className = "flex-1 py-1 text-xs font-bold rounded-lg text-slate-400";
+      if (btnUnpaid) btnUnpaid.className = "flex-1 py-1 text-xs font-bold rounded-lg text-slate-400";
+      
+      if (filterType === 'all' && btnAll) btnAll.className = "flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white shadow-xs";
+      if (filterType === 'deposited' && btnDep) btnDep.className = "flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white shadow-xs";
+      if (filterType === 'unpaid' && btnUnpaid) btnUnpaid.className = "flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white shadow-xs";
+
+      renderTeamTab(filterType);
+    }
+
+    function renderTeamTab(filter = teamFilter) {
       const container = document.getElementById('teamContainer');
+      if (!container) return;
       if (!currentUser) {
         container.innerHTML = '<div class="py-6 text-center text-xs text-slate-400">Vui lòng đăng nhập để xem đội nhóm</div>';
         return;
       }
 
-      const users = getStoredUsers();
-      let f1List = [];
-      Object.values(users).forEach(u => {
-        if (u.inviterPhone === currentUser.phone) {
-          f1List.push(u);
+      if (!db) return;
+
+      db.ref('users').once('value', snap => {
+        const users = snap.val() || {};
+        let f1List = [];
+        Object.values(users).forEach(u => {
+          if (u.invite === currentUser.phone || u.inviterPhone === currentUser.phone) {
+            f1List.push(u);
+          }
+        });
+
+        if (filter === 'deposited') {
+          f1List = f1List.filter(f1 => (f1.totalDeposited || 0) > 0 || f1.hasDeposited);
+        } else if (filter === 'unpaid') {
+          f1List = f1List.filter(f1 => !((f1.totalDeposited || 0) > 0 || f1.hasDeposited));
         }
+
+        if (f1List.length === 0) {
+          container.innerHTML = '<div class="py-6 text-center text-xs text-slate-400">Không có thành viên nào trong danh sách</div>';
+          return;
+        }
+
+        container.innerHTML = f1List.map(f1 => {
+          const totalF1Dep = Number(f1.totalDeposited || 0);
+          return `
+            <div class="py-3 flex items-center justify-between text-xs">
+              <div>
+                <div class="font-bold text-white">${f1.phone.substring(0, 3)}****${f1.phone.substring(f1.phone.length - 3)}</div>
+                <div class="text-[10px] text-slate-400">F1 • Nạp: ${formatNumber(totalF1Dep)}đ</div>
+              </div>
+              <div class="text-right">
+                <span class="binance-yellow font-black">+${formatNumber(totalF1Dep * 0.13)}đ</span>
+                <div class="text-[10px] text-slate-400">Hoa hồng 13%</div>
+              </div>
+            </div>
+          `;
+        }).join('');
       });
-
-      if (f1List.length === 0) {
-        container.innerHTML = '<div class="py-6 text-center text-xs text-slate-400">Chưa có thành viên tuyến dưới nào</div>';
-        return;
-      }
-
-      container.innerHTML = f1List.map(f1 => {
-        let totalF1Dep = 0;
-        if (f1.orders) {
-          f1.orders.forEach(o => { if (o.type === 'deposit' && o.status === 'success') totalF1Dep += o.amount; });
-        }
-        return `
-          <div class="py-3 flex items-center justify-between text-xs">
-            <div>
-              <div class="font-bold text-slate-800">${f1.phone.substring(0, 3)}****${f1.phone.substring(f1.phone.length - 3)}</div>
-              <div class="text-[10px] text-slate-400">F1 • Nạp: ${formatNumber(totalF1Dep)}đ</div>
-            </div>
-            <div class="text-right">
-              <span class="text-amber-600 font-black">+${formatNumber(totalF1Dep * 0.13)}đ</span>
-              <div class="text-[10px] text-slate-400">Hoa hồng 13%</div>
-            </div>
-          </div>
-        `;
-      }).join('');
     }
 
     function copyRefLink() {
@@ -1745,11 +1881,12 @@
       showCustomToast('Đã sao chép link mời!');
     }
 
-    // ==================== NẠP & RÚT TIỀN ====================
+    // ==================== NẠP & RÚT TIỀN: LIÊN KẾT 100% VỚI ADMIN ====================
     function setQuickDeposit(amount) {
       document.getElementById('depositAmountInput').value = amount;
     }
 
+    // TẠO LỆNH NẠP -> ĐẨY VÀO pending_deposits ĐỂ ADMIN NHÌN THẤY & DUYỆT
     function submitDepositAction() {
       if (!currentUser) { openAuthModal('login'); return; }
       const val = Number(document.getElementById('depositAmountInput').value);
@@ -1758,21 +1895,45 @@
         return;
       }
 
-      const orderId = 'NAP-' + Math.floor(1000 + Math.random()*9000);
-      
+      const orderId = 'NAP-' + Math.floor(1000 + Math.random() * 9000);
+      const currentTime = new Date().toLocaleString('vi-VN');
+
+      const depRecord = {
+        id: orderId,
+        phone: currentUser.phone,
+        amount: val,
+        time: currentTime,
+        status: 'PENDING'
+      };
+
+      // 1. Đẩy vào pending_deposits/{id} để Admin duyệt
+      if (db) {
+        db.ref('pending_deposits/' + orderId).set(depRecord);
+      }
+
+      // 2. Lưu vào lịch sử giao dịch cá nhân
+      currentUser.orders = currentUser.orders || [];
       currentUser.orders.unshift({
         id: orderId,
         type: 'deposit',
         user: `Nhà Đầu Tư #${currentUser.phone.slice(-4)}`,
         amount: val,
         status: 'pending',
-        time: new Date().toLocaleString('vi-VN')
+        time: currentTime
       });
-      saveCurrentUserData();
+
+      if (db) {
+        db.ref('users/' + currentUser.phone + '/orders').set(currentUser.orders);
+      }
 
       closeModal('depositModal');
       document.getElementById('depositAmountInput').value = '';
 
+      // Tự động bắn thông báo nạp về Telegram
+      const teleMsg = `📥 <b>CÓ ĐƠN NẠP TIỀN MỚI CHỜ DUYỆT</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ Mã đơn: <code>${orderId}</code>\n▫️ Số điện thoại: <b>${currentUser.phone}</b>\n▫️ Số tiền nạp: <b>${formatNumber(val)} đ</b>\n▫️ Thời gian: ${currentTime}`;
+      sendTelegramNotification(teleMsg);
+
+      // Hiển thị VietQR
       const qrContent = `NT ${currentUser.phone}`;
       const qrUrl = `https://img.vietqr.io/image/ACB-54248-compact2.png?amount=${val}&addInfo=${encodeURIComponent(qrContent)}&accountName=HA%20TRUNG%20DUC`;
       document.getElementById('vietqrImage').src = qrUrl;
@@ -1785,20 +1946,8 @@
 
     function handleWithdrawClick() {
       if (!currentUser) { openAuthModal('login'); return; }
-      
-      const isWithdrawOpen = localStorage.getItem(STORAGE_KEY_WITHDRAW_ACTIVE) !== 'false';
-      if (!isWithdrawOpen) {
-        triggerCongrat('Cổng Rút Đang Tạm Đóng', 'Hệ thống rút tiền hiện đang bảo trì hoặc tạm ngưng xử lý theo điều phối của Admin. Vui lòng thử lại sau!');
-        return;
-      }
 
-      if (!currentUser.hasEverBoughtPackage) {
-        triggerCongrat('Cảnh Báo Kích Hoạt', 'Bạn cần mua ít nhất 1 gói đầu tư để kích hoạt chức năng rút tiền!');
-        switchTab('products');
-        return;
-      }
-
-      if (currentUser.bankLocked) {
+      if (currentUser.bankLocked && currentUser.savedBank) {
         document.getElementById('withdrawBankSelect').value = currentUser.savedBank.bank;
         document.getElementById('withdrawBankSelect').disabled = true;
         document.getElementById('withdrawAccNum').value = currentUser.savedBank.accNum;
@@ -1813,12 +1962,13 @@
       openModal('withdrawModal');
     }
 
+    // TẠO LỆNH RÚT -> ĐẨY VÀO pending_withdraws ĐỂ ADMIN DUYỆT GIẢI NGÂN
     function submitWithdrawAction() {
       if (!currentUser) return;
       const amount = Number(document.getElementById('withdrawAmountInput').value);
       const bank = document.getElementById('withdrawBankSelect').value;
       const accNum = document.getElementById('withdrawAccNum').value.trim();
-      const accName = document.getElementById('withdrawAccName').value.trim();
+      const accName = document.getElementById('withdrawAccName').value.trim().toUpperCase();
 
       if (!accNum || !accName) {
         showCustomToast('Vui lòng nhập đầy đủ STK và Họ Tên');
@@ -1832,20 +1982,40 @@
         showCustomToast('Chỉ rút số tiền chẵn tròn nghìn (Ví dụ: 25.000đ, 30.000đ), không rút tiền lẻ!');
         return;
       }
-      if (amount > currentUser.balance) {
+      if (amount > (currentUser.balance || 0)) {
         showCustomToast('Số dư ví không đủ ' + formatNumber(amount) + 'đ');
         return;
       }
 
+      // Trừ tiền tạm thời của user
       currentUser.balance -= amount;
       if (!currentUser.bankLocked) {
         currentUser.savedBank = { bank, accNum, accName };
         currentUser.bankLocked = true;
       }
 
-      const orderId = 'RUT-' + Math.floor(1000 + Math.random()*9000);
+      const orderId = 'RUT-' + Math.floor(1000 + Math.random() * 9000);
       const currentTime = new Date().toLocaleString('vi-VN');
 
+      // Cấu trúc chuẩn khớp hoàn toàn với Admin: { id, phone, bank, stk, name, amount, time }
+      const witRecord = {
+        id: orderId,
+        phone: currentUser.phone,
+        bank: bank,
+        stk: accNum,
+        name: accName,
+        amount: amount,
+        time: currentTime,
+        status: 'PENDING'
+      };
+
+      // 1. Đẩy vào pending_withdraws cho Admin duyệt
+      if (db) {
+        db.ref('pending_withdraws/' + orderId).set(witRecord);
+      }
+
+      // 2. Lưu vào lịch sử đơn cá nhân
+      currentUser.orders = currentUser.orders || [];
       currentUser.orders.unshift({
         id: orderId,
         type: 'withdraw',
@@ -1855,28 +2025,29 @@
         accName: accName,
         amount: amount,
         fee: 0,
-        status: 'success',
+        status: 'pending',
         time: currentTime
       });
-      saveCurrentUserData();
+
+      // 3. Cập nhật số dư và lịch sử user trên Firebase
+      if (db) {
+        db.ref('users/' + currentUser.phone).update({
+          balance: currentUser.balance,
+          bankLocked: true,
+          savedBank: currentUser.savedBank,
+          bankInfo: { bank, stk: accNum, name: accName },
+          orders: currentUser.orders
+        });
+      }
 
       closeModal('withdrawModal');
       document.getElementById('withdrawAmountInput').value = '';
       
-      triggerCongrat('Rút Tiền Thành Công!', `Lệnh rút ${formatNumber(amount)}đ đã được hệ thống ghi nhận và chuyển lệnh giải ngân!`);
+      triggerCongrat('Đã Gửi Yêu Cầu Rút!', `Lệnh rút ${formatNumber(amount)}đ đã được gửi đến Quản Trị Viên để chờ giải ngân về tài khoản của bạn!`);
       updateUI();
 
-      const teleMsg = `✅ <b>THÔNG BÁO RÚT TIỀN THÀNH CÔNG</b>\n` +
-                      `━━━━━━━━━━━━━━━━━━━━\n` +
-                      `▫️ Mã giao dịch: <code>${orderId}</code>\n` +
-                      `▫️ Tài khoản: <b>${currentUser.phone}</b>\n` +
-                      `▫️ Số tiền rút: <b>${formatNumber(amount)} đ</b>\n` +
-                      `▫️ Phí xử lý: <b>0% (Miễn phí)</b>\n` +
-                      `▫️ Ngân hàng / Ví: <b>${bank}</b>\n` +
-                      `▫️ Số tài khoản: <code>${accNum}</code>\n` +
-                      `▫️ Người nhận: <b>${accName.toUpperCase()}</b>\n` +
-                      `▫️ Trạng thái: 🟢 <b>Đã thanh toán thành công</b>\n` +
-                      `▫️ Thời gian: ${currentTime}`;
+      // Bắn thông báo lệnh rút về Telegram
+      const teleMsg = `⚠️ <b>CÓ LỆNH RÚT TIỀN MỚI CHỜ DUYỆT</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ Mã giao dịch: <code>${orderId}</code>\n▫️ Tài khoản: <b>${currentUser.phone}</b>\n▫️ Số tiền rút: <b>${formatNumber(amount)} đ</b>\n▫️ Ngân hàng / Ví: <b>${bank}</b>\n▫️ Số tài khoản: <code>${accNum}</code>\n▫️ Người nhận: <b>${accName}</b>\n▫️ Thời gian: ${currentTime}`;
       sendTelegramNotification(teleMsg);
     }
 
@@ -1884,21 +2055,21 @@
     function renderDepositHistory() {
       const box = document.getElementById('depositHistoryContent');
       if (!currentUser || !currentUser.orders) {
-        box.innerHTML = '<div class="py-6 text-center text-slate-400">Chưa có giao dịch nạp tiền</div>';
+        box.innerHTML = '<div class="py-6 text-center text-slate-500">Chưa có giao dịch nạp tiền</div>';
         return;
       }
       const list = currentUser.orders.filter(o => o.type === 'deposit');
       if (list.length === 0) {
-        box.innerHTML = '<div class="py-6 text-center text-slate-400">Chưa có giao dịch nạp tiền</div>';
+        box.innerHTML = '<div class="py-6 text-center text-slate-500">Chưa có giao dịch nạp tiền</div>';
         return;
       }
       box.innerHTML = list.map(o => `
         <div class="py-2.5 flex justify-between items-center">
           <div>
-            <div class="font-bold text-slate-800">+${formatNumber(o.amount)}đ</div>
+            <div class="font-bold text-white">+${formatNumber(o.amount)}đ</div>
             <div class="text-[10px] text-slate-400">${o.time} • ${o.id}</div>
           </div>
-          <div>${o.status === 'pending' ? '<span class="text-amber-500 font-bold">Đang xử lý</span>' : '<span class="text-emerald-600 font-bold">Thành công</span>'}</div>
+          <div>${o.status === 'pending' || o.status === 'PENDING' ? '<span class="binance-yellow font-bold">Chờ duyệt</span>' : (o.status === 'REJECTED' ? '<span class="text-rose-400 font-bold">Từ chối</span>' : '<span class="text-emerald-400 font-bold">Thành công</span>')}</div>
         </div>
       `).join('');
     }
@@ -1906,63 +2077,80 @@
     function renderWithdrawHistory() {
       const box = document.getElementById('withdrawHistoryContent');
       if (!currentUser || !currentUser.orders) {
-        box.innerHTML = '<div class="py-6 text-center text-slate-400">Chưa có giao dịch rút tiền</div>';
+        box.innerHTML = '<div class="py-6 text-center text-slate-500">Chưa có giao dịch rút tiền</div>';
         return;
       }
       const list = currentUser.orders.filter(o => o.type === 'withdraw');
       if (list.length === 0) {
-        box.innerHTML = '<div class="py-6 text-center text-slate-400">Chưa có giao dịch rút tiền</div>';
+        box.innerHTML = '<div class="py-6 text-center text-slate-500">Chưa có giao dịch rút tiền</div>';
         return;
       }
       box.innerHTML = list.map(o => `
         <div class="py-2.5 flex justify-between items-center">
           <div>
-            <div class="font-bold text-rose-600">-${formatNumber(o.amount)}đ</div>
+            <div class="font-bold text-rose-400">-${formatNumber(o.amount)}đ</div>
             <div class="text-[10px] text-slate-400">${o.time} • Phí: 0%</div>
           </div>
-          <div><span class="text-emerald-600 font-bold">Thành công</span></div>
+          <div>${o.status === 'pending' || o.status === 'PENDING' ? '<span class="binance-yellow font-bold">Chờ giải ngân</span>' : (o.status === 'REJECTED' ? '<span class="text-rose-400 font-bold">Bị từ chối (Hoàn tiền)</span>' : '<span class="text-emerald-400 font-bold">Đã giải ngân</span>')}</div>
         </div>
       `).join('');
     }
 
-    // ==================== GIFTCODE Ở MỤC TÔI ====================
+    // ==================== GIFTCODE ONLINE ĐỒNG BỘ VỚI ADMIN ====================
     function claimCodeMe() {
       if (!currentUser) { openAuthModal('login'); return; }
       const input = document.getElementById('meGiftcodeInput');
       const code = input.value.trim().toUpperCase();
       if (!code) { showCustomToast('Vui lòng nhập mã quà tặng'); return; }
-      if (!currentUser.usedGiftcodes) currentUser.usedGiftcodes = [];
-      if (currentUser.usedGiftcodes.includes(code)) { showCustomToast('Bạn đã sử dụng mã này rồi!'); return; }
-      
-      let giftcodes = {};
-      try {
-        giftcodes = JSON.parse(localStorage.getItem(STORAGE_KEY_GIFTCODES)) || {};
-      } catch(e) { giftcodes = {}; }
 
-      if (!giftcodes['BINANCE2026']) {
-        giftcodes['BINANCE2026'] = { reward: 20000, usedCount: 0, maxUse: 9999, active: true };
-      }
+      if (!db) return;
 
-      const gift = giftcodes[code];
-      if (gift && gift.active) {
-        if (gift.maxUse && gift.usedCount >= gift.maxUse) {
-          showCustomToast('Mã quà tặng đã hết lượt sử dụng!');
+      db.ref('giftcodes/' + code).once('value', snap => {
+        if (!snap.exists()) {
+          showCustomToast('Mã quà tặng không hợp lệ hoặc không tồn tại!');
           return;
         }
-        const bonus = gift.reward;
-        currentUser.balance += bonus;
+
+        const gift = snap.val();
+        gift.usedUsers = gift.usedUsers || {};
+
+        if (gift.usedUsers[currentUser.phone]) {
+          showCustomToast('Bạn đã sử dụng mã này rồi!');
+          return;
+        }
+
+        if (gift.maxUses && (gift.usedCount || 0) >= gift.maxUses) {
+          showCustomToast('Mã quà tặng đã hết lượt nhập!');
+          return;
+        }
+
+        // Tính tiền thưởng ngẫu nhiên min - max do Admin cài đặt
+        const minVal = Number(gift.min || gift.reward || 10000);
+        const maxVal = Number(gift.max || gift.reward || minVal);
+        const bonus = Math.floor(minVal + Math.random() * (maxVal - minVal + 1));
+
+        currentUser.balance = (currentUser.balance || 0) + bonus;
+        currentUser.usedGiftcodes = currentUser.usedGiftcodes || [];
         currentUser.usedGiftcodes.push(code);
+
         gift.usedCount = (gift.usedCount || 0) + 1;
-        giftcodes[code] = gift;
-        localStorage.setItem(STORAGE_KEY_GIFTCODES, JSON.stringify(giftcodes));
-        
-        saveCurrentUserData();
+        gift.usedUsers[currentUser.phone] = true;
+
+        // Cập nhật Firebase
+        db.ref('giftcodes/' + code).update({
+          usedCount: gift.usedCount,
+          usedUsers: gift.usedUsers
+        });
+
+        db.ref('users/' + currentUser.phone).update({
+          balance: currentUser.balance,
+          usedGiftcodes: currentUser.usedGiftcodes
+        });
+
         input.value = '';
         triggerCongrat('Nhận Quà Thành Công!', `Chúc mừng bạn đã nhận được +${formatNumber(bonus)}đ vào số dư ví từ mã quà tặng [${code}]!`);
         updateUI();
-      } else {
-        showCustomToast('Mã quà tặng không hợp lệ hoặc đã bị khóa!');
-      }
+      });
     }
 
     function triggerCongrat(title, desc) {
@@ -1971,63 +2159,37 @@
       openModal('congratModal');
     }
 
-    // ==================== KHỞI CHẠY (LOAD TỪ LOCALSTORAGE VÀ FIREBASE) ====================
+    // ==================== KHỞI CHẠY (LOAD TỪ FIREBASE REALTIME) ====================
     window.onload = function() {
-      // Tự động nhận mã giới thiệu từ URL (ref) nếu có
       const urlParams = new URLSearchParams(window.location.search);
       const ref = urlParams.get('ref');
       if (ref) {
         openAuthModal('register');
-        document.getElementById('authRefInput').value = ref;
+        const refInput = document.getElementById('authRefInput');
+        if (refInput) refInput.value = ref;
       }
 
-      const savedPhone = getCurrentPhone();
-      const users = getStoredUsers();
-      if (savedPhone && users[savedPhone]) {
-        currentUser = users[savedPhone];
-      }
-      updateUI();
-      checkAutoPayoutPackages();
+      const savedPhone = localStorage.getItem('binance_pro_current_phone');
 
-      // Kết nối Realtime Firebase
       if (db) {
-        db.ref('system_settings').on('value', (snap) => {
-          const cfg = snap.val() || {};
-          if (cfg.maintenance !== undefined) {
-            localStorage.setItem(STORAGE_KEY_MAINTENANCE, cfg.maintenance ? 'true' : 'false');
-          }
-          if (cfg.withdrawActive !== undefined) {
-            localStorage.setItem(STORAGE_KEY_WITHDRAW_ACTIVE, cfg.withdrawActive ? 'true' : 'false');
-          }
-          checkServerStatus();
-        });
-
-        db.ref('trial_sold').on('value', (snap) => {
-          if (snap.exists()) {
-            localStorage.setItem(STORAGE_KEY_TRIAL_SOLD, snap.val());
-            renderProductsTab();
+        // 1. Lắng nghe chế độ bảo trì máy chủ từ Admin (system/server_closed)
+        db.ref('system/server_closed').on('value', snap => {
+          const isClosed = snap.val() || false;
+          const mScreen = document.getElementById('maintenanceScreen');
+          if (mScreen) {
+            if (isClosed) mScreen.classList.remove('hidden');
+            else mScreen.classList.add('hidden');
           }
         });
 
-        db.ref('giftcodes').on('value', (snap) => {
-          if (snap.exists()) {
-            localStorage.setItem(STORAGE_KEY_GIFTCODES, JSON.stringify(snap.val()));
-          }
-        });
-
+        // 2. Tải thông tin tài khoản người dùng
         if (savedPhone) {
-          db.ref('users/' + savedPhone).on('value', (snap) => {
-            const val = snap.val();
-            if (val) {
-              currentUser = val;
-              const uList = getStoredUsers();
-              uList[savedPhone] = val;
-              saveStoredUsers(uList);
-              updateUI();
-              checkServerStatus();
-            }
-          });
+          listenUserRealtime(savedPhone);
+        } else {
+          updateUI();
         }
+      } else {
+        updateUI();
       }
     };
   </script>
