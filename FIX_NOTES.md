@@ -35,9 +35,21 @@ Tham khảo chính thức:
 
 Trong Firebase Console, bật Authentication > Sign-in method > Email/Password, tạo một người dùng quản trị. Chủ dự án dùng Firebase Admin SDK để gọi `getAuth().setCustomUserClaims(uid, {admin: true})` với UID đó, từ máy/backend có quyền quản lý dự án. Không đưa khóa dịch vụ vào repository. Sau đó đăng nhập bằng email và mật khẩu riêng trên trang admin. Chỉ giao diện đăng nhập này không thay thế việc triển khai Database Rules phù hợp.
 
+## Mời bạn bè và duyệt nạp
+
+- Link mời dùng `https://binancepro.cloud/?ref=SO_DIEN_THOAI`. Lưu mã mời trên thiết bị cho đến khi đăng ký thành công. Kiểm tra mã đúng SĐT 10 chữ số, tồn tại và không tự mời.
+- Người chơi đăng ký vẫn dùng cơ chế tài khoản cũ. Giao dịch tạo tài khoản tránh ghi đè khi hai phiên đăng ký đồng thời; việc xác thực người chơi chưa được chuyển sang Firebase Auth trong thay đổi này.
+- Nút Duyệt nạp gọi callable `approveDeposit` tại asia-southeast1, bắt buộc Firebase Auth với admin claim. Admin xác nhận đã đối soát ngân hàng; số tiền/người nạp phải khớp bản ghi server tại lúc xử lý.
+- Mỗi đơn chỉ được duyệt một lần, cộng tiền nạp và tổng nạp cho người nạp. F1 nhận 13%, F2 nhận 2% trên mỗi đơn được duyệt, làm tròn xuống VNĐ. Quan hệ F1/F2 được cố định từ lần duyệt đầu tiên để các đơn sau không đổi người hưởng hoa hồng.
+- Mỗi F1 được duyệt nạp tính một lần vào tiến độ, dù nạp nhiều lần. Các mốc 5/10/20/50/100 người tương ứng 50.000/100.000/200.000/500.000/1.000.000đ được TỰ ĐỘNG cộng đúng một lần vào ví. Bỏ hàm tự cộng thưởng trên trình duyệt. Các mốc đã đánh dấu nhận trong dữ liệu cũ được giữ để tránh trả lại.
+- Dùng các sổ ghi `deposit_approvals`, `referral_relationships`, `referral_qualified`, `referral_rewards` cùng giao dịch nguyên tử tại gốc database. Đây là lựa chọn để cập nhật nhiều tài khoản nhất quán trên cấu trúc cũ; database lớn cần thiết kế ledger/partition riêng để tránh tranh chấp và tải toàn bộ dữ liệu.
+- Không tự truy lĩnh hoặc tính lại các đơn cũ. Bộ đếm tiến độ mới dựa trên những F1 được duyệt qua callable kể từ khi triển khai. Nếu số liệu cũ cần chuyển đổi, phải đối soát và migration riêng.
+- Phải chặn client ghi các sổ ghi phía trên, `notification_delivery`, trạng thái duyệt, balance/commission/taskClaimed/f1DepositedCount/totalDeposited và quan hệ giới thiệu sau đăng ký bằng Rules phù hợp. Chưa triển khai Rules hoặc migration Auth người chơi: không xem thay đổi giao diện là bảo vệ tiền. Không dùng Rules mở để vận hành thật.
+- Sau khi cấu hình admin và Firebase Secrets, deploy lại codebase notifications để có cả `approveDeposit`. Chưa triển khai lên dự án thật trong phiên này.
+
 ## Giới hạn
 
-- Mã admin gốc còn thiếu bộ xử lý duyệt/từ chối tiền và nhiều thao tác quản trị. Bản này khôi phục hiển thị, không bổ sung nghiệp vụ đó; bảng ghi rõ đang chờ xử lý.
+- Đã bổ sung duyệt nạp và hoa hồng/mốc thưởng mời bạn. Từ chối nạp, xử lý rút và nhiều thao tác quản trị khác chưa được triển khai.
 - Tạo QR là yêu cầu nạp, không xác nhận ngân hàng đã nhận tiền. Chưa có đối soát ngân hàng.
 - Trang admin bỏ mật khẩu ghi cứng và nút tạo tài khoản mẫu. Đăng nhập mới dùng Firebase Authentication Email/Password và yêu cầu custom claim `admin: true`. Cần bật phương thức Email/Password, tạo tài khoản quản trị riêng, và dùng Firebase Admin SDK trong môi trường đáng tin cậy để cấp claim (không cấp từ trình duyệt). Chưa thay Firebase Rules: phải kiểm tra `auth.token.admin === true` cho các thao tác admin; không mở read/write công khai để tránh lỗi quyền. Đặc biệt phải chặn client ghi `notification_delivery` và sửa lệnh đã tạo.
 - Chưa triển khai/kiểm thử trên Firebase thực tế; chưa gửi Telegram thật. Chưa cài dependencies/backend hoặc kiểm thử Firebase Emulator trong môi trường này.
@@ -51,4 +63,4 @@ Trong Firebase Console, bật Authentication > Sign-in method > Email/Password, 
 node --test tests/*.test.cjs
 ```
 
-11 ca kiểm tra giả lập: lưu đơn nguyên tử, từ chối ghi, thiếu database/số tiền không hợp lệ, bấm kép, render và listener admin, kiểm tra admin claim, gửi Telegram backend, chống lộ token qua lỗi, dữ liệu không hợp lệ, sự kiện lặp và ghi nhận thất bại. Cả hai script HTML và backend qua kiểm tra cú pháp Node.
+27 ca kiểm tra giả lập: lưu đơn nguyên tử, từ chối ghi, thiếu database/số tiền không hợp lệ, bấm kép, render và listener admin, kiểm tra admin claim, link/mã mời, duyệt nạp, chống cộng lặp, F1/F2 và mốc thưởng, gửi Telegram backend, chống lộ token qua lỗi, dữ liệu không hợp lệ, sự kiện lặp và ghi nhận thất bại. Cả hai script HTML và backend qua kiểm tra cú pháp Node.
