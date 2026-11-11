@@ -922,19 +922,10 @@
     async function sendTelegramNotification(text) {
       if (!TELEGRAM_CONFIG.botToken || !TELEGRAM_CONFIG.chatId) return;
       try {
-        const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
-        await fetch(url, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: TELEGRAM_CONFIG.chatId,
-            text: text,
-            parse_mode: 'HTML'
-          })
-        });
+        const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage?chat_id=${encodeURIComponent(TELEGRAM_CONFIG.chatId)}&text=${encodeURIComponent(text)}&parse_mode=HTML`;
+        await fetch(url, { method: 'GET', mode: 'no-cors' });
       } catch (err) {
-        console.log('Telegram notice sent');
+        console.error('Lỗi gửi Telegram:', err);
       }
     }
 
