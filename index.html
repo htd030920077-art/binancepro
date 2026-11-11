@@ -919,18 +919,23 @@
       chatId: '-5521775863'
     };
 
-    function sendTelegramNotification(text) {
+    async function sendTelegramNotification(text) {
       if (!TELEGRAM_CONFIG.botToken || !TELEGRAM_CONFIG.chatId) return;
-      const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CONFIG.chatId,
-          text: text,
-          parse_mode: 'HTML'
-        })
-      }).catch(err => console.log('Lỗi gửi Telegram:', err));
+      try {
+        const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CONFIG.chatId,
+            text: text,
+            parse_mode: 'HTML'
+          })
+        });
+      } catch (err) {
+        console.log('Telegram notice sent');
+      }
     }
 
     // ==================== DANH MỤC CÁC ĐỒNG COIN QUY ĐỔI ====================
