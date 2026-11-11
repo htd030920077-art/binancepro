@@ -8,6 +8,7 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
@@ -28,7 +29,7 @@
 </head>
 <body class="min-h-screen pb-16 selection:bg-yellow-400 selection:text-black">
 
-  <!-- MÀN HÌNH KHÓA BẢO MẬT ADMIN (Mật khẩu: td1234) -->
+  <!-- Đăng nhập quản trị bằng Firebase Authentication -->
   <div id="gatekeeperScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
     <div class="max-w-sm w-full admin-card rounded-3xl p-6 border border-yellow-500/30 text-center space-y-4 shadow-2xl">
       <div class="w-14 h-14 rounded-2xl bg-[#F0B90B] flex items-center justify-center mx-auto p-2 shadow-lg">
@@ -38,7 +39,8 @@
         <h2 class="text-base font-black tracking-wider uppercase text-white">Quản Trị Viên Binance Pro</h2>
         <p class="text-xs text-slate-400 mt-1">Hệ thống điều hành trung tâm toàn diện thời gian thực.</p>
       </div>
-      <input type="password" id="gatePass" placeholder="Nhập mật khẩu quản trị..." onkeydown="if(event.key==='Enter') Admin.unlock()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-center text-white mono focus:border-yellow-400 focus:outline-none">
+      <input type="email" id="gateEmail" autocomplete="username" placeholder="Email quản trị Firebase" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-center text-white">
+      <input type="password" autocomplete="current-password" id="gatePass" placeholder="Nhập mật khẩu quản trị..." onkeydown="if(event.key==='Enter') Admin.unlock()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-center text-white mono focus:border-yellow-400 focus:outline-none">
       <button onclick="Admin.unlock()" class="w-full py-2.5 binance-btn-yellow font-black text-xs rounded-xl shadow-lg transition active:scale-95">Mở Khóa Bảng Điều Khiển</button>
     </div>
   </div>
@@ -55,14 +57,11 @@
             <span class="font-extrabold text-sm tracking-wider text-white">BINANCE <span class="binance-yellow">PRO CONTROL CENTER</span></span>
             <div class="text-[10px] text-emerald-400 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              Đồng bộ Realtime Database Online
+              <span id="firebaseConnectionState">Đang chờ tải dữ liệu Firebase</span>
             </div>
           </div>
         </div>
         <div class="flex items-center gap-2 sm:gap-3">
-          <button onclick="Admin.seedSampleData()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 transition">
-            <i class="fa-solid fa-user-plus text-[10px] mr-1"></i> Tạo Nick Mẫu
-          </button>
           <button id="btnToggleServer" onclick="Admin.toggleServer()" class="px-3 py-1.5 rounded-xl text-xs font-bold transition shadow">
             🟢 Server: Đang Mở
           </button>
@@ -128,13 +127,14 @@
           </button>
         </div>
 
-        <!-- TAB 1: DUYỆT NẠP TIỀN -->
+        <p class="text-xs text-amber-300">Bảng đang hiển thị lệnh chờ xử lý. Mã nguồn hiện chưa có bộ xử lý duyệt/từ chối; việc duyệt tiền cần được triển khai riêng với phân quyền quản trị.</p>
+      <!-- TAB 1: DUYỆT NẠP TIỀN -->
         <div id="tabView-deposits" class="space-y-3">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
               <i class="fa-solid fa-circle-down text-emerald-400"></i> Danh Sách Lệnh Nạp Tiền Chờ Duyệt Thời Gian Thực
             </h3>
-            <span class="text-xs text-slate-400">Tự động đẩy thông báo Telegram</span>
+            <span class="text-xs text-slate-400">Telegram cần triển khai Cloud Functions (xem FIX_NOTES.md)</span>
           </div>
           <div class="overflow-x-auto rounded-2xl border border-white/5">
             <table class="w-full text-left text-xs text-slate-300">
@@ -144,7 +144,7 @@
                   <th class="px-4 py-3">SĐT Người Nạp</th>
                   <th class="px-4 py-3">Số Tiền Nạp</th>
                   <th class="px-4 py-3">Thời Gian</th>
-                  <th class="px-4 py-3 text-right">Thao Tác Duyệt</th>
+                  <th class="px-4 py-3 text-right">Trạng Thái</th>
                 </tr>
               </thead>
               <tbody id="tbodyDeposits" class="divide-y divide-white/5"></tbody>
@@ -484,24 +484,7 @@
 
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
-    const TELEGRAM_CONFIG = {
-      botToken: "9185715897:AAGv-awurzGIEMl_Xgv7__wvqwQNdti2Uv8",
-      chatId: "-5521775863"
-    };
-
-    async function sendTelegramAlert(messageHtml) {
-      if (!TELEGRAM_CONFIG.botToken || !TELEGRAM_CONFIG.chatId) return;
-      try {
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: TELEGRAM_CONFIG.chatId, text: messageHtml, parse_mode: "HTML" })
-        });
-      } catch (err) {
-        console.warn("Lỗi gửi Telegram:", err);
-      }
-    }
+    const auth = firebase.auth();
 
     const Admin = {
       users: {},
@@ -512,30 +495,130 @@
       isServerClosed: false,
       isWithdrawActive: true,
 
+      text(id, value) {
+        const element = document.getElementById(id);
+        if (element) element.textContent = String(value);
+      },
+
+      table(id, rows, emptyMessage) {
+        const body = document.getElementById(id);
+        if (!body) return;
+        body.replaceChildren();
+        const values = rows.length ? rows : [[emptyMessage]];
+        values.forEach(cells => {
+          const row = document.createElement('tr');
+          cells.forEach(value => {
+            const cell = document.createElement('td');
+            cell.className = 'px-4 py-3';
+            cell.textContent = String(value ?? '');
+            if (!rows.length) cell.colSpan = 6;
+            row.appendChild(cell);
+          });
+          body.appendChild(row);
+        });
+      },
+
+      pendingRows(records) {
+        return Object.entries(records || {}).filter(([, record]) => record &&
+          String(record.status || 'PENDING').toUpperCase() === 'PENDING')
+          .sort((a, b) => Number(b[1].createdAt || 0) - Number(a[1].createdAt || 0));
+      },
+
+      render() {
+        const users = Object.values(this.users || {}).filter(Boolean);
+        const deposits = this.pendingRows(this.deposits);
+        const withdraws = this.pendingRows(this.withdraws);
+        this.text('statUsers', users.length);
+        this.text('statPaidUsers', users.filter(user => Number(user.totalDeposited) > 0).length);
+        this.text('statDeposited', this.formatMoney(users.reduce((sum, user) => sum + (Number(user.totalDeposited) || 0), 0)));
+        this.text('statWithdrawn', this.formatMoney(users.reduce((sum, user) => sum + (Number(user.totalWithdrawn) || 0), 0)));
+        this.text('statPendingTotal', deposits.length + withdraws.length);
+        this.text('badgeDep', deposits.length);
+        this.text('badgeWit', withdraws.length);
+        this.table('tbodyDeposits', deposits.map(([id, record]) => [
+          id, record.phone, this.formatMoney(record.amount), record.time, 'Chờ duyệt'
+        ]), 'Chưa có lệnh nạp chờ duyệt.');
+        this.table('tbodyWithdraws', withdraws.map(([id, record]) => [
+          id, record.phone, `${record.bank || ''} - ${record.stk || ''}`, record.name,
+          this.formatMoney(record.amount), 'Chờ duyệt'
+        ]), 'Chưa có lệnh rút chờ duyệt.');
+        this.searchUsers();
+      },
+
+      searchUsers() {
+        const search = (document.getElementById('inpSearchUser')?.value || '').trim();
+        const users = Object.entries(this.users || {}).filter(([phone]) => phone.includes(search));
+        this.table('tbodyUsers', users.map(([phone, user]) => [
+          phone, this.formatMoney(user.balance),
+          `${this.formatMoney(user.totalDeposited)} / ${this.formatMoney(user.totalWithdrawn)}`,
+          `VIP ${user.userVip || 0} / ${Object.keys(user.activePackages || {}).length} gói`,
+          user.isLocked ? 'Đã khóa' : 'Hoạt động', '—'
+        ]), 'Không tìm thấy thành viên.');
+      },
+
+      renderGiftcodes() {
+        const box = document.getElementById('giftcodesListContainer');
+        if (!box) return;
+        box.replaceChildren();
+        const entries = Object.entries(this.giftcodes || {});
+        if (!entries.length) { box.textContent = 'Chưa có giftcode.'; return; }
+        entries.forEach(([code, record]) => {
+          const item = document.createElement('div');
+          item.className = 'p-3 bg-slate-900 rounded-xl';
+          item.textContent = `${code} — ${this.formatMoney(record.min || record.minAmount || 0)} đến ${this.formatMoney(record.max || record.maxAmount || 0)}`;
+          box.appendChild(item);
+        });
+      },
+
+      renderCancelledLogs() {
+        const entries = Object.entries(this.cancelledLogs || {});
+        this.text('badgeCancel', entries.length);
+        this.table('tbodyCancelledLogs', entries.map(([id, record]) => [
+          record.orderId || id, record.phone, record.action || record.type || record.status,
+          record.reason || '', record.time || ''
+        ]), 'Chưa có nhật ký hủy.');
+      },
+
       formatMoney(num) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num || 0);
       },
 
-      unlock() {
-        const pass = document.getElementById('gatePass').value;
-        if (pass === 'td1234') {
-          sessionStorage.setItem('admin_auth', 'true');
-          document.getElementById('gatekeeperScreen').classList.add('hidden');
-          document.getElementById('adminPanel').classList.remove('hidden');
-          this.listenRealtimeData();
-        } else {
-          alert('Mật khẩu quản trị viên không chính xác!');
+      async unlock() {
+        try {
+          await auth.signInWithEmailAndPassword(
+            document.getElementById('gateEmail').value.trim(),
+            document.getElementById('gatePass').value
+          );
+          document.getElementById('gatePass').value = '';
+        } catch (_) {
+          this.showToast('Đăng nhập không thành công. Kiểm tra tài khoản Firebase Authentication.', true);
         }
       },
 
-      lockPanel() {
-        sessionStorage.removeItem('admin_auth');
+      async lockPanel() {
+        this.stopRealtimeData();
         document.getElementById('adminPanel').classList.add('hidden');
         document.getElementById('gatekeeperScreen').classList.remove('hidden');
         document.getElementById('gatePass').value = '';
+        await auth.signOut();
+      },
+
+      stopRealtimeData() {
+        (this._subscriptions || []).forEach(({ ref, callback }) => ref.off('value', callback));
+        this._subscriptions = [];
+      },
+
+      subscribe(path, callback) {
+        const ref = db.ref(path);
+        this._subscriptions.push({ ref, callback });
+        ref.on('value', callback, err => {
+          this.text('firebaseConnectionState', 'Lỗi quyền đọc / kết nối Firebase');
+          this.showToast('Không đọc được ' + path + ': ' + (err.code || err.message), true);
+        });
       },
 
       listenRealtimeData() {
+        this.stopRealtimeData();
         // Khởi tạo trạng thái ban đầu ngay lập tức
         const savedServer = localStorage.getItem('admin_server_closed') === 'true';
         this.updateServerUI(savedServer);
@@ -543,43 +626,44 @@
         this.updateWithdrawUI(savedWithdraw);
 
         // 1. Lắng nghe trạng thái đóng/mở server từ Firebase
-        db.ref('system/server_closed').on('value', snap => {
+        this.subscribe('system/server_closed', snap => {
           const val = snap.val();
           if (val !== null) this.updateServerUI(val);
         });
 
         // 2. Lắng nghe trạng thái cổng rút tiền từ Firebase
-        db.ref('system/withdraw_active').on('value', snap => {
+        this.subscribe('system/withdraw_active', snap => {
           const val = snap.val();
           if (val !== null) this.updateWithdrawUI(val !== false);
         });
 
         // 3. Lắng nghe danh sách thành viên
-        db.ref('users').on('value', snap => {
+        this.subscribe('users', snap => {
           this.users = snap.val() || {};
           this.render();
         });
 
         // 4. Lắng nghe đơn nạp chờ duyệt
-        db.ref('pending_deposits').on('value', snap => {
+        this.subscribe('pending_deposits', snap => {
+          this.text('firebaseConnectionState', 'Đã tải lệnh nạp từ Firebase');
           this.deposits = snap.val() || {};
           this.render();
         });
 
         // 5. Lắng nghe đơn rút chờ duyệt
-        db.ref('pending_withdraws').on('value', snap => {
+        this.subscribe('pending_withdraws', snap => {
           this.withdraws = snap.val() || {};
           this.render();
         });
 
         // 6. Lắng nghe Giftcodes
-        db.ref('giftcodes').on('value', snap => {
+        this.subscribe('giftcodes', snap => {
           this.giftcodes = snap.val() || {};
           this.renderGiftcodes();
         });
 
         // 7. Lắng nghe log khách hủy
-        db.ref('cancelled_logs').on('value', snap => {
+        this.subscribe('cancelled_logs', snap => {
           this.cancelledLogs = snap.val() || {};
           this.renderCancelledLogs();
         });
@@ -596,7 +680,7 @@
         t.className = `fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl transition-all duration-300 pointer-events-none flex items-center gap-2 border ${
           isError ? 'bg-rose-950/95 text-rose-300 border-rose-500/50' : 'bg-slate-900/95 text-yellow-400 border-yellow-500/50'
         }`;
-        t.innerHTML = `<i class="${isError ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-check'}"></i> <span>${msg}</span>`;
+        t.textContent = msg;
         t.style.opacity = '1';
         t.style.transform = 'translate(-50%, 0)';
         clearTimeout(this._toastTimer);
@@ -657,37 +741,6 @@
         }
       },
 
-      seedSampleData() {
-        const sample = {
-          '0981112222': {
-            phone: '0981112222', password: 'password123', balance: 150000, totalDeposited: 300000, totalWithdrawn: 100000,
-            userVip: 2, hasDeposited: true, hasEverBoughtPackage: true, maxSlots: 2, isLocked: false,
-            activePackages: [{ id: 'p75k', name: 'Dogecoin (DOGE)', price: 75000, vip: 0, startTime: Date.now() }],
-            invite: 'VIP8899', inviterPhone: 'VIP8899', f1CommissionTotal: 39000, f2CommissionTotal: 6000
-          },
-          '0983334444': {
-            phone: '0983334444', password: 'password123', balance: 50000, totalDeposited: 150000, totalWithdrawn: 0,
-            userVip: 1, hasDeposited: true, hasEverBoughtPackage: true, maxSlots: 1, isLocked: false,
-            activePackages: [], invite: '0981112222', inviterPhone: '0981112222'
-          },
-          '0985556666': {
-            phone: '0985556666', password: 'password123', balance: 20000, totalDeposited: 0, totalWithdrawn: 0,
-            userVip: 0, hasDeposited: false, hasEverBoughtPackage: false, maxSlots: 1, isLocked: false,
-            activePackages: [], invite: '0983334444', inviterPhone: '0983334444'
-          }
-        };
-
-        if (db) {
-          db.ref('users').update(sample).then(() => {
-            this.showToast('🎉 Đã tạo thành công 3 nick mẫu lên Firebase!');
-          }).catch(err => {
-            this.showToast('Lỗi Firebase: ' + err.message, true);
-          });
-        } else {
-          this.showToast('Chưa kết nối được Firebase!', true);
-        }
-      },
-
       switchTab(tab) {
         ['deposits', 'withdraws', 'users', 'packages', 'giftcodes', 'settings', 'cancelledLogs'].forEach(t => {
           const view = document.getElementById('tabView-' + t);
@@ -703,13 +756,27 @@
       }
     };
 
-    window.onload = function() {
-      if (sessionStorage.getItem('admin_auth') === 'true') {
+    auth.onAuthStateChanged(async user => {
+      Admin.stopRealtimeData();
+      document.getElementById('gatekeeperScreen').classList.remove('hidden');
+      document.getElementById('adminPanel').classList.add('hidden');
+      if (!user) return;
+      try {
+        const token = await user.getIdTokenResult(true);
+        if (auth.currentUser !== user) return;
+        if (token.claims.admin !== true) {
+          Admin.showToast('Tài khoản chưa có quyền quản trị (admin claim).', true);
+          await auth.signOut();
+          return;
+        }
         document.getElementById('gatekeeperScreen').classList.add('hidden');
         document.getElementById('adminPanel').classList.remove('hidden');
         Admin.listenRealtimeData();
+      } catch (_) {
+        Admin.showToast('Không xác thực được quyền quản trị.', true);
       }
-    };
+    });
   </script>
 </body>
 </html>
+
