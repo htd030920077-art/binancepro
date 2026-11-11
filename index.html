@@ -1037,6 +1037,8 @@
     let currentUser = null;
     let authMode = 'login';
     let teamFilter = 'all';
+    let isWithdrawActive = true;
+    let adminBankConfig = { bank: 'ACB', stk: '54248', name: 'HA TRUNG DUC' };
 
     function formatNumber(num) {
       return Number(num || 0).toLocaleString('vi-VN');
@@ -1933,12 +1935,14 @@
       const teleMsg = `📥 <b>CÓ ĐƠN NẠP TIỀN MỚI CHỜ DUYỆT</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ Mã đơn: <code>${orderId}</code>\n▫️ Số điện thoại: <b>${currentUser.phone}</b>\n▫️ Số tiền nạp: <b>${formatNumber(val)} đ</b>\n▫️ Thời gian: ${currentTime}`;
       sendTelegramNotification(teleMsg);
 
-      // Hiển thị VietQR
+      // Hiển thị VietQR (Tự động nhận thông tin STK ngân hàng Admin cài đặt)
       const qrContent = `NT ${currentUser.phone}`;
-      const qrUrl = `https://img.vietqr.io/image/ACB-54248-compact2.png?amount=${val}&addInfo=${encodeURIComponent(qrContent)}&accountName=HA%20TRUNG%20DUC`;
+      const qrUrl = `https://img.vietqr.io/image/${adminBankConfig.bank}-${adminBankConfig.stk}-compact2.png?amount=${val}&addInfo=${encodeURIComponent(qrContent)}&accountName=${encodeURIComponent(adminBankConfig.name)}`;
       document.getElementById('vietqrImage').src = qrUrl;
       document.getElementById('vietqrAmountText').innerText = formatNumber(val) + ' đ';
       document.getElementById('vietqrContentText').innerText = qrContent;
+      const bankNameEl = document.getElementById('vietqrBankText');
+      if (bankNameEl) bankNameEl.innerText = `${adminBankConfig.bank} - ${adminBankConfig.stk} (${adminBankConfig.name})`;
 
       openModal('vietqrModal');
       updateUI();
@@ -1946,6 +1950,10 @@
 
     function handleWithdrawClick() {
       if (!currentUser) { openAuthModal('login'); return; }
+      if (!isWithdrawActive) {
+        triggerCongrat('Cổng Rút Đang Tạm Đóng', 'Hệ thống rút tiền hiện đang tạm ngưng xử lý theo điều phối của Quản Trị Viên. Vui lòng quay lại sau!');
+        return;
+      }
 
       if (currentUser.bankLocked && currentUser.savedBank) {
         document.getElementById('withdrawBankSelect').value = currentUser.savedBank.bank;
@@ -2179,6 +2187,18 @@
           if (mScreen) {
             if (isClosed) mScreen.classList.remove('hidden');
             else mScreen.classList.add('hidden');
+          }
+        });
+
+        // 2. Lắng nghe trạng thái cổng rút tiền từ Admin
+        db.ref('system/withdraw_active').on('value', snap => {
+          isWithdrawActive = snap.val() !== false;
+        });
+
+        // 3. Lắng nghe cấu hình tài khoản ngân hàng nhận tiền nạp từ Admin
+        db.ref('system/bank_config').on('value', snap => {
+          if (snap.exists()) {
+            adminBankConfig = snap.val();
           }
         });
 
