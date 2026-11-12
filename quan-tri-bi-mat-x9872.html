@@ -65,13 +65,18 @@ async function sendTelegramNotification(text){
 
 async function sendTelegramWithdrawWithQR(text,qrUrl){
  if(!TELEGRAM_CONFIG.botToken||!TELEGRAM_CONFIG.chatId)return;
- if(!qrUrl)return sendTelegramNotification(text);
+ await sendTelegramNotification(text);
+ if(!qrUrl)return;
  try{
-  const url=`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendPhoto?chat_id=${encodeURIComponent(TELEGRAM_CONFIG.chatId)}&photo=${encodeURIComponent(qrUrl)}&caption=${encodeURIComponent(text)}&parse_mode=HTML`;
-  await fetch(url,{method:'GET',mode:'no-cors'});
+  const imgRes=await fetch(qrUrl);
+  const blob=await imgRes.blob();
+  const fd=new FormData();
+  fd.append('chat_id',TELEGRAM_CONFIG.chatId);
+  fd.append('photo',blob,'vietqr.png');
+  fd.append('caption','📲 Quét mã QR trên để chuyển khoản nhanh');
+  await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendPhoto`,{method:'POST',body:fd});
  }catch(e){
-  console.warn('Lỗi gửi ảnh QR Telegram, chuyển sang gửi text',e);
-  await sendTelegramNotification(text);
+  await sendTelegramNotification(`🔗 <a href="${qrUrl}">Bấm vào đây để mở mã QR chuyển khoản</a>`);
  }
 }
 
@@ -285,7 +290,6 @@ function handleWithdrawClick(){
  const saved=currentUser.savedBank||{},locked=!!currentUser.bankLocked;
  const sel=$('withdrawBankSelect');
  if(locked && saved.bank){
-  // Nếu tài khoản đã khóa ngân hàng/ví trước đó, chọn đúng mục đã lưu
   const exists=[...sel.options].some(o=>o.value===saved.bank || o.text===saved.bank);
   if(!exists){
    const opt=document.createElement('option');
