@@ -6,23 +6,36 @@ function doGet(e) {
   return ContentService.createTextOutput('CoinChaine SePay Webhook is Active!');
 }
 
+function sendTele(text) {
+  try {
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${encodeURIComponent(CHAT_ID)}&text=${encodeURIComponent(text)}&parse_mode=HTML`;
+    UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+  } catch (err) {}
+}
+
 function doPost(e) {
   try {
     const raw = e.postData ? e.postData.contents : '{}';
     const data = JSON.parse(raw);
 
-    if (data.transferType !== 'in') {
-      return jsonResponse({ success: true, msg: 'Bỏ qua giao dịch tiền ra' });
+    // Chỉ xử lý tiền vào
+    if (data.transferType && data.transferType !== 'in') {
+      return jsonResponse({ success: true, msg: 'Bỏ qua tiền ra' });
     }
 
     const amount = Number(data.transferAmount || 0);
     const content = String(data.content || '').toUpperCase();
     const sepayTxId = String(data.id || Date.now());
 
-    // Tìm số điện thoại sau chữ NT (VD: "NT 0984568899" hoặc "NT0984568899")
-    const match = content.match(/NT\s*(\d{9,15})/);
-    if (!match || amount < 10000) {
-      return jsonResponse({ success: true, msg: 'Không khớp cú pháp NT <SĐT>' });
+    // Bắt cú pháp NT + SĐT (hoặc tự tìm SĐT 9-11 số bắt đầu bằng số 0 nếu có chữ NT/NAP)
+    let match = content.match(/NT\s*(\d{9,15})/);
+    if (!match) {
+      match = content.match(/(?:NT|NAP|COINCHAINE)[^\d]*(0\d{8,10})/);
+    }
+
+    if (!match || amount <= 0) {
+      sendTele(`⚠️ <b>SEPAY NHẬN TIỀN NHƯNG SAI CÚ PHÁP</b>\n▫️ Số tiền: <b>${amount.toLocaleString('vi-VN')} đ</b>\n▫️ Nội dung CK: <code>${content || 'Trống'}</code>\n▫️ Mã GD: <code>${sepayTxId}</code>`);
+      return jsonResponse({ success: true, msg: 'Sai cú pháp' });
     }
 
     const phone = match[1];
@@ -37,6 +50,7 @@ function doPost(e) {
     const userUrl = `${FIREBASE_DB_URL}/users/${phone}.json`;
     const user = JSON.parse(UrlFetchApp.fetch(userUrl).getContentText());
     if (!user) {
+      sendTele(`⚠️ <b>SEPAY NHẬN TIỀN NHƯNG KHÔNG THẤY SĐT</b>\n▫️ SĐT trích xuất: <code>${phone}</code>\n▫️ Số tiền: <b>${amount.toLocaleString('vi-VN')} đ</b>\n▫️ Nội dung gốc: <code>${content}</code>`);
       return jsonResponse({ success: false, msg: 'Không tìm thấy SĐT' });
     }
 
@@ -44,6 +58,7 @@ function doPost(e) {
     fbRequest(`${FIREBASE_DB_URL}/sepay_processed/${sepayTxId}.json`, 'PUT', {
       phone: phone,
       amount: amount,
+      content: content,
       time: new Date().toISOString()
     });
 
@@ -102,11 +117,11 @@ function doPost(e) {
     }
 
     // 7. Báo về Telegram Admin
-    const msg = `✅ <b>SEPAY AUTO NẠP THÀNH CÔNG</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ SĐT: <b>${phone}</b>\n▫️ Số tiền: <b>+${amount.toLocaleString('vi-VN')} đ</b>\n▫️ Số dư mới: <b>${newBalance.toLocaleString('vi-VN')} đ</b>\n▫️ Mã GD SePay: <code>${sepayTxId}</code>`;
-    UrlFetchApp.fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=HTML`);
+    sendTele(`✅ <b>SEPAY AUTO NẠP THÀNH CÔNG</b>\n━━━━━━━━━━━━━━━━━━━━\n▫️ SĐT: <b>${phone}</b>\n▫️ Số tiền: <b>+${amount.toLocaleString('vi-VN')} đ</b>\n▫️ Số dư mới: <b>${newBalance.toLocaleString('vi-VN')} đ</b>\n▫️ Nội dung CK: <code>${content}</code>`);
 
     return jsonResponse({ success: true });
   } catch (err) {
+    sendTele(`❌ <b>LỖI SCRIPT SEPAY:</b> ${err.message}`);
     return jsonResponse({ success: false, error: err.message });
   }
 }
