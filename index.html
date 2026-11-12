@@ -45,7 +45,12 @@ function getBankBin(bankName){
 }
 
 function buildWithdrawVietQR(bankName,stk,amount,memo){
- const bin=getBankBin(bankName);
+ const cleanBank=String(bankName||'').trim();
+ if(cleanBank==='Ví MoMo'){
+  const momoData=`2|99|${stk}|||0|0|${amount}|${memo}|transfer_myqr`;
+  return `https://api.qrserver.com/v1/create-qr-code/?size=350x350&margin=10&data=${encodeURIComponent(momoData)}`;
+ }
+ const bin=getBankBin(cleanBank);
  if(!/^\d{6}$/.test(bin))return '';
  return `https://img.vietqr.io/image/${bin}-${encodeURIComponent(stk)}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(memo)}`;
 }
